@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#14110e">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Stregregnskabet · Rejseklubben</title>
+  <meta name="description" content="Rejseklubbens officielle og dybt seriøse stregregnskab.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #14110e;
+      --ink-soft: #514a40;
+      --cream: #f6f1e7;
+      --paper: #fffdf8;
+      --gold: #c9a24b;
+      --gold-deep: #927020;
+      --wine: #6e2230;
+      --wine-bright: #8f3444;
+      --green: #2f694d;
+      --line: rgba(20, 17, 14, 0.13);
+      --shadow: 0 18px 52px rgba(20, 17, 14, 0.18);
+      --display: "Playfair Display", Georgia, "Times New Roman", serif;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: #2b2620; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.5;
+      background:
+        linear-gradient(180deg, rgba(20, 17, 14, 0.64), rgba(20, 17, 14, 0.86)),
+        url("images/stuttgart-hero.jpg") center / cover fixed;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    [hidden] { display: none !important; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 64px;
+      padding: 10px clamp(16px, 4vw, 34px);
+      color: var(--cream);
+      background: rgba(20, 17, 14, 0.9);
+      border-bottom: 1px solid rgba(201, 162, 75, 0.28);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      color: inherit;
+      font-family: var(--display);
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand b { color: var(--gold); }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .signed-in-as { color: rgba(246, 241, 231, 0.72); font-size: 0.82rem; }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: clamp(44px, 7vw, 84px) 0 70px;
+    }
+
+    .login-shell {
+      display: grid;
+      min-height: calc(100vh - 64px);
+      place-items: center;
+      padding: 32px 16px;
+    }
+
+    .login-card {
+      width: min(460px, 100%);
+      padding: clamp(28px, 6vw, 48px);
+      border: 1px solid rgba(201, 162, 75, 0.32);
+      border-radius: 24px;
+      background: rgba(251, 248, 241, 0.96);
+      box-shadow: var(--shadow);
+    }
+
+    .seal {
+      display: grid;
+      width: 68px;
+      height: 68px;
+      margin-bottom: 24px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--cream);
+      background: var(--wine);
+      box-shadow: inset 0 0 0 4px rgba(201, 162, 75, 0.34);
+      font-family: var(--display);
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: var(--display); line-height: 1.12; }
+    .login-card h1 { margin-bottom: 10px; font-size: clamp(2.2rem, 8vw, 3.5rem); }
+    .login-card > p { margin-bottom: 28px; color: var(--ink-soft); }
+
+    .identity-list { display: grid; gap: 11px; }
+    .identity-button {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      min-height: 58px;
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--ink);
+      background: #fff;
+      font-weight: 700;
+      text-align: left;
+      transition: border-color .18s, transform .18s, background .18s;
+    }
+    .identity-button:hover { border-color: var(--gold); background: #fffaf0; transform: translateY(-1px); }
+    .identity-initial {
+      display: grid;
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--cream);
+      background: var(--wine);
+      font-family: var(--display);
+      font-size: 1.1rem;
+    }
+
+    .field { display: grid; gap: 7px; margin-bottom: 18px; }
+    .field label, .field-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .field-note { color: var(--ink-soft); font-size: 0.76rem; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid rgba(20, 17, 14, 0.2);
+      border-radius: 11px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    input, select { min-height: 48px; padding: 0 14px; }
+    textarea { min-height: 128px; padding: 13px 14px; resize: vertical; }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold-deep);
+      box-shadow: 0 0 0 3px rgba(201, 162, 75, 0.17);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 10px;
+      color: #fff;
+      background: var(--wine);
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform .16s ease, background .16s ease, opacity .16s ease;
+    }
+    .button:hover { background: var(--wine-bright); transform: translateY(-1px); }
+    .button:disabled { cursor: not-allowed; opacity: .55; transform: none; }
+    .button.full { width: 100%; }
+    .button.gold { color: var(--ink); background: var(--gold); }
+    .button.gold:hover { background: #d5b25f; }
+    .button.ghost {
+      min-height: 38px;
+      border: 1px solid rgba(246, 241, 231, 0.25);
+      color: var(--cream);
+      background: transparent;
+      font-size: 0.78rem;
+    }
+    .button.ghost:hover { border-color: var(--gold); color: var(--gold); background: transparent; }
+    .button.small { min-height: 38px; padding: 0 13px; font-size: 0.8rem; }
+    .button.approve { background: var(--green); }
+    .button.approve:hover { background: #3b7d5e; }
+    .text-button { padding: 2px; border: 0; color: var(--wine); background: none; font-size: .8rem; font-weight: 700; }
+    .text-button:hover { text-decoration: underline; }
+
+    .form-error {
+      min-height: 22px;
+      margin: -4px 0 12px;
+      color: #a32d3e;
+      font-size: .84rem;
+    }
+
+    .eyebrow {
+      margin-bottom: 9px;
+      color: var(--gold);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    .dashboard-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 34px;
+      color: var(--cream);
+    }
+    .dashboard-head h1 { margin-bottom: 8px; font-size: clamp(2.7rem, 8vw, 5.8rem); }
+    .dashboard-head p { max-width: 610px; margin-bottom: 0; color: rgba(246, 241, 231, .76); }
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(201, 162, 75, .32);
+      border-radius: 999px;
+      color: rgba(246, 241, 231, .78);
+      background: rgba(20, 17, 14, .35);
+      font-size: .75rem;
+      white-space: nowrap;
+    }
+    .live-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #63bc87; box-shadow: 0 0 0 4px rgba(99, 188, 135, .13); }
+
+    .panel {
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 20px;
+      background: rgba(251, 248, 241, .96);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .panel + .panel { margin-top: 24px; }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px 26px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel-head h2 { margin: 0; font-size: clamp(1.45rem, 4vw, 2rem); }
+    .panel-head p { margin: 4px 0 0; color: var(--ink-soft); font-size: .86rem; }
+    .panel-body { padding: 24px 26px 28px; }
+
+    .leaderboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .score-card {
+      position: relative;
+      min-height: 154px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--paper);
+      overflow: hidden;
+    }
+    .score-card.leader { border-color: rgba(201, 162, 75, .7); background: linear-gradient(135deg, #fffdf8, #f7eac9); }
+    .score-rank { color: var(--gold-deep); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .score-name { position: relative; z-index: 1; margin: 14px 0 4px; font-family: var(--display); font-size: 1.35rem; font-weight: 800; }
+    .score-total { position: relative; z-index: 1; color: var(--ink-soft); font-size: .85rem; }
+    .score-number {
+      position: absolute;
+      right: 12px;
+      bottom: -21px;
+      color: rgba(110, 34, 48, .1);
+      font-family: var(--display);
+      font-size: 6.5rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .work-grid { display: grid; grid-template-columns: minmax(280px, .8fr) minmax(340px, 1.2fr); gap: 24px; margin-top: 24px; align-items: start; }
+    .counter { color: var(--ink-soft); font-size: .76rem; text-align: right; }
+
+    .streg-list { display: grid; gap: 12px; }
+    .streg-card {
+      padding: 17px 18px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--paper);
+    }
+    .streg-top { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+    .streg-target { font-family: var(--display); font-size: 1.15rem; font-weight: 800; }
+    .status {
+      flex: 0 0 auto;
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: var(--gold-deep);
+      background: rgba(201, 162, 75, .15);
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .status.approved { color: var(--green); background: rgba(47, 105, 77, .12); }
+    .streg-description { margin: 9px 0 11px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .streg-meta { color: var(--ink-soft); font-size: .75rem; }
+    .streg-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 14px; }
+
+    .empty-state {
+      padding: 24px;
+      border: 1px dashed rgba(20, 17, 14, .2);
+      border-radius: 13px;
+      color: var(--ink-soft);
+      text-align: center;
+      font-size: .88rem;
+    }
+    .loading-line { color: var(--ink-soft); font-size: .88rem; }
+
+    .history-filters { display: flex; align-items: center; gap: 10px; }
+    .history-filters select { min-height: 38px; width: auto; min-width: 150px; font-size: .8rem; }
+
+    dialog {
+      width: min(430px, calc(100% - 30px));
+      padding: 0;
+      border: 0;
+      border-radius: 18px;
+      color: var(--ink);
+      background: var(--paper);
+      box-shadow: 0 26px 80px rgba(0, 0, 0, .4);
+    }
+    dialog::backdrop { background: rgba(20, 17, 14, .68); backdrop-filter: blur(3px); }
+    .dialog-body { padding: 28px; }
+    .dialog-body h2 { margin-bottom: 8px; }
+    .dialog-body > p { color: var(--ink-soft); font-size: .86rem; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 100;
+      max-width: min(390px, calc(100% - 36px));
+      padding: 13px 16px;
+      border-radius: 11px;
+      color: #fff;
+      background: var(--green);
+      box-shadow: var(--shadow);
+      font-size: .86rem;
+    }
+    .toast.error { background: var(--wine); }
+
+    footer { padding: 8px 16px 38px; color: rgba(246, 241, 231, .58); font-size: .75rem; text-align: center; }
+
+    @media (max-width: 820px) {
+      .work-grid { grid-template-columns: 1fr; }
+      .dashboard-head { display: block; }
+      .live-badge { margin-top: 18px; }
+    }
+
+    @media (max-width: 600px) {
+      .signed-in-as { display: none; }
+      .shell { width: min(100% - 20px, 1120px); padding-top: 38px; }
+      .panel-head { align-items: start; padding: 20px 18px 15px; }
+      .panel-body { padding: 18px; }
+      .leaderboard { grid-template-columns: 1fr 1fr; }
+      .score-card { min-height: 138px; padding: 16px; }
+      .history-filters select { width: 100%; min-width: 0; }
+      .streg-top { display: block; }
+      .status { display: inline-block; margin-top: 7px; }
+    }
+
+    @media (max-width: 410px) {
+      .leaderboard { grid-template-columns: 1fr; }
+      .topbar { padding-inline: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">Rejseklubben<b>™</b></a>
+    <div class="top-actions" id="session-actions" hidden>
+      <span class="signed-in-as">Du er <strong id="user-name">…</strong></span>
+      <button class="button ghost" id="change-person-button" type="button">Skift person</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="login-shell" id="identity-shell">
+      <div class="login-card">
+        <div class="seal" aria-hidden="true">〆</div>
+        <h1>Hvem er du?</h1>
+        <p>Tryk på dit navn. Telefonen husker dit valg, og du kan altid skifte igen.</p>
+        <div class="identity-list" id="identity-list">
+          <div class="loading-line">Henter rejseklubben…</div>
+        </div>
+        <div class="form-error" id="identity-error" role="alert" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="shell" id="app-shell" hidden>
+      <div class="dashboard-head">
+        <div>
+          <div class="eyebrow">Stuttgart 2026 · den officielle protokol</div>
+          <h1>Stregregnskabet</h1>
+          <p>Én foreslår. En anden godkender. Først derefter falder stregen—og historien glemmer intet.</p>
+        </div>
+        <div class="live-badge">Live regnskab</div>
+      </div>
+
+      <section class="panel" aria-labelledby="leaderboard-heading">
+        <div class="panel-head">
+          <div>
+            <h2 id="leaderboard-heading">Stillingen</h2>
+            <p>Kun godkendte streger tæller.</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="leaderboard" id="leaderboard-list">
+            <div class="loading-line">Henter den højtidelige stilling…</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="work-grid">
+        <section class="panel" aria-labelledby="proposal-heading">
+          <div class="panel-head">
+            <div>
+              <h2 id="proposal-heading">Foreslå en streg</h2>
+              <p>Skriv kort, præcist og injurierende.</p>
+            </div>
+          </div>
+          <div class="panel-body">
+            <form id="streg-form">
+              <div class="field">
+                <label for="target-select">Hvem?</label>
+                <select id="target-select" required>
+                  <option value="">Vælg den skyldige…</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="streg-description">Hvad skete der?</label>
+                <textarea id="streg-description" maxlength="500" minlength="3" required placeholder="Spildte øl ud over sig selv før frokost…"></textarea>
+                <div class="counter"><span id="description-count">0</span>/500</div>
+              </div>
+              <div class="form-error" id="streg-error" role="alert" aria-live="polite"></div>
+              <button class="button full" id="streg-submit" type="submit">Send til godkendelse</button>
+            </form>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="pending-heading">
+          <div class="panel-head">
+            <div>
+              <h2 id="pending-heading">Afventer dom</h2>
+              <p><span id="pending-count">0</span> åbne sager.</p>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="streg-list" id="pending-list">
+              <div class="loading-line">Finder verserende skandaler…</div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel" aria-labelledby="history-heading">
+        <div class="panel-head">
+          <div>
+            <h2 id="history-heading">Protokollen</h2>
+            <p>Godkendte streger, nyeste først.</p>
+          </div>
+          <div class="history-filters">
+            <label class="field-label" for="history-filter" hidden>Filtrer efter deltager</label>
+            <select id="history-filter">
+              <option value="all">Alle deltagere</option>
+            </select>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="streg-list" id="history-list">
+            <div class="loading-line">Åbner arkivet…</div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <footer>Rejseklubben™ · Ingen appel. Næsten.</footer>
+
+  <script type="module" src="streger.js"></script>
+</body>
+</html>
