@@ -146,6 +146,15 @@
       font-family: var(--display);
       font-size: 1.1rem;
     }
+    .claim-back { margin: -7px 0 22px; }
+    .claim-code {
+      min-height: 62px;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-align: center;
+    }
+    .claim-note { margin: 15px 0 0; color: var(--ink-soft); font-size: .76rem; text-align: center; }
 
     .field { display: grid; gap: 7px; margin-bottom: 18px; }
     .field label, .field-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -389,8 +398,7 @@
   <header class="topbar">
     <a class="brand" href="index.html">Rejseklubben<b>™</b></a>
     <div class="top-actions" id="session-actions" hidden>
-      <span class="signed-in-as">Du er <strong id="user-name">…</strong></span>
-      <button class="button ghost" id="change-person-button" type="button">Skift person</button>
+      <span class="signed-in-as">Denne telefon: <strong id="user-name">…</strong></span>
     </div>
   </header>
 
@@ -398,12 +406,27 @@
     <section class="login-shell" id="identity-shell">
       <div class="login-card">
         <div class="seal" aria-hidden="true">〆</div>
-        <h1>Hvem er du?</h1>
-        <p>Tryk på dit navn. Telefonen husker dit valg, og du kan altid skifte igen.</p>
-        <div class="identity-list" id="identity-list">
-          <div class="loading-line">Henter rejseklubben…</div>
+        <div id="identity-picker">
+          <h1>Hvem er du?</h1>
+          <p>Vælg dit navn og brug den personlige kode, du har fået af arrangøren.</p>
+          <div class="identity-list" id="identity-list">
+            <div class="loading-line">Henter rejseklubben…</div>
+          </div>
+          <div class="form-error" id="identity-error" role="alert" aria-live="polite"></div>
         </div>
-        <div class="form-error" id="identity-error" role="alert" aria-live="polite"></div>
+
+        <form id="claim-form" hidden>
+          <button class="text-button claim-back" id="claim-back" type="button">← Vælg et andet navn</button>
+          <h1>Hej, <span id="claim-player-name">…</span></h1>
+          <p>Indtast din tocifrede kode. Det skal kun gøres én gang på denne telefon.</p>
+          <div class="field">
+            <label for="claim-code">Personlig kode</label>
+            <input class="claim-code" id="claim-code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{2}" maxlength="2" required autofocus>
+          </div>
+          <div class="form-error" id="claim-error" role="alert" aria-live="polite"></div>
+          <button class="button full" id="claim-submit" type="submit">Bind denne telefon</button>
+          <p class="claim-note">Ny telefon eller slettet browserdata? Kontakt en arrangør.</p>
+        </form>
       </div>
     </section>
 
