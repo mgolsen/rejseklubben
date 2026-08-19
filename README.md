@@ -6,6 +6,7 @@ En lille statisk hjemmeside til turen med et fælles stregregnskab og personlige
 - `streger.html` og `streger.js` er spillets brugerflade.
 - `supabase/no-login-setup.sql` opretter den enkle database.
 - `supabase/add-personal-codes.sql` binder hver deltager til én browsersession.
+- `supabase/add-trip-members.sql` tilføjer turens øvrige deltagere uden at nulstille eksisterende telefoner.
 - `images/` indeholder sidens billeder.
 
 Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter automatisk en anonym session i baggrunden, og siden kan stadig udgives direkte med GitHub Pages.
