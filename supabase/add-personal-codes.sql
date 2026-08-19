@@ -253,7 +253,8 @@ $$;
 
 create or replace function public.device_submit_streg(
   p_target_id uuid,
-  p_description text
+  p_description text,
+  p_amount smallint
 )
 returns public.game_streger
 language plpgsql
@@ -284,12 +285,32 @@ begin
     raise exception 'Beskrivelsen skal være mellem 3 og 500 tegn.';
   end if;
 
-  insert into public.game_streger (target_id, proposed_by, description)
-  values (p_target_id, actor_id, cleaned_description)
+  if p_amount is null or p_amount not between 1 and 3 then
+    raise exception 'En hændelse skal være 1, 2 eller 3 streger værd.';
+  end if;
+
+  insert into public.game_streger (target_id, proposed_by, description, amount)
+  values (p_target_id, actor_id, cleaned_description, p_amount)
   returning * into created_streg;
 
   return created_streg;
 end;
+$$;
+
+create or replace function public.device_submit_streg(
+  p_target_id uuid,
+  p_description text
+)
+returns public.game_streger
+language sql
+security definer
+set search_path = ''
+as $$
+  select public.device_submit_streg(
+    p_target_id,
+    p_description,
+    1::smallint
+  );
 $$;
 
 create or replace function public.device_second_streg(p_streg_id bigint)
@@ -375,6 +396,8 @@ revoke execute on function public.claim_player(uuid, text)
   from public, anon;
 revoke execute on function public.device_submit_streg(uuid, text)
   from public, anon;
+revoke execute on function public.device_submit_streg(uuid, text, smallint)
+  from public, anon;
 revoke execute on function public.device_second_streg(bigint)
   from public, anon;
 revoke execute on function public.device_retract_streg(bigint)
@@ -383,6 +406,7 @@ revoke execute on function public.device_retract_streg(bigint)
 grant execute on function public.get_claimed_player() to authenticated;
 grant execute on function public.claim_player(uuid, text) to authenticated;
 grant execute on function public.device_submit_streg(uuid, text) to authenticated;
+grant execute on function public.device_submit_streg(uuid, text, smallint) to authenticated;
 grant execute on function public.device_second_streg(bigint) to authenticated;
 grant execute on function public.device_retract_streg(bigint) to authenticated;
 
