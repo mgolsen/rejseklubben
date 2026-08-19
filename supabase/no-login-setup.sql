@@ -17,6 +17,7 @@ create table public.game_streger (
   target_id uuid not null references public.players (id),
   proposed_by uuid not null references public.players (id),
   description text not null check (char_length(trim(description)) between 3 and 500),
+  amount smallint not null default 1 check (amount between 1 and 3),
   status text not null default 'pending'
     check (status in ('pending', 'approved', 'withdrawn')),
   approved_by uuid references public.players (id),
@@ -183,7 +184,10 @@ as
 select
   p.id,
   p.display_name,
-  count(s.id) filter (where s.status = 'approved')::integer as total
+  coalesce(
+    sum(s.amount) filter (where s.status = 'approved'),
+    0
+  )::integer as total
 from public.players as p
 left join public.game_streger as s on s.target_id = p.id
 where p.is_active

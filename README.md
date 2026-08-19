@@ -6,6 +6,7 @@ En lille statisk hjemmeside til turen med et fælles stregregnskab og personlige
 - `streger.html` og `streger.js` er spillets brugerflade.
 - `supabase/no-login-setup.sql` opretter den enkle database.
 - `supabase/add-personal-codes.sql` binder hver deltager til én browsersession.
+- `supabase/add-streg-values.sql` gør hver hændelse 1, 2 eller 3 streger værd.
 - `images/` indeholder sidens billeder.
 
 Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter automatisk en anonym session i baggrunden, og siden kan stadig udgives direkte med GitHub Pages.
@@ -14,7 +15,7 @@ Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter autom
 
 1. Når siden åbnes første gang, trykker man på sit navn og indtaster sin personlige tocifrede kode.
 2. Browseren bliver bundet til deltageren. Man kan ikke skifte person fra hjemmesiden.
-3. En deltager foreslår en streg til en anden og beskriver hændelsen.
+3. En deltager foreslår 1, 2 eller 3 streger til en anden og beskriver hændelsen.
 4. Hverken den valgte forslagsstiller eller den anklagede kan godkende forslaget.
 5. En tredje valgt deltager skal godkende, før stregen tæller.
 6. Stillingen beregnes automatisk ud fra godkendte streger.

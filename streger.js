@@ -22,6 +22,7 @@ const elements = {
   leaderboard: document.querySelector("#leaderboard-list"),
   stregForm: document.querySelector("#streg-form"),
   targetSelect: document.querySelector("#target-select"),
+  amountSelect: document.querySelector("#streg-amount"),
   description: document.querySelector("#streg-description"),
   descriptionCount: document.querySelector("#description-count"),
   stregError: document.querySelector("#streg-error"),
@@ -203,7 +204,7 @@ function makeStregCard(streg, isHistory = false) {
 
   const target = document.createElement("div");
   target.className = "streg-target";
-  target.textContent = `Streg til ${profileName(streg.target_id)}`;
+  target.textContent = `${pluralStreg(Number(streg.amount) || 1)} til ${profileName(streg.target_id)}`;
 
   const status = document.createElement("span");
   status.className = `status${isHistory ? " approved" : ""}`;
@@ -312,7 +313,7 @@ async function loadData() {
       db.from("game_leaderboard")
         .select("id, display_name, total"),
       db.from("game_streger")
-        .select("id, target_id, proposed_by, description, status, approved_by, approved_at, created_at")
+        .select("id, target_id, proposed_by, description, amount, status, approved_by, approved_at, created_at")
         .in("status", ["pending", "approved"])
         .order("created_at", { ascending: false })
         .limit(250),
@@ -357,10 +358,15 @@ async function proposeStreg(event) {
   event.preventDefault();
   elements.stregError.textContent = "";
   const targetId = elements.targetSelect.value;
+  const amount = Number(elements.amountSelect.value);
   const description = elements.description.value.trim();
 
   if (!targetId) {
     elements.stregError.textContent = "Vælg først, hvem der skal have stregen.";
+    return;
+  }
+  if (![1, 2, 3].includes(amount)) {
+    elements.stregError.textContent = "Vælg 1, 2 eller 3 streger.";
     return;
   }
 
@@ -368,6 +374,7 @@ async function proposeStreg(event) {
   const { error } = await db.rpc("device_submit_streg", {
     p_target_id: targetId,
     p_description: description,
+    p_amount: amount,
   });
   setButtonBusy(elements.stregSubmit, false);
 
@@ -378,7 +385,7 @@ async function proposeStreg(event) {
 
   elements.stregForm.reset();
   elements.descriptionCount.textContent = "0";
-  showToast("Forslaget er sendt. Nu mangler kun en meddommer.");
+  showToast(`${pluralStreg(amount)} er sendt til godkendelse.`);
   await loadData();
 }
 
