@@ -21,8 +21,12 @@ const elements = {
   userName: document.querySelector("#user-name"),
   leaderboard: document.querySelector("#leaderboard-list"),
   stregForm: document.querySelector("#streg-form"),
+  proposalType: document.querySelector("#proposal-type"),
   targetSelect: document.querySelector("#target-select"),
+  targetLabel: document.querySelector("#target-label"),
+  amountField: document.querySelector("#amount-field"),
   amountSelect: document.querySelector("#streg-amount"),
+  descriptionLabel: document.querySelector("#description-label"),
   description: document.querySelector("#streg-description"),
   descriptionCount: document.querySelector("#description-count"),
   stregError: document.querySelector("#streg-error"),
@@ -41,6 +45,8 @@ const state = {
   profileById: new Map(),
   leaderboard: [],
   streger: [],
+  votersByStreg: new Map(),
+  expiryReloads: new Set(),
   realtimeChannel: null,
   loading: false,
   reloadRequested: false,
@@ -48,6 +54,7 @@ const state = {
 
 let toastTimer;
 let reloadTimer;
+let countdownTimer;
 
 function setButtonBusy(button, busy, busyText) {
   if (!button.dataset.defaultText) {
@@ -97,6 +104,24 @@ function formatDate(value) {
 
 function pluralStreg(total) {
   return total === 1 ? "1 streg" : `${total} streger`;
+}
+
+function proposalAffectedPlayer(streg) {
+  if (streg.proposal_type === "penalty" && streg.status === "failed") {
+    return streg.proposed_by;
+  }
+  return streg.target_id;
+}
+
+function requiredVotesForAmount(amount) {
+  return { 1: 2, 2: 4, 3: 8 }[amount] || 2;
+}
+
+function countdownText(deadline) {
+  const milliseconds = new Date(deadline).getTime() - Date.now();
+  const seconds = Math.max(0, Math.ceil(milliseconds / 1000));
+  const minutes = Math.floor(seconds / 60);
+  return `${minutes}:${String(seconds % 60).padStart(2, "0")} tilbage`;
 }
 
 function emptyState(message) {
@@ -162,7 +187,9 @@ function renderParticipantSelectors() {
 
   const targetPlaceholder = document.createElement("option");
   targetPlaceholder.value = "";
-  targetPlaceholder.textContent = "Vælg den skyldige…";
+  targetPlaceholder.textContent = elements.proposalType.value === "pardon"
+    ? "Vælg den, der skal benådes…"
+    : "Vælg den skyldige…";
   targetFragment.append(targetPlaceholder);
 
   const allOption = document.createElement("option");
@@ -195,6 +222,20 @@ function renderParticipantSelectors() {
   }
 }
 
+function updateProposalForm() {
+  const isPardon = elements.proposalType.value === "pardon";
+  elements.amountField.hidden = isPardon;
+  elements.amountSelect.required = !isPardon;
+  elements.targetLabel.textContent = isPardon ? "Hvem skal benådes?" : "Hvem skal straffes?";
+  elements.descriptionLabel.textContent = isPardon ? "Hvorfor skal personen benådes?" : "Hvad skete der?";
+  elements.description.placeholder = isPardon
+    ? "Har udvist helt usædvanlig god stil…"
+    : "Spildte øl ud over sig selv før frokost…";
+  elements.stregSubmit.textContent = isPardon ? "Send benådning til afstemning" : "Send straf til afstemning";
+  delete elements.stregSubmit.dataset.defaultText;
+  renderParticipantSelectors();
+}
+
 function makeStregCard(streg, isHistory = false) {
   const card = document.createElement("article");
   card.className = "streg-card";
@@ -204,11 +245,27 @@ function makeStregCard(streg, isHistory = false) {
 
   const target = document.createElement("div");
   target.className = "streg-target";
-  target.textContent = `${pluralStreg(Number(streg.amount) || 1)} til ${profileName(streg.target_id)}`;
+  const amount = Number(streg.amount) || 1;
+  const isPardon = streg.proposal_type === "pardon";
+  if (isPardon) {
+    target.textContent = streg.status === "failed"
+      ? `Forslag om benådning af ${profileName(streg.target_id)}`
+      : `Benådning af ${profileName(streg.target_id)} · −1 streg`;
+  } else if (streg.status === "failed") {
+    target.textContent = `${pluralStreg(amount)} til ${profileName(streg.proposed_by)} · tilbageslag`;
+  } else {
+    target.textContent = `${pluralStreg(amount)} til ${profileName(streg.target_id)}`;
+  }
 
   const status = document.createElement("span");
-  status.className = `status${isHistory ? " approved" : ""}`;
-  status.textContent = isHistory ? "Godkendt" : "Afventer";
+  status.className = `status${streg.status === "approved" ? " approved" : ""}${streg.status === "failed" ? " failed" : ""}`;
+  if (streg.status === "approved") {
+    status.textContent = isPardon ? "Benådet" : "Vedtaget";
+  } else if (streg.status === "failed") {
+    status.textContent = isPardon ? "Afvist" : "Tilbageslag";
+  } else {
+    status.textContent = isPardon ? "Benådning" : "Afstemning";
+  }
   top.append(target, status);
 
   const description = document.createElement("p");
@@ -218,7 +275,15 @@ function makeStregCard(streg, isHistory = false) {
   const meta = document.createElement("div");
   meta.className = "streg-meta";
   if (isHistory) {
-    meta.textContent = `${profileName(streg.proposed_by)} foreslog · ${profileName(streg.approved_by)} godkendte · ${formatDate(streg.approved_at)}`;
+    if (streg.status === "approved" && streg.required_votes === 1 && streg.vote_count === 0) {
+      meta.textContent = `${profileName(streg.proposed_by)} foreslog · godkendt under de tidligere regler · ${formatDate(streg.approved_at)}`;
+    } else if (streg.status === "approved") {
+      meta.textContent = `${profileName(streg.proposed_by)} foreslog · ${streg.vote_count}/${streg.required_votes} stemmer · ${formatDate(streg.approved_at)}`;
+    } else if (isPardon) {
+      meta.textContent = `${profileName(streg.proposed_by)} foreslog · fik ${streg.vote_count}/${streg.required_votes} stemmer · udløb ${formatDate(streg.deadline)}`;
+    } else {
+      meta.textContent = `${profileName(streg.proposed_by)} foreslog · fik ${streg.vote_count}/${streg.required_votes} stemmer · straffen gik tilbage til forslagsstilleren`;
+    }
   } else {
     meta.textContent = `${profileName(streg.proposed_by)} foreslog · ${formatDate(streg.created_at)}`;
   }
@@ -226,28 +291,60 @@ function makeStregCard(streg, isHistory = false) {
   card.append(top, description, meta);
 
   if (!isHistory) {
+    const voting = document.createElement("div");
+    voting.className = "voting-progress";
+
+    const votingText = document.createElement("div");
+    votingText.className = "voting-text";
+    votingText.textContent = `${streg.vote_count} af ${streg.required_votes} stemmer`;
+
+    const countdown = document.createElement("div");
+    countdown.className = "countdown";
+    countdown.dataset.deadline = streg.deadline;
+    countdown.dataset.stregId = streg.id;
+    countdown.textContent = countdownText(streg.deadline);
+
+    const track = document.createElement("div");
+    track.className = "vote-track";
+    const fill = document.createElement("span");
+    fill.style.width = `${Math.min(100, (streg.vote_count / streg.required_votes) * 100)}%`;
+    track.append(fill);
+    voting.append(votingText, countdown, track);
+    card.append(voting);
+
     const actions = document.createElement("div");
     actions.className = "streg-actions";
+    const hasVoted = state.votersByStreg.get(streg.id)?.has(state.currentUserId);
 
-    if (streg.proposed_by === state.currentUserId) {
+    if (streg.proposed_by === state.currentUserId && streg.vote_count === 0) {
       const withdraw = document.createElement("button");
       withdraw.className = "text-button";
       withdraw.type = "button";
       withdraw.textContent = "Træk tilbage";
       withdraw.addEventListener("click", () => withdrawStreg(streg.id, withdraw));
       actions.append(withdraw);
+    } else if (streg.proposed_by === state.currentUserId) {
+      const note = document.createElement("span");
+      note.className = "streg-meta";
+      note.textContent = "Du stillede forslaget";
+      actions.append(note);
     } else if (streg.target_id === state.currentUserId) {
       const note = document.createElement("span");
       note.className = "streg-meta";
-      note.textContent = "Du er den anklagede";
+      note.textContent = isPardon ? "Du er den mulige benådede" : "Du er den anklagede";
+      actions.append(note);
+    } else if (hasVoted) {
+      const note = document.createElement("span");
+      note.className = "voted-note";
+      note.textContent = "✓ Du har stemt";
       actions.append(note);
     } else {
-      const approve = document.createElement("button");
-      approve.className = "button small approve";
-      approve.type = "button";
-      approve.textContent = "Godkend streg";
-      approve.addEventListener("click", () => approveStreg(streg.id, approve));
-      actions.append(approve);
+      const vote = document.createElement("button");
+      vote.className = "button small approve";
+      vote.type = "button";
+      vote.textContent = "Stem for";
+      vote.addEventListener("click", () => voteStreg(streg, vote));
+      actions.append(vote);
     }
 
     card.append(actions);
@@ -257,7 +354,7 @@ function makeStregCard(streg, isHistory = false) {
 }
 
 function renderPending() {
-  const pending = state.streger.filter((streg) => streg.status === "pending");
+  const pending = state.streger.filter((streg) => streg.status === "open");
   elements.pendingCount.textContent = pending.length;
   elements.pendingList.replaceChildren();
 
@@ -272,15 +369,15 @@ function renderPending() {
 function renderHistory() {
   const selectedProfile = elements.historyFilter.value;
   const history = state.streger.filter(
-    (streg) => streg.status === "approved"
-      && (selectedProfile === "all" || streg.target_id === selectedProfile),
+    (streg) => ["approved", "failed"].includes(streg.status)
+      && (selectedProfile === "all" || proposalAffectedPlayer(streg) === selectedProfile),
   );
 
   elements.historyList.replaceChildren();
   if (!history.length) {
     const message = selectedProfile === "all"
       ? "Protokollen er endnu ren. Nyd det, mens det varer."
-      : "Denne deltager har mirakuløst nok ingen godkendte streger.";
+      : "Denne deltager har ingen afgjorte forslag i protokollen.";
     elements.historyList.append(emptyState(message));
     return;
   }
@@ -295,6 +392,7 @@ function renderAll() {
   renderLeaderboard();
   renderPending();
   renderHistory();
+  updateCountdowns();
 }
 
 async function loadData() {
@@ -305,21 +403,23 @@ async function loadData() {
 
   state.loading = true;
   try {
-    const [profilesResult, leaderboardResult, stregerResult] = await Promise.all([
+    const [profilesResult, leaderboardResult, stregerResult, votesResult] = await Promise.all([
       db.from("players")
         .select("id, display_name")
         .eq("is_active", true)
         .order("display_name", { ascending: true }),
       db.from("game_leaderboard")
         .select("id, display_name, total"),
-      db.from("game_streger")
-        .select("id, target_id, proposed_by, description, amount, status, approved_by, approved_at, created_at")
-        .in("status", ["pending", "approved"])
+      db.from("game_proposal_status")
+        .select("id, target_id, proposed_by, description, amount, proposal_type, required_votes, deadline, vote_count, status, approved_by, approved_at, created_at")
+        .in("status", ["open", "approved", "failed"])
         .order("created_at", { ascending: false })
         .limit(250),
+      db.from("game_streg_votes")
+        .select("streg_id, voter_id"),
     ]);
 
-    const error = profilesResult.error || leaderboardResult.error || stregerResult.error;
+    const error = profilesResult.error || leaderboardResult.error || stregerResult.error || votesResult.error;
     if (error) throw error;
 
     state.profiles = profilesResult.data || [];
@@ -329,6 +429,13 @@ async function loadData() {
       total: Number(entry.total) || 0,
     }));
     state.streger = stregerResult.data || [];
+    state.votersByStreg = new Map();
+    (votesResult.data || []).forEach((vote) => {
+      if (!state.votersByStreg.has(vote.streg_id)) {
+        state.votersByStreg.set(vote.streg_id, new Set());
+      }
+      state.votersByStreg.get(vote.streg_id).add(vote.voter_id);
+    });
 
     if (state.currentUserId && !state.profileById.has(state.currentUserId)) {
       state.currentUserId = null;
@@ -354,15 +461,31 @@ function scheduleReload() {
   reloadTimer = window.setTimeout(loadData, 180);
 }
 
+function updateCountdowns() {
+  document.querySelectorAll(".countdown[data-deadline]").forEach((node) => {
+    const remaining = new Date(node.dataset.deadline).getTime() - Date.now();
+    node.textContent = countdownText(node.dataset.deadline);
+    node.classList.toggle("urgent", remaining <= 30000);
+
+    if (remaining <= 0 && !state.expiryReloads.has(node.dataset.stregId)) {
+      state.expiryReloads.add(node.dataset.stregId);
+      window.setTimeout(loadData, 450);
+    }
+  });
+}
+
 async function proposeStreg(event) {
   event.preventDefault();
   elements.stregError.textContent = "";
+  const proposalType = elements.proposalType.value;
   const targetId = elements.targetSelect.value;
-  const amount = Number(elements.amountSelect.value);
+  const amount = proposalType === "pardon" ? 1 : Number(elements.amountSelect.value);
   const description = elements.description.value.trim();
 
   if (!targetId) {
-    elements.stregError.textContent = "Vælg først, hvem der skal have stregen.";
+    elements.stregError.textContent = proposalType === "pardon"
+      ? "Vælg først, hvem der skal benådes."
+      : "Vælg først, hvem der skal have stregen.";
     return;
   }
   if (![1, 2, 3].includes(amount)) {
@@ -370,12 +493,18 @@ async function proposeStreg(event) {
     return;
   }
 
-  setButtonBusy(elements.stregSubmit, true, "Sender til dommerbordet…");
-  const { error } = await db.rpc("device_submit_streg", {
-    p_target_id: targetId,
-    p_description: description,
-    p_amount: amount,
-  });
+  setButtonBusy(elements.stregSubmit, true, "Åbner afstemningen…");
+  const request = proposalType === "pardon"
+    ? db.rpc("device_submit_pardon", {
+      p_target_id: targetId,
+      p_description: description,
+    })
+    : db.rpc("device_submit_streg", {
+      p_target_id: targetId,
+      p_description: description,
+      p_amount: amount,
+    });
+  const { error } = await request;
   setButtonBusy(elements.stregSubmit, false);
 
   if (error) {
@@ -385,14 +514,16 @@ async function proposeStreg(event) {
 
   elements.stregForm.reset();
   elements.descriptionCount.textContent = "0";
-  showToast(`${pluralStreg(amount)} er sendt til godkendelse.`);
+  updateProposalForm();
+  const votesNeeded = proposalType === "pardon" ? 8 : requiredVotesForAmount(amount);
+  showToast(`Afstemningen er åbnet. Forslaget kræver ${votesNeeded} stemmer på to minutter.`);
   await loadData();
 }
 
-async function approveStreg(id, button) {
-  setButtonBusy(button, true, "Godkender…");
-  const { error } = await db.rpc("device_second_streg", {
-    p_streg_id: id,
+async function voteStreg(streg, button) {
+  setButtonBusy(button, true, "Stemmer…");
+  const { data, error } = await db.rpc("device_vote_streg", {
+    p_streg_id: streg.id,
   });
   if (error) {
     setButtonBusy(button, false);
@@ -400,7 +531,11 @@ async function approveStreg(id, button) {
     return;
   }
 
-  showToast("Dommen er faldet. Stregen tæller.");
+  if (data?.status === "approved") {
+    showToast(streg.proposal_type === "pardon" ? "Benådningen er vedtaget." : "Forslaget er vedtaget. Straffen tæller.");
+  } else {
+    showToast(`Din stemme er registreret (${data?.vote_count || streg.vote_count + 1}/${data?.required_votes || streg.required_votes}).`);
+  }
   await loadData();
 }
 
@@ -537,10 +672,16 @@ function subscribeToChanges() {
       { event: "*", schema: "public", table: "game_streger" },
       scheduleReload,
     )
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "game_streg_votes" },
+      scheduleReload,
+    )
     .subscribe();
 }
 
 elements.stregForm.addEventListener("submit", proposeStreg);
+elements.proposalType.addEventListener("change", updateProposalForm);
 elements.description.addEventListener("input", () => {
   elements.descriptionCount.textContent = elements.description.value.length;
 });
@@ -562,7 +703,10 @@ async function start() {
     } else {
       showIdentityPicker();
     }
+    updateProposalForm();
     subscribeToChanges();
+    window.clearInterval(countdownTimer);
+    countdownTimer = window.setInterval(updateCountdowns, 1000);
   } catch (error) {
     elements.identityError.textContent = readableError(error);
     showIdentityPicker();

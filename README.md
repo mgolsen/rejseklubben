@@ -7,6 +7,7 @@ En lille statisk hjemmeside til turen med et fælles stregregnskab og personlige
 - `supabase/no-login-setup.sql` opretter den enkle database.
 - `supabase/add-personal-codes.sql` binder hver deltager til én browsersession.
 - `supabase/add-streg-values.sql` gør hver hændelse 1, 2 eller 3 streger værd.
+- `supabase/add-group-voting-and-pardons.sql` tilføjer afstemninger, tidsfrist, tilbageslag og benådninger.
 - `images/` indeholder sidens billeder.
 
 Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter automatisk en anonym session i baggrunden, og siden kan stadig udgives direkte med GitHub Pages.
@@ -16,9 +17,11 @@ Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter autom
 1. Når siden åbnes første gang, trykker man på sit navn og indtaster sin personlige tocifrede kode.
 2. Browseren bliver bundet til deltageren. Man kan ikke skifte person fra hjemmesiden.
 3. En deltager foreslår 1, 2 eller 3 streger til en anden og beskriver hændelsen.
-4. Hverken den valgte forslagsstiller eller den anklagede kan godkende forslaget.
-5. En tredje valgt deltager skal godkende, før stregen tæller.
-6. Stillingen beregnes automatisk ud fra godkendte streger.
+4. Klubben har to minutter til at stemme. 1, 2 og 3 streger kræver henholdsvis 2, 4 og 8 stemmer.
+5. Hverken forslagsstilleren eller den anklagede kan stemme. Hver anden deltager kan kun stemme én gang.
+6. Når en straf ikke får stemmer nok inden fristen, får forslagsstilleren selv det foreslåede antal streger.
+7. En deltager kan foreslå en benådning af en anden. Den kræver 8 stemmer og fjerner 1 streg, men stillingen kan ikke blive negativ.
+8. Stillingen beregnes automatisk ud fra vedtagne straffe, tilbageslag og benådninger.
 
 Databasefunktionerne bruger den bundne Supabase-session som identitet. Browseren kan derfor ikke udgive sig for at være en anden deltager ved blot at ændre et navn eller et id i frontend-koden.
 
@@ -34,6 +37,7 @@ Ved en helt ny opsætning:
 6. Gå til **Authentication → Sign In / Providers → Anonymous** og slå anonyme logins til.
 7. Kør derefter hele `supabase/add-personal-codes.sql` i en ny SQL Editor-fane.
 8. Resultatet viser én personlig kode pr. deltager. Gem listen privat med det samme; databasen gemmer kun kodernes hashes.
+9. Kør til sidst hele `supabase/add-group-voting-and-pardons.sql` i en ny SQL Editor-fane.
 
 Scriptet tilføjer tre deltagere: Emil, Martin og Morten. Tabellerne fra den tidligere login-opsætning bliver stående i dit nuværende Supabase-projekt, men de bruges ikke af hjemmesiden og kan ignoreres.
 
@@ -78,11 +82,13 @@ Udskift koden og navnet. Deltageren kan derefter binde den nye telefon fra hjemm
 Databasefunktionerne kontrollerer, at:
 
 - forslagsstiller og modtager er forskellige;
-- godkenderen hverken er forslagsstiller eller modtager;
-- et forslag kun kan godkendes én gang;
-- kun forslagsstilleren kan trække et ventende forslag tilbage.
+- en stemme hverken kommer fra forslagsstilleren eller modtageren;
+- hver deltager kun kan stemme én gang på samme forslag;
+- stemmer kun modtages inden for de to minutter;
+- tærsklerne 2, 4 og 8 håndhæves i databasen;
+- kun forslagsstilleren kan trække et åbent forslag tilbage, og kun før den første stemme.
 
-Tabellerne kan ikke ændres direkte fra browseren. Kun en anonym session, som er bundet med den rigtige personlige kode, kan foreslå, godkende eller trække en streg tilbage. Fem forkerte kodeforsøg udløser 15 minutters pause. Alle med sidens adresse kan fortsat læse regnskabet og se deltagernavnene. `streger.html` er markeret `noindex`, så søgemaskiner bliver bedt om ikke at indeksere den.
+Tabellerne kan ikke ændres direkte fra browseren. Kun en anonym session, som er bundet med den rigtige personlige kode, kan foreslå, stemme eller trække et forslag tilbage. Fem forkerte kodeforsøg udløser 15 minutters pause. Alle med sidens adresse kan fortsat læse regnskabet og se deltagernavnene. `streger.html` er markeret `noindex`, så søgemaskiner bliver bedt om ikke at indeksere den.
 
 ## Supabase-forbindelsen
 
