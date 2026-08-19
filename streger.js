@@ -7,12 +7,18 @@ const db = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
 const elements = {
   identityShell: document.querySelector("#identity-shell"),
+  identityPicker: document.querySelector("#identity-picker"),
   identityList: document.querySelector("#identity-list"),
   identityError: document.querySelector("#identity-error"),
+  claimForm: document.querySelector("#claim-form"),
+  claimPlayerName: document.querySelector("#claim-player-name"),
+  claimCode: document.querySelector("#claim-code"),
+  claimError: document.querySelector("#claim-error"),
+  claimSubmit: document.querySelector("#claim-submit"),
+  claimBack: document.querySelector("#claim-back"),
   appShell: document.querySelector("#app-shell"),
   sessionActions: document.querySelector("#session-actions"),
   userName: document.querySelector("#user-name"),
-  changePersonButton: document.querySelector("#change-person-button"),
   leaderboard: document.querySelector("#leaderboard-list"),
   stregForm: document.querySelector("#streg-form"),
   targetSelect: document.querySelector("#target-select"),
@@ -29,6 +35,7 @@ const elements = {
 
 const state = {
   currentUserId: null,
+  pendingClaimPlayerId: null,
   profiles: [],
   profileById: new Map(),
   leaderboard: [],
@@ -58,6 +65,9 @@ function readableError(error) {
   }
   if (lower.includes("could not find the table") || lower.includes("schema cache")) {
     return "Den enkle database er ikke sat op endnu. Kør supabase/no-login-setup.sql i Supabase SQL Editor.";
+  }
+  if (lower.includes("anonymous") && (lower.includes("disabled") || lower.includes("provider"))) {
+    return "Anonyme sessioner er ikke slået til i Supabase endnu. Aktivér Anonymous Sign-Ins under Authentication.";
   }
   return message;
 }
@@ -319,13 +329,13 @@ async function loadData() {
     }));
     state.streger = stregerResult.data || [];
 
-    renderIdentityChoices();
     if (state.currentUserId && !state.profileById.has(state.currentUserId)) {
       state.currentUserId = null;
-      localStorage.removeItem("rejseklubben-player-id");
       showIdentityPicker();
     } else if (state.currentUserId) {
       renderAll();
+    } else {
+      renderIdentityChoices();
     }
   } catch (error) {
     showToast(readableError(error), "error");
@@ -355,8 +365,7 @@ async function proposeStreg(event) {
   }
 
   setButtonBusy(elements.stregSubmit, true, "Sender til dommerbordet…");
-  const { error } = await db.rpc("submit_streg", {
-    p_actor_id: state.currentUserId,
+  const { error } = await db.rpc("device_submit_streg", {
     p_target_id: targetId,
     p_description: description,
   });
@@ -375,8 +384,7 @@ async function proposeStreg(event) {
 
 async function approveStreg(id, button) {
   setButtonBusy(button, true, "Godkender…");
-  const { error } = await db.rpc("second_streg", {
-    p_actor_id: state.currentUserId,
+  const { error } = await db.rpc("device_second_streg", {
     p_streg_id: id,
   });
   if (error) {
@@ -391,8 +399,7 @@ async function approveStreg(id, button) {
 
 async function withdrawStreg(id, button) {
   setButtonBusy(button, true, "Trækker tilbage…");
-  const { error } = await db.rpc("retract_streg", {
-    p_actor_id: state.currentUserId,
+  const { error } = await db.rpc("device_retract_streg", {
     p_streg_id: id,
   });
   if (error) {
@@ -425,16 +432,16 @@ function renderIdentityChoices() {
     const name = document.createElement("span");
     name.textContent = profile.display_name;
     button.append(initial, name);
-    button.addEventListener("click", () => selectIdentity(profile.id));
+    button.addEventListener("click", () => showClaimForm(profile.id));
     elements.identityList.append(button);
   });
 }
 
-function selectIdentity(playerId) {
+function activateIdentity(playerId) {
   if (!state.profileById.has(playerId)) return;
   state.currentUserId = playerId;
-  localStorage.setItem("rejseklubben-player-id", playerId);
   elements.identityError.textContent = "";
+  elements.claimError.textContent = "";
   elements.identityShell.hidden = true;
   elements.appShell.hidden = false;
   elements.sessionActions.hidden = false;
@@ -442,12 +449,76 @@ function selectIdentity(playerId) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+function showClaimForm(playerId) {
+  const profile = state.profileById.get(playerId);
+  if (!profile) return;
+
+  state.pendingClaimPlayerId = playerId;
+  elements.claimPlayerName.textContent = profile.display_name;
+  elements.claimCode.value = "";
+  elements.claimError.textContent = "";
+  elements.identityPicker.hidden = true;
+  elements.claimForm.hidden = false;
+  elements.claimCode.focus();
+}
+
 function showIdentityPicker() {
+  state.pendingClaimPlayerId = null;
   elements.identityShell.hidden = false;
   elements.appShell.hidden = true;
   elements.sessionActions.hidden = true;
+  elements.identityPicker.hidden = false;
+  elements.claimForm.hidden = true;
+  elements.claimError.textContent = "";
   renderIdentityChoices();
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function claimIdentity(event) {
+  event.preventDefault();
+  elements.claimError.textContent = "";
+
+  const playerId = state.pendingClaimPlayerId;
+  const code = elements.claimCode.value.trim();
+  if (!playerId || !/^[0-9]{2}$/.test(code)) {
+    elements.claimError.textContent = "Koden skal bestå af to cifre.";
+    return;
+  }
+
+  setButtonBusy(elements.claimSubmit, true, "Kontrollerer koden…");
+  const { data, error } = await db.rpc("claim_player", {
+    p_player_id: playerId,
+    p_code: code,
+  });
+  setButtonBusy(elements.claimSubmit, false);
+
+  if (error) {
+    elements.claimError.textContent = readableError(error);
+    return;
+  }
+  if (!data?.ok) {
+    elements.claimError.textContent = data?.message || "Koden kunne ikke godkendes.";
+    return;
+  }
+
+  showToast(`Telefonen er nu bundet til ${data.player.display_name}.`);
+  activateIdentity(data.player.id);
+}
+
+async function ensureAnonymousSession() {
+  const { data: sessionData, error: sessionError } = await db.auth.getSession();
+  if (sessionError) throw sessionError;
+  if (sessionData.session) return sessionData.session;
+
+  const { data, error } = await db.auth.signInAnonymously();
+  if (error) throw error;
+  return data.session;
+}
+
+async function getClaimedPlayer() {
+  const { data, error } = await db.rpc("get_claimed_player");
+  if (error) throw error;
+  return Array.isArray(data) ? data[0] || null : data || null;
 }
 
 function subscribeToChanges() {
@@ -467,14 +538,28 @@ elements.description.addEventListener("input", () => {
   elements.descriptionCount.textContent = elements.description.value.length;
 });
 elements.historyFilter.addEventListener("change", renderHistory);
-elements.changePersonButton.addEventListener("click", showIdentityPicker);
+elements.claimForm.addEventListener("submit", claimIdentity);
+elements.claimBack.addEventListener("click", showIdentityPicker);
+elements.claimCode.addEventListener("input", () => {
+  elements.claimCode.value = elements.claimCode.value.replace(/\D/g, "").slice(0, 2);
+});
 
-await loadData();
-subscribeToChanges();
-
-const rememberedPlayer = localStorage.getItem("rejseklubben-player-id");
-if (rememberedPlayer && state.profileById.has(rememberedPlayer)) {
-  selectIdentity(rememberedPlayer);
-} else {
-  showIdentityPicker();
+async function start() {
+  localStorage.removeItem("rejseklubben-player-id");
+  try {
+    await ensureAnonymousSession();
+    await loadData();
+    const claimedPlayer = await getClaimedPlayer();
+    if (claimedPlayer && state.profileById.has(claimedPlayer.id)) {
+      activateIdentity(claimedPlayer.id);
+    } else {
+      showIdentityPicker();
+    }
+    subscribeToChanges();
+  } catch (error) {
+    elements.identityError.textContent = readableError(error);
+    showIdentityPicker();
+  }
 }
+
+await start();
