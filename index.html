@@ -206,22 +206,145 @@
   .card.ghost { border-style: dashed; box-shadow: none; background: transparent; display: flex; flex-direction: column; justify-content: center; }
   .card.ghost .avatar { background: transparent; border: 2px dashed var(--gold); color: var(--gold-deep); }
 
-  /* Highlights */
-  .highlights { background: rgba(20, 17, 14, 0.82); color: var(--cream); }
-  .highlights .section-head h2 { color: var(--cream); }
-  .highlights .kicker { color: var(--gold); }
-  .hl-grid {
-    display: grid; gap: 22px;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  /* Program */
+  .program { background: rgba(20, 17, 14, 0.9); color: var(--cream); }
+  .program .section-head { margin-bottom: 30px; }
+  .program .section-head h2 { color: var(--cream); }
+  .program .section-head p { max-width: 590px; margin: 12px auto 0; color: rgba(246,241,231,.68); }
+  .program .kicker { color: var(--gold); }
+  .day-jumps {
+    position: sticky;
+    top: 64px;
+    z-index: 12;
+    display: flex;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 24px;
+    padding: 6px;
+    border: 1px solid rgba(201,162,75,.25);
+    border-radius: 999px;
+    background: rgba(20,17,14,.9);
+    box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    backdrop-filter: blur(12px);
+    overflow-x: auto;
   }
-  .hl {
-    border: 1px solid rgba(201,162,75,0.25);
-    border-radius: 16px; padding: 26px;
-    background: rgba(246,241,231,0.04);
+  .day-jumps a {
+    flex: 0 0 auto;
+    padding: 8px 13px;
+    border-radius: 999px;
+    color: rgba(246,241,231,.76);
+    font-size: .72rem;
+    font-weight: 700;
+    text-decoration: none;
   }
-  .hl .emoji { font-size: 2rem; }
-  .hl h3 { color: var(--gold); font-size: 1.3rem; margin: 12px 0 8px; }
-  .hl p { margin: 0; color: rgba(246,241,231,0.82); font-size: 0.98rem; }
+  .day-jumps a[aria-current="true"] { color: var(--ink); background: var(--gold); }
+  .day-jumps a:hover { color: var(--ink); background: var(--gold); }
+  .schedule-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .day-card {
+    --day-accent: var(--gold);
+    scroll-margin-top: 132px;
+    border: 1px solid rgba(246,241,231,.12);
+    border-top: 5px solid var(--day-accent);
+    border-radius: 20px;
+    background: rgba(246,241,231,.055);
+    box-shadow: 0 20px 44px rgba(0,0,0,.16);
+    overflow: hidden;
+  }
+  .day-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 21px 23px 17px;
+    border-bottom: 1px solid rgba(246,241,231,.1);
+  }
+  .day-head h3 { color: var(--cream); font-size: 1.65rem; }
+  .day-date { color: var(--day-accent); font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  .timeline { display: grid; gap: 0; margin: 0; padding: 8px 20px 18px; list-style: none; }
+  .event {
+    position: relative;
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 13px;
+    padding: 17px 0;
+  }
+  .event + .event { border-top: 1px solid rgba(246,241,231,.09); }
+  .event time { padding-top: 3px; color: var(--day-accent); font-size: .73rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .event-content { min-width: 0; }
+  .event-title { display: flex; align-items: start; gap: 9px; }
+  .event-icon { flex: 0 0 auto; font-size: 1.22rem; line-height: 1.1; }
+  .event h4 { margin: 0; color: #fff; font-family: var(--display); font-size: 1.13rem; line-height: 1.18; }
+  .event p { margin: 7px 0 0; color: rgba(246,241,231,.68); font-size: .79rem; line-height: 1.5; }
+  .event-links { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+  .event-link {
+    display: inline-flex;
+    min-height: 32px;
+    align-items: center;
+    padding: 0 10px;
+    border: 1px solid rgba(201,162,75,.4);
+    border-radius: 8px;
+    color: var(--cream);
+    background: rgba(201,162,75,.08);
+    font-size: .67rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .event-link:hover { color: var(--ink); background: var(--gold); }
+  .event-photo {
+    position: relative;
+    display: block;
+    height: 150px;
+    margin: 0 0 14px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #22565c, #c9a24b);
+    overflow: hidden;
+  }
+  .event-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-credit {
+    position: absolute;
+    right: 7px;
+    bottom: 6px;
+    padding: 3px 6px;
+    border-radius: 5px;
+    color: #fff;
+    background: rgba(20,17,14,.72);
+    font-size: .55rem;
+  }
+  .notice {
+    margin-top: 10px;
+    padding: 9px 10px;
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    color: rgba(246,241,231,.84);
+    background: rgba(201,162,75,.1);
+    font-size: .7rem;
+  }
+  .event.missing { margin: 8px 0 0; padding: 14px; border: 1px dashed rgba(246,241,231,.2); border-radius: 11px; background: rgba(246,241,231,.025); }
+  .event.missing time { color: rgba(246,241,231,.48); }
+  .event.urgent { margin: 7px 0 0; padding: 14px; border: 1px solid rgba(225,86,75,.48); border-radius: 11px; background: rgba(151,40,35,.19); }
+  .event.urgent time, .event.urgent h4 { color: #ffb3aa; }
+
+  @media (max-width: 820px) {
+    .schedule-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 520px) {
+    .program { padding: 58px 10px; }
+    .program .section-head { margin-bottom: 24px; padding-inline: 10px; }
+    .program .section-head h2 { font-size: 2.25rem; }
+    .program .section-head p { font-size: .86rem; }
+    .day-jumps { width: 100%; justify-content: flex-start; margin-bottom: 14px; border-radius: 12px; }
+    .day-jumps a { flex: 1 0 auto; padding-inline: 11px; text-align: center; }
+    .schedule-grid { gap: 12px; }
+    .day-card { border-radius: 15px; }
+    .day-head { padding: 15px 16px 12px; }
+    .day-head h3 { font-size: 1.38rem; }
+    .timeline { padding: 4px 14px 13px; }
+    .event { grid-template-columns: 46px minmax(0, 1fr); gap: 9px; padding: 14px 0; }
+    .event h4 { font-size: 1rem; }
+    .event-photo { height: 132px; }
+  }
 
   /* Gallery */
   .gallery { background: rgba(246, 241, 231, 0.85); }
@@ -253,7 +376,7 @@
     <div class="brand">Rejseklubben<b>™</b></div>
     <nav>
       <a href="#holdet">Holdet</a>
-      <a href="#program">Hvad venter</a>
+      <a href="#program">Program</a>
       <a href="#galleri">Galleri</a>
       <a href="#praktisk">Praktisk</a>
       <a href="biergarten.html">Biergartens</a>
@@ -322,34 +445,168 @@
     </div>
   </section>
 
-  <!-- HIGHLIGHTS -->
-  <section class="highlights" id="program">
+  <!-- PROGRAM -->
+  <section class="program" id="program">
     <div class="wrap">
       <div class="section-head">
-        <div class="kicker">Programmet (cirka)</div>
-        <h2>Hvad venter</h2>
+        <div class="kicker">3.–6. september 2026</div>
+        <h2>Programmet</h2>
+        <p>Fire dage, én fælles plan og præcis ét hul, som stadig venter på en dårlig idé.</p>
       </div>
-      <div class="hl-grid">
-        <div class="hl">
-          <div class="emoji">🏎️</div>
-          <h3>Biler &amp; hestekræfter</h3>
-          <p>Mercedes-Benz Museum og Porsche Museum. Begge bilmærker blev født her i byen. Vi rører ikke noget. Sikkert.</p>
-        </div>
-        <div class="hl">
-          <div class="emoji">🍷</div>
-          <h3>Vin &amp; Spätzle</h3>
-          <p>Stuttgart har vinmarker inde i selve byen. Vi tester en flaske Trollinger til en portion Maultaschen.</p>
-        </div>
-        <div class="hl">
-          <div class="emoji">🗼</div>
-          <h3>Beton &amp; udsigt</h3>
-          <p>Verdens første tv-tårn i armeret beton (1956) og udsigt ud over hele Neckar-dalen.</p>
-        </div>
-        <div class="hl">
-          <div class="emoji">🍺</div>
-          <h3>Aften &amp; nedture</h3>
-          <p>Stuttgarts natteliv står klar. Hvad der sker i Stuttgart, bliver sandsynligvis på forsiden af gruppen.</p>
-        </div>
+
+      <nav class="day-jumps" aria-label="Spring til en dag">
+        <a href="#thursday" aria-current="true">Torsdag</a>
+        <a href="#friday">Fredag</a>
+        <a href="#saturday">Lørdag</a>
+        <a href="#sunday">Søndag</a>
+      </nav>
+
+      <div class="schedule-grid">
+        <article class="day-card" id="thursday" style="--day-accent:#d6a2dc">
+          <header class="day-head">
+            <h3>Torsdag</h3>
+            <span class="day-date">3. september</span>
+          </header>
+          <ol class="timeline">
+            <li class="event">
+              <time datetime="2026-09-03T14:40">14:40</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">✈️</span><h4>Ankomst til STR</h4></div>
+                <p>Hjulene rammer Stuttgart. Bagage, samling og videre mod byen.</p>
+                <div class="event-links">
+                  <a class="event-link" href="https://www.stuttgart-airport.com/" target="_blank" rel="noopener noreferrer">Stuttgart Airport ↗</a>
+                </div>
+              </div>
+            </li>
+            <li class="event">
+              <time>Aften</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">🍷</span><h4>Stuttgarter Weindorf</h4></div>
+                <p>50-års jubilæum mellem Marktplatz, Schillerplatz og Kirchstraße. Württemberg-vin, lokale retter og åbent til midnat.</p>
+                <div class="event-links">
+                  <a class="event-link" href="https://stuttgarter-weindorf.de/" target="_blank" rel="noopener noreferrer">Festivalens hjemmeside ↗</a>
+                  <a class="event-link" href="https://www.google.com/maps/search/?api=1&amp;query=Marktplatz%2C%20Stuttgart" target="_blank" rel="noopener noreferrer">Kort ↗</a>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </article>
+
+        <article class="day-card" id="friday" style="--day-accent:#62cbd1">
+          <header class="day-head">
+            <h3>Fredag</h3>
+            <span class="day-date">4. september</span>
+          </header>
+          <ol class="timeline">
+            <li class="event">
+              <time datetime="2026-09-04T11:00">11:00</time>
+              <div class="event-content">
+                <a class="event-photo" href="https://schwabenquellen.de/?lang=de" target="_blank" rel="noopener noreferrer">
+                  <img src="https://schwabenquellen.de/wp-content/uploads/2025/03/Lagune-von-oben_1920x1280px-800x533.jpg" alt="Lagunen i SchwabenQuellen" loading="lazy" onerror="this.style.display='none'">
+                  <span class="photo-credit">Foto: SchwabenQuellen</span>
+                </a>
+                <div class="event-title"><span class="event-icon" aria-hidden="true">♨️</span><h4>SchwabenQuellen</h4></div>
+                <p>7.000 m² sauna- og wellnessverden med laguner, dampbade og mere end 30 daglige Aufguss-ceremonier.</p>
+                <div class="notice"><strong>Pak håndklædet:</strong> Fredag er tekstilfri. Stedet anbefaler reservation på forhånd.</div>
+                <div class="event-links">
+                  <a class="event-link" href="https://schwabenquellen.de/?lang=de" target="_blank" rel="noopener noreferrer">Hjemmeside ↗</a>
+                  <a class="event-link" href="https://www.kantoshop.de/" target="_blank" rel="noopener noreferrer">Billetter ↗</a>
+                  <a class="event-link" href="https://www.google.com/maps/search/?api=1&amp;query=SchwabenQuellen%2C%20Plieninger%20Stra%C3%9Fe%20100%2C%20Stuttgart" target="_blank" rel="noopener noreferrer">Kort ↗</a>
+                </div>
+              </div>
+            </li>
+            <li class="event">
+              <time datetime="2026-09-04T14:00">14:00</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">🍽️</span><h4>Frokost · Tschechen &amp; Söhne</h4></div>
+                <p>Biergarten på Karlshöhe med Dinkelacker fra stentøjskrus og panorama over Stuttgart.</p>
+                <div class="event-links">
+                  <a class="event-link" href="https://biergarten-karlshoehe.com/" target="_blank" rel="noopener noreferrer">Hjemmeside ↗</a>
+                  <a class="event-link" href="https://www.google.com/maps/search/?api=1&amp;query=Tschechen%20und%20S%C3%B6hne%2C%20Humboldtstra%C3%9Fe%2044%2C%20Stuttgart" target="_blank" rel="noopener noreferrer">Kort ↗</a>
+                </div>
+              </div>
+            </li>
+            <li class="event">
+              <time datetime="2026-09-04T15:00">15:00</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">👀</span><h4>Sightseeing</h4></div>
+                <p>Stuttgart til fods: centrum, Schlossplatz og de seværdigheder, gruppen stadig kan blive enige om.</p>
+                <div class="event-links">
+                  <a class="event-link" href="https://www.stuttgart.de/en/tourismus/sehenswuerdigkeiten/" target="_blank" rel="noopener noreferrer">Seværdigheder ↗</a>
+                </div>
+              </div>
+            </li>
+            <li class="event missing">
+              <time>Senere</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">❓</span><h4>MISSING</h4></div>
+                <p>Et velbevaret hul i programmet. Forslag modtages.</p>
+              </div>
+            </li>
+          </ol>
+        </article>
+
+        <article class="day-card" id="saturday" style="--day-accent:#efb63f">
+          <header class="day-head">
+            <h3>Lørdag</h3>
+            <span class="day-date">5. september</span>
+          </header>
+          <ol class="timeline">
+            <li class="event">
+              <time datetime="2026-09-05T10:00">10:00</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">🏎️</span><h4>Mercedes-Benz-tur</h4></div>
+                <p>Fra verdens første bil til nutidens koncepter på Mercedes-Benz Museum. Museet åbner kl. 09.</p>
+                <div class="event-links">
+                  <a class="event-link" href="https://www.mercedes-benz.com/en/art-and-culture/museum/visitor-information/" target="_blank" rel="noopener noreferrer">Besøgsinfo ↗</a>
+                  <a class="event-link" href="https://museum-ticket.mercedes-benz.com/en/find/mainCategory/Museumsbesuch" target="_blank" rel="noopener noreferrer">Billetter ↗</a>
+                  <a class="event-link" href="https://www.google.com/maps/search/?api=1&amp;query=Mercedes-Benz%20Museum%2C%20Mercedesstra%C3%9Fe%20100%2C%20Stuttgart" target="_blank" rel="noopener noreferrer">Kort ↗</a>
+                </div>
+              </div>
+            </li>
+            <li class="event">
+              <time datetime="2026-09-05T18:00">18:00</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">🍺</span><h4>Augustiner Biergarten</h4></div>
+                <p>Kursaal-haven i Bad Cannstatt: Augustiner fra München og biergarten-historie siden omkring 1880.</p>
+                <div class="event-links">
+                  <a class="event-link" href="https://www.augustiner-biergarten-stuttgart.de/home/" target="_blank" rel="noopener noreferrer">Hjemmeside ↗</a>
+                  <a class="event-link" href="https://www.google.com/maps/search/?api=1&amp;query=Augustiner%20Biergarten%2C%20K%C3%B6nigsplatz%201%2C%20Stuttgart" target="_blank" rel="noopener noreferrer">Kort ↗</a>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </article>
+
+        <article class="day-card" id="sunday" style="--day-accent:#8ec56b">
+          <header class="day-head">
+            <h3>Søndag</h3>
+            <span class="day-date">6. september</span>
+          </header>
+          <ol class="timeline">
+            <li class="event">
+              <time datetime="2026-09-06T12:00">12:00</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">🌳</span><h4>Biergarten im Schlossgarten</h4></div>
+                <p>Sidste frokost og afskedsøl midt i byens grønne hjerte.</p>
+                <div class="event-links">
+                  <a class="event-link" href="https://www.biergarten-schlossgarten.de/" target="_blank" rel="noopener noreferrer">Hjemmeside ↗</a>
+                  <a class="event-link" href="https://www.google.com/maps/search/?api=1&amp;query=Biergarten%20im%20Schlossgarten%2C%20Am%20Schlossgarten%2018%2C%20Stuttgart" target="_blank" rel="noopener noreferrer">Kort ↗</a>
+                </div>
+              </div>
+            </li>
+            <li class="event urgent">
+              <time datetime="2026-09-06T14:30">14:30</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">⏰</span><h4>Seneste check-in!</h4></div>
+                <p>Dette tidspunkt er en deadline, ikke en venlig anbefaling.</p>
+                <div class="event-links">
+                  <a class="event-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=Stuttgart%20Airport&amp;travelmode=transit" target="_blank" rel="noopener noreferrer">Rute til STR ↗</a>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </article>
       </div>
     </div>
   </section>
@@ -398,8 +655,8 @@
     <div class="brand">Rejseklubben<b>™</b> · Stuttgart 2026</div>
     <div class="prost">Prost! 🍻</div>
     <div class="small">
-      Siden virker offline — links bliver aktive, når du er online.<br>
-      Fotos: Wikimedia Commons (CC). Skift dem gerne ud med vores egne billeder.
+      Links, kort og livefunktioner kræver internet.<br>
+      Fotos: Wikimedia Commons (CC) · Programfoto: SchwabenQuellen.
     </div>
   </footer>
 
@@ -423,6 +680,17 @@
       }
       render();
       setInterval(render, 30000);
+    })();
+
+    // Den valgte dag markeres i den kompakte programnavigation.
+    (function () {
+      var dayLinks = document.querySelectorAll(".day-jumps a");
+      dayLinks.forEach(function (link) {
+        link.addEventListener("click", function () {
+          dayLinks.forEach(function (item) { item.removeAttribute("aria-current"); });
+          link.setAttribute("aria-current", "true");
+        });
+      });
     })();
   </script>
 
