@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#183c2a">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Biergarten-Radaren · Rejseklubben</title>
+  <meta name="description" content="Find den nærmeste af ti håndplukkede biergartens i Stuttgart.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #172019;
+      --ink-soft: #536057;
+      --forest: #173d2a;
+      --forest-light: #245c40;
+      --cream: #fff8e8;
+      --paper: #fffdf5;
+      --beer: #f5b928;
+      --beer-light: #ffd96c;
+      --rust: #a84220;
+      --line: rgba(23, 32, 25, .13);
+      --shadow: 0 22px 62px rgba(18, 38, 25, .2);
+      --display: "Playfair Display", Georgia, "Times New Roman", serif;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; scroll-behavior: smooth; background: #10291c; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.55;
+      background:
+        linear-gradient(180deg, rgba(8, 28, 18, .36), rgba(8, 28, 18, .84)),
+        url("images/stuttgart-hero.jpg") center / cover fixed;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; cursor: pointer; }
+    [hidden] { display: none !important; }
+    :focus-visible { outline: 3px solid var(--beer-light); outline-offset: 3px; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 64px;
+      padding: 10px clamp(15px, 4vw, 34px);
+      color: var(--cream);
+      background: rgba(10, 31, 21, .9);
+      border-bottom: 1px solid rgba(245, 185, 40, .28);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      color: inherit;
+      font-family: var(--display);
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .brand b { color: var(--beer); }
+    .top-links { display: flex; align-items: center; gap: 18px; }
+    .top-links a { color: inherit; font-size: .8rem; font-weight: 700; text-decoration: none; opacity: .78; }
+    .top-links a:hover { color: var(--beer-light); opacity: 1; }
+
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: 560px;
+      place-items: center;
+      padding: clamp(62px, 10vw, 112px) 20px 90px;
+      color: var(--cream);
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(245, 185, 40, .25), transparent 25%),
+        radial-gradient(circle at 84% 70%, rgba(93, 180, 116, .2), transparent 30%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 2; width: min(860px, 100%); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 15px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255, 217, 108, .42);
+      border-radius: 999px;
+      color: var(--beer-light);
+      background: rgba(10, 31, 21, .34);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(3.15rem, 11vw, 7.7rem);
+      line-height: .92;
+      letter-spacing: -.035em;
+      text-shadow: 0 7px 34px rgba(0, 0, 0, .35);
+    }
+    .hero h1 span { display: block; color: var(--beer-light); font-style: italic; }
+    .hero-copy {
+      max-width: 670px;
+      margin: 24px auto 0;
+      color: rgba(255, 248, 232, .84);
+      font-size: clamp(1rem, 2.3vw, 1.18rem);
+    }
+    .find-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 58px;
+      margin-top: 30px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 999px;
+      color: #1e271d;
+      background: linear-gradient(135deg, var(--beer-light), var(--beer));
+      box-shadow: 0 13px 40px rgba(245, 185, 40, .3), inset 0 1px rgba(255,255,255,.5);
+      font-weight: 800;
+      transition: transform .18s, box-shadow .18s, opacity .18s;
+    }
+    .find-button:hover { transform: translateY(-2px) scale(1.015); box-shadow: 0 17px 46px rgba(245, 185, 40, .38); }
+    .find-button:disabled { cursor: wait; opacity: .68; transform: none; }
+    .find-button .pin { font-size: 1.28rem; }
+    .privacy-note { margin: 13px auto 0; color: rgba(255, 248, 232, .58); font-size: .72rem; }
+    .location-status { min-height: 25px; margin: 12px 0 0; color: var(--beer-light); font-size: .82rem; font-weight: 600; }
+
+    .bubble {
+      position: absolute;
+      z-index: 1;
+      width: var(--size);
+      height: var(--size);
+      left: var(--left);
+      bottom: -80px;
+      border: 1px solid rgba(255, 217, 108, .31);
+      border-radius: 50%;
+      background: rgba(255, 217, 108, .06);
+      animation: float-up var(--duration) linear infinite;
+      animation-delay: var(--delay);
+      pointer-events: none;
+    }
+    @keyframes float-up {
+      from { transform: translateY(0) scale(.8); opacity: 0; }
+      15% { opacity: .8; }
+      to { transform: translateY(-720px) scale(1.2); opacity: 0; }
+    }
+
+    .content-shell { background: linear-gradient(180deg, #f8f0dc 0%, #fffaf0 45%, #f3ead7 100%); }
+    .wrap { width: min(1120px, calc(100% - 30px)); margin: 0 auto; }
+
+    .nearest-section { padding: 0 0 56px; }
+    .nearest-card {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: minmax(210px, .72fr) minmax(300px, 1.28fr);
+      width: min(1000px, 100%);
+      margin: 0 auto;
+      border: 1px solid rgba(245, 185, 40, .42);
+      border-radius: 26px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transform: translateY(-42px);
+    }
+    .radar {
+      position: relative;
+      display: grid;
+      min-height: 310px;
+      place-items: center;
+      background:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+        radial-gradient(circle, #2e7652, #163b29 70%);
+      background-size: 30px 30px, 30px 30px, auto;
+      overflow: hidden;
+    }
+    .radar-ring { position: absolute; border: 1px solid rgba(255, 217, 108, .25); border-radius: 50%; }
+    .radar-ring.one { width: 95px; height: 95px; }
+    .radar-ring.two { width: 180px; height: 180px; }
+    .radar-ring.three { width: 270px; height: 270px; }
+    .radar-sweep {
+      position: absolute;
+      width: 270px;
+      height: 270px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, transparent 0 76%, rgba(255, 217, 108, .28) 96%, transparent 100%);
+      animation: sweep 3.4s linear infinite;
+    }
+    @keyframes sweep { to { transform: rotate(360deg); } }
+    .radar-pin {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      width: 76px;
+      height: 76px;
+      place-items: center;
+      border: 5px solid rgba(255,255,255,.9);
+      border-radius: 50%;
+      background: var(--beer);
+      box-shadow: 0 0 0 10px rgba(245,185,40,.18), 0 12px 24px rgba(0,0,0,.25);
+      font-size: 2rem;
+    }
+    .nearest-copy { padding: clamp(28px, 5vw, 50px); }
+    .result-kicker { margin-bottom: 7px; color: var(--rust); font-size: .7rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .nearest-copy h2 { margin: 0; font-family: var(--display); font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1; }
+    .nearest-aspect { margin: 10px 0 0; color: var(--forest-light); font-weight: 800; }
+    .distance-big { display: flex; align-items: baseline; gap: 8px; margin: 20px 0 12px; }
+    .distance-big strong { color: var(--rust); font-family: var(--display); font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1; }
+    .distance-big span { color: var(--ink-soft); font-size: .78rem; }
+    .nearest-description { margin: 0 0 12px; color: var(--ink-soft); }
+    .nearest-address { margin: 0; font-size: .78rem; font-weight: 700; }
+    .result-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 23px; }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 43px;
+      padding: 0 16px;
+      border: 1px solid var(--forest);
+      border-radius: 10px;
+      color: #fff;
+      background: var(--forest);
+      font-size: .8rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform .16s, background .16s;
+    }
+    .button:hover { background: var(--forest-light); transform: translateY(-1px); }
+    .button.secondary { color: var(--forest); background: transparent; }
+    .button.secondary:hover { color: #fff; background: var(--forest); }
+
+    .runners-up { width: min(1000px, 100%); margin: -18px auto 0; }
+    .runners-title { margin: 0 0 10px; color: var(--ink-soft); font-size: .75rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .runner-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .runner {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255,253,245,.72);
+    }
+    .runner-icon { display: grid; flex: 0 0 42px; width: 42px; height: 42px; place-items: center; border-radius: 11px; background: #f7e4ad; font-size: 1.25rem; }
+    .runner strong { display: block; font-family: var(--display); }
+    .runner span { color: var(--ink-soft); font-size: .74rem; }
+
+    .catalogue { padding: 58px 0 88px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+    .section-head h2 { margin: 0; font-family: var(--display); font-size: clamp(2.3rem, 7vw, 4.7rem); line-height: .95; }
+    .section-head p { max-width: 560px; margin: 10px 0 0; color: var(--ink-soft); }
+    .sort-state { flex: 0 0 auto; padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); background: rgba(255,255,255,.55); font-size: .7rem; font-weight: 800; }
+
+    .garden-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .garden-card {
+      --accent: #f5b928;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 390px;
+      padding: clamp(22px, 4vw, 30px);
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--accent);
+      border-radius: 18px;
+      background: rgba(255, 253, 245, .92);
+      box-shadow: 0 14px 40px rgba(23, 45, 29, .1);
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .garden-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(23, 45, 29, .16); }
+    .garden-card::after {
+      content: attr(data-icon);
+      position: absolute;
+      right: -13px;
+      bottom: -37px;
+      font-size: 8.2rem;
+      opacity: .06;
+      transform: rotate(-9deg);
+      pointer-events: none;
+    }
+    .card-top { display: flex; align-items: start; justify-content: space-between; gap: 15px; }
+    .card-number { color: var(--accent); font-family: var(--display); font-size: 2.2rem; font-weight: 800; line-height: 1; }
+    .distance-pill { padding: 5px 8px; border-radius: 999px; color: var(--forest); background: #e5f2e9; font-size: .7rem; font-weight: 800; }
+    .aspect { margin-top: 20px; color: var(--rust); font-size: .67rem; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+    .garden-card h3 { margin: 6px 0 0; font-family: var(--display); font-size: clamp(1.65rem, 3.5vw, 2.2rem); line-height: 1.05; }
+    .area { margin: 6px 0 0; color: var(--forest-light); font-size: .78rem; font-weight: 800; }
+    .card-description { margin: 17px 0 0; color: var(--ink-soft); font-size: .91rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 17px 0 0; }
+    .chip { padding: 5px 8px; border: 1px solid var(--line); border-radius: 7px; background: rgba(255,255,255,.7); font-size: .67rem; font-weight: 700; }
+    .card-address { margin: auto 0 0; padding-top: 20px; color: var(--ink-soft); font-size: .72rem; }
+    .card-actions { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .card-actions .button { min-height: 38px; padding-inline: 13px; font-size: .73rem; }
+
+    .method-note {
+      margin-top: 28px;
+      padding: 18px 20px;
+      border: 1px solid rgba(168, 66, 32, .18);
+      border-radius: 14px;
+      color: var(--ink-soft);
+      background: rgba(255,255,255,.58);
+      font-size: .78rem;
+    }
+    .method-note strong { color: var(--ink); }
+
+    footer { padding: 34px 16px 44px; color: rgba(255,248,232,.62); background: rgba(10,31,21,.92); font-size: .74rem; text-align: center; }
+    footer a { color: var(--beer-light); }
+
+    @media (max-width: 760px) {
+      .nearest-card { grid-template-columns: 1fr; }
+      .radar { min-height: 245px; }
+      .garden-grid { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .sort-state { display: inline-block; margin-top: 16px; }
+    }
+
+    @media (max-width: 520px) {
+      .top-links a:first-child { display: none; }
+      .hero { min-height: 600px; padding-top: 66px; }
+      .hero-inner { width: min(330px, 100%); }
+      .eyebrow {
+        display: inline-block;
+        max-width: 94%;
+        font-size: .61rem;
+        letter-spacing: .12em;
+        line-height: 1.35;
+        white-space: normal;
+      }
+      .hero h1 { font-size: clamp(2.5rem, 11vw, 3.2rem); }
+      .find-button { width: 100%; }
+      .wrap { width: min(100% - 20px, 1120px); }
+      .nearest-card { border-radius: 19px; }
+      .nearest-copy { padding: 25px 20px 28px; }
+      .runner-grid { grid-template-columns: 1fr; }
+      .garden-card { min-height: 0; }
+      .result-actions .button, .card-actions .button { flex: 1 1 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .bubble, .radar-sweep { animation: none; }
+      * { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">Rejseklubben<b>™</b></a>
+    <div class="top-links">
+      <a href="streger.html">Stregregnskabet</a>
+      <a href="index.html">← Til forsiden</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="bubble" style="--size:42px;--left:8%;--duration:9s;--delay:-3s"></span>
+      <span class="bubble" style="--size:24px;--left:23%;--duration:11s;--delay:-7s"></span>
+      <span class="bubble" style="--size:62px;--left:72%;--duration:13s;--delay:-8s"></span>
+      <span class="bubble" style="--size:31px;--left:89%;--duration:10s;--delay:-5s"></span>
+      <span class="bubble" style="--size:18px;--left:58%;--duration:8s;--delay:-2s"></span>
+
+      <div class="hero-inner">
+        <div class="eyebrow">🍺 10 håndplukkede steder · Stuttgart 2026</div>
+        <h1>Biergarten-<span>Radaren</span></h1>
+        <p class="hero-copy">Fra kongeligt jagtslot og søbred til grisemuseum og retro kaninforening. Lad telefonen finde den nærmeste ordentlige biergarten. Positionen bruges kun til beregningen i browseren.</p>
+        <button class="find-button" id="find-nearest" type="button">
+          <span class="pin" aria-hidden="true">⌖</span>
+          <span>Find nærmeste Biergarten</span>
+        </button>
+        <p class="privacy-note">Siden gemmer eller sender ikke din position.</p>
+        <p class="location-status" id="location-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <div class="content-shell">
+      <section class="nearest-section" id="nearest-section" hidden>
+        <div class="wrap">
+          <article class="nearest-card" aria-live="polite">
+            <div class="radar" aria-hidden="true">
+              <span class="radar-ring one"></span>
+              <span class="radar-ring two"></span>
+              <span class="radar-ring three"></span>
+              <span class="radar-sweep"></span>
+              <span class="radar-pin" id="nearest-icon">🍺</span>
+            </div>
+            <div class="nearest-copy">
+              <div class="result-kicker">Nærmest lige nu</div>
+              <h2 id="nearest-name">…</h2>
+              <p class="nearest-aspect" id="nearest-aspect"></p>
+              <div class="distance-big">
+                <strong id="nearest-distance">…</strong>
+                <span>i fugleflugtslinje</span>
+              </div>
+              <p class="nearest-description" id="nearest-description"></p>
+              <p class="nearest-address" id="nearest-address"></p>
+              <div class="result-actions">
+                <a class="button" id="nearest-route" href="#" target="_blank" rel="noopener noreferrer">Start gåruten ↗</a>
+                <a class="button secondary" id="nearest-source" href="#" target="_blank" rel="noopener noreferrer">Officiel side ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <div class="runners-up">
+            <p class="runners-title">Hvis den første ikke duer</p>
+            <div class="runner-grid" id="runner-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="catalogue" id="all-gardens">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <h2>De udvalgte ti</h2>
+              <p>Ikke en rangliste, men ti forskellige argumenter for at bestille en stor øl. Når GPS er aktiveret, sorteres de automatisk efter afstand.</p>
+            </div>
+            <span class="sort-state" id="sort-state">Kurateret rækkefølge</span>
+          </div>
+
+          <div class="garden-grid" id="garden-grid"></div>
+
+          <aside class="method-note">
+            <strong>Godt at vide:</strong> Afstanden er fugleflugtslinje fra telefonens position. Google Maps beregner den faktiske gårute. Biergartens er ofte vejr- og sæsonafhængige, så kontrollér altid den officielle side før afgang. Steder og oplysninger er verificeret 23. august 2026.
+          </aside>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>Rejseklubben™ · GPS uden sporing · Data fra venue-sider, Stuttgart Tourismus og OpenStreetMap</footer>
+
+  <script src="biergarten.js" defer></script>
+</body>
+</html>

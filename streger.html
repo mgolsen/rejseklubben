@@ -34,6 +34,7 @@
     body {
       min-height: 100vh;
       margin: 0;
+      overflow-x: hidden;
       color: var(--ink);
       font-family: var(--sans);
       line-height: 1.5;
@@ -248,6 +249,8 @@
     }
     .live-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #63bc87; box-shadow: 0 0 0 4px rgba(99, 188, 135, .13); }
 
+    .mobile-nav { display: none; }
+
     .panel {
       border: 1px solid rgba(255, 255, 255, .08);
       border-radius: 20px;
@@ -297,7 +300,18 @@
       line-height: 1;
     }
 
-    .work-grid { display: grid; grid-template-columns: minmax(280px, .8fr) minmax(340px, 1.2fr); gap: 24px; margin-top: 24px; align-items: start; }
+    .work-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, .8fr) minmax(340px, 1.2fr);
+      grid-template-areas: "proposal pending";
+      gap: 24px;
+      margin-top: 24px;
+      align-items: start;
+    }
+    .proposal-panel { grid-area: proposal; }
+    .pending-panel { grid-area: pending; }
+    .work-grid > .panel { margin-top: 0; }
+    .work-grid + .panel { margin-top: 24px; }
     .counter { color: var(--ink-soft); font-size: .76rem; text-align: right; }
 
     .streg-list { display: grid; gap: 12px; }
@@ -400,25 +414,99 @@
     footer { padding: 8px 16px 38px; color: rgba(246, 241, 231, .58); font-size: .75rem; text-align: center; }
 
     @media (max-width: 820px) {
-      .work-grid { grid-template-columns: 1fr; }
+      .work-grid { grid-template-columns: 1fr; grid-template-areas: "pending" "proposal"; }
       .dashboard-head { display: block; }
       .live-badge { margin-top: 18px; }
     }
 
     @media (max-width: 600px) {
       .signed-in-as { display: none; }
-      .shell { width: min(100% - 20px, 1120px); padding-top: 38px; }
-      .panel-head { align-items: start; padding: 20px 18px 15px; }
-      .panel-body { padding: 18px; }
-      .leaderboard { grid-template-columns: 1fr 1fr; }
-      .score-card { min-height: 138px; padding: 16px; }
+      .shell { width: min(100% - 16px, 1120px); padding: 18px 0 46px; }
+      .dashboard-head { margin-bottom: 13px; }
+      .dashboard-head .eyebrow, .dashboard-head > div > p, .live-badge { display: none; }
+      .dashboard-head h1 { margin: 0; font-size: 2.15rem; }
+      .mobile-nav {
+        position: sticky;
+        top: 64px;
+        z-index: 20;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        margin: 0 0 12px;
+        padding: 5px;
+        border: 1px solid rgba(201, 162, 75, .28);
+        border-radius: 12px;
+        background: rgba(20, 17, 14, .92);
+        box-shadow: 0 8px 24px rgba(20, 17, 14, .22);
+        backdrop-filter: blur(10px);
+      }
+      .mobile-nav a {
+        display: flex;
+        min-height: 39px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        color: var(--cream);
+        font-size: .7rem;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .mobile-nav a:nth-child(2) { color: #fff; background: var(--green); }
+      .panel { border-radius: 15px; }
+      #leaderboard-panel, #pending-panel, #proposal-panel { scroll-margin-top: 124px; }
+      .panel + .panel { margin-top: 14px; }
+      .panel-head { align-items: start; padding: 13px 14px 10px; }
+      .panel-head h2 { font-size: 1.3rem; }
+      .panel-head p { margin-top: 2px; font-size: .72rem; }
+      .panel-body { padding: 12px 14px 15px; }
+      .leaderboard {
+        display: flex;
+        gap: 8px;
+        margin-right: -14px;
+        padding-right: 14px;
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        scrollbar-width: thin;
+      }
+      .score-card {
+        flex: 0 0 116px;
+        min-height: 92px;
+        padding: 11px;
+        border-radius: 11px;
+        scroll-snap-align: start;
+      }
+      .score-rank { font-size: .54rem; letter-spacing: .1em; }
+      .score-name {
+        display: -webkit-box;
+        margin: 6px 0 2px;
+        overflow: hidden;
+        font-size: .93rem;
+        line-height: 1.05;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
+      .score-total { font-size: .68rem; }
+      .score-number { right: 5px; bottom: -12px; font-size: 4.25rem; }
+      .work-grid { gap: 14px; margin-top: 14px; }
+      .work-grid + .panel { margin-top: 14px; }
+      .streg-card { padding: 13px 14px; }
+      .streg-target { font-size: 1rem; }
+      .streg-description { margin: 7px 0; font-size: .84rem; line-height: 1.4; }
+      .voting-progress { margin-top: 11px; font-size: .69rem; }
+      .streg-actions { margin-top: 11px; }
+      .streg-actions .approve { width: 100%; min-height: 44px; }
+      .rules-note { margin-bottom: 14px; padding: 10px 11px; font-size: .7rem; }
+      .field { gap: 5px; margin-bottom: 13px; }
+      .field label, .field-label { font-size: .67rem; }
+      input, select { min-height: 44px; }
+      textarea { min-height: 96px; }
       .history-filters select { width: 100%; min-width: 0; }
       .streg-top { display: block; }
       .status { display: inline-block; margin-top: 7px; }
     }
 
     @media (max-width: 410px) {
-      .leaderboard { grid-template-columns: 1fr; }
       .topbar { padding-inline: 12px; }
     }
   </style>
@@ -469,7 +557,13 @@
         <div class="live-badge">Live regnskab</div>
       </div>
 
-      <section class="panel" aria-labelledby="leaderboard-heading">
+      <nav class="mobile-nav" aria-label="Hurtige handlinger">
+        <a href="#leaderboard-panel">▥ Stilling</a>
+        <a href="#pending-panel">✓ Stem (<span id="quick-pending-count">0</span>)</a>
+        <a href="#proposal-panel">＋ Ny streg</a>
+      </nav>
+
+      <section class="panel" id="leaderboard-panel" aria-labelledby="leaderboard-heading">
         <div class="panel-head">
           <div>
             <h2 id="leaderboard-heading">Stillingen</h2>
@@ -484,7 +578,7 @@
       </section>
 
       <div class="work-grid">
-        <section class="panel" aria-labelledby="proposal-heading">
+        <section class="panel proposal-panel" id="proposal-panel" aria-labelledby="proposal-heading">
           <div class="panel-head">
             <div>
               <h2 id="proposal-heading">Stil et forslag</h2>
@@ -526,11 +620,11 @@
           </div>
         </section>
 
-        <section class="panel" aria-labelledby="pending-heading">
+        <section class="panel pending-panel" id="pending-panel" aria-labelledby="pending-heading">
           <div class="panel-head">
             <div>
-              <h2 id="pending-heading">Afventer dom</h2>
-              <p><span id="pending-count">0</span> åbne afstemninger.</p>
+              <h2 id="pending-heading">Stem nu</h2>
+              <p><span id="pending-count">0</span> åbne forslag afventer dom.</p>
             </div>
           </div>
           <div class="panel-body">

@@ -4,6 +4,7 @@ En lille statisk hjemmeside til turen med et fælles stregregnskab og personlige
 
 - `index.html` er turens forside.
 - `streger.html` og `streger.js` er spillets brugerflade.
+- `biergarten.html` og `biergarten.js` er den GPS-baserede guide til ti håndplukkede biergartens.
 - `supabase/no-login-setup.sql` opretter den enkle database.
 - `supabase/add-personal-codes.sql` binder hver deltager til én browsersession.
 - `supabase/add-streg-values.sql` gør hver hændelse 1, 2 eller 3 streger værd.

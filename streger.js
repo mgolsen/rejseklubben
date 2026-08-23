@@ -33,6 +33,7 @@ const elements = {
   stregSubmit: document.querySelector("#streg-submit"),
   pendingList: document.querySelector("#pending-list"),
   pendingCount: document.querySelector("#pending-count"),
+  quickPendingCount: document.querySelector("#quick-pending-count"),
   historyList: document.querySelector("#history-list"),
   historyFilter: document.querySelector("#history-filter"),
   toast: document.querySelector("#toast"),
@@ -342,7 +343,7 @@ function makeStregCard(streg, isHistory = false) {
       const vote = document.createElement("button");
       vote.className = "button small approve";
       vote.type = "button";
-      vote.textContent = "Stem for";
+      vote.textContent = "Godkend · stem for";
       vote.addEventListener("click", () => voteStreg(streg, vote));
       actions.append(vote);
     }
@@ -356,6 +357,7 @@ function makeStregCard(streg, isHistory = false) {
 function renderPending() {
   const pending = state.streger.filter((streg) => streg.status === "open");
   elements.pendingCount.textContent = pending.length;
+  elements.quickPendingCount.textContent = pending.length;
   elements.pendingList.replaceChildren();
 
   if (!pending.length) {
