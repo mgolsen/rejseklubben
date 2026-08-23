@@ -71,9 +71,9 @@ const beerGardens = [
   },
   {
     id: "max-eyth-see",
-    name: "Biergarten Max-Eyth-See",
+    name: "Dock Snyder · Max-Eyth-See",
     area: "Hofen · Stuttgart-Mühlhausen",
-    address: "Mühlhäuser Straße 271, 70378 Stuttgart",
+    address: "Mühlhäuser Straße 271, 70376 Stuttgart",
     lat: 48.8348144,
     lon: 9.214442,
     icon: "🏖️",
@@ -81,7 +81,7 @@ const beerGardens = [
     aspect: "Mest ferieagtig",
     description: "En halvø ved søen med sandstrand, liggestole og hængekøjer. Fish & chips, burgere og fadøl gør det til Stuttgarts svar på en meget lille badeferie.",
     facts: ["Direkte ved vandet", "Sand og hængekøjer", "Fish & chips"],
-    sourceUrl: "https://www.stuttgart-tourist.de/en/a-biergarten-max-eyth-see",
+    sourceUrl: "https://docksnyder.de/",
   },
   {
     id: "hasenstall",

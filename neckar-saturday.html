@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neckar Saturday · Rejseklubben</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #F6F5F0;
+    --surface: #FFFFFF;
+    --surface-2: #EFEEE6;
+    --ink: #242B2D;
+    --muted: #5D6B6D;
+    --accent: #14666D;
+    --accent-soft: #DDEBEC;
+    --sand: #9A7130;
+    --sand-soft: #F2E7D3;
+    --line: #DDDCD2;
+    --warn-bg: #F7EEDB;
+    --warn-edge: #C9A45C;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #101B1D;
+      --surface: #172527;
+      --surface-2: #1D2E31;
+      --ink: #E7EAE3;
+      --muted: #9BAAA8;
+      --accent: #6BBFC4;
+      --accent-soft: #1C3A3D;
+      --sand: #D9B37E;
+      --sand-soft: #33301F;
+      --line: #27393C;
+      --warn-bg: #2B2716;
+      --warn-edge: #8A6F35;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #101B1D;
+    --surface: #172527;
+    --surface-2: #1D2E31;
+    --ink: #E7EAE3;
+    --muted: #9BAAA8;
+    --accent: #6BBFC4;
+    --accent-soft: #1C3A3D;
+    --sand: #D9B37E;
+    --sand-soft: #33301F;
+    --line: #27393C;
+    --warn-bg: #2B2716;
+    --warn-edge: #8A6F35;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+  .backbar {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem;
+    margin-bottom: 2.2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line);
+    font-family: "Archivo", sans-serif; font-size: 0.78rem; font-weight: 700;
+  }
+  .backbar a { text-decoration: none; }
+  .backbar .brand { color: var(--ink); }
+  .backbar .brand b { color: var(--sand); }
+  h1, h2, h3 { font-family: "Archivo", "Helvetica Neue", Arial, sans-serif; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(2rem, 6vw, 2.9rem); font-weight: 800; letter-spacing: -0.015em; line-height: 1.05; }
+  h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 1rem; }
+  h3 { font-size: 1.02rem; font-weight: 700; }
+  p { margin: 0.4rem 0 0; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  .eyebrow {
+    font-family: "Archivo", sans-serif; font-weight: 600; font-size: 0.78rem;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.6rem;
+  }
+  .lede { color: var(--muted); font-size: 1.05rem; margin-top: 0.9rem; max-width: 38rem; }
+
+  .route {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem 0.55rem;
+    margin-top: 1.6rem; font-family: "Archivo", sans-serif; font-size: 0.85rem; font-weight: 600;
+  }
+  .route .stop { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 0.28rem 0.75rem; }
+  .route .leg { color: var(--muted); font-weight: 500; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 0.3rem; }
+  .route .leg::after { content: "→"; color: var(--accent); }
+  .route .stop.final { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+  .facts {
+    display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.8rem;
+  }
+  .fact {
+    flex: 1 1 10rem; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    min-width: 0; padding: 0.8rem 1rem;
+  }
+  .fact .k { font-family: "Archivo", sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .fact .v { font-family: "Archivo", sans-serif; font-size: 1.3rem; font-weight: 700; margin-top: 0.15rem; }
+  .fact .v small { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+
+  section { margin-top: 3rem; }
+
+  .tl { list-style: none; margin: 0; padding: 0; }
+  .tl li { display: grid; grid-template-columns: 5.2rem 1.1rem 1fr; gap: 0 0.9rem; position: relative; padding-bottom: 1.7rem; }
+  .tl li:last-child { padding-bottom: 0; }
+  .tl .t {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.86rem; font-weight: 600;
+    color: var(--accent); padding-top: 0.15rem; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .tl .dot { position: relative; }
+  .tl .dot::before {
+    content: ""; position: absolute; left: 50%; top: 0.42rem; width: 0.62rem; height: 0.62rem;
+    border-radius: 50%; background: var(--accent); transform: translateX(-50%);
+  }
+  .tl li:not(:last-child) .dot::after {
+    content: ""; position: absolute; left: 50%; top: 1.25rem; bottom: -0.35rem; width: 2px;
+    background: var(--line); transform: translateX(-50%);
+  }
+  .tl .what h3 { margin-bottom: 0.2rem; }
+  .tl .what p { color: var(--muted); font-size: 0.98rem; }
+  .tl .what .cost {
+    display: inline-block; margin-top: 0.5rem; font-family: "IBM Plex Mono", monospace; font-size: 0.8rem;
+    background: var(--accent-soft); color: var(--accent); border-radius: 6px; padding: 0.15rem 0.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.3rem 1.4rem;
+  }
+  .card.sand { background: var(--sand-soft); border-color: transparent; }
+  .card.sand h2 { color: var(--sand); }
+  .card p { font-size: 1rem; }
+
+  .note {
+    background: var(--warn-bg); border-left: 3px solid var(--warn-edge); border-radius: 0 10px 10px 0;
+    padding: 0.9rem 1.2rem; margin-top: 1.2rem; font-size: 0.98rem;
+  }
+  .note strong { font-family: "Archivo", sans-serif; font-size: 0.95rem; }
+
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 34rem; font-size: 0.98rem; }
+  th, td { text-align: left; padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--line); }
+  th {
+    font-family: "Archivo", sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); background: var(--surface-2);
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; font-family: "IBM Plex Mono", monospace; font-size: 0.9rem; white-space: nowrap; }
+  tr.total td { border-bottom: none; font-weight: 700; background: var(--accent-soft); }
+  tr.total td.num { color: var(--accent); font-weight: 600; }
+  tr.est td { color: var(--muted); }
+  .tablefoot { color: var(--muted); font-size: 0.9rem; margin-top: 0.7rem; }
+
+  ul.check { list-style: none; margin: 0; padding: 0; }
+  ul.check li { padding: 0.55rem 0 0.55rem 1.9rem; position: relative; border-bottom: 1px dashed var(--line); font-size: 1rem; }
+  ul.check li:last-child { border-bottom: none; }
+  ul.check li::before {
+    content: ""; position: absolute; left: 0; top: 0.85rem; width: 0.95rem; height: 0.95rem;
+    border: 2px solid var(--accent); border-radius: 4px;
+  }
+
+  footer { margin-top: 3.5rem; border-top: 1px solid var(--line); padding-top: 1.3rem; color: var(--muted); font-size: 0.88rem; }
+  footer ul { margin: 0.4rem 0 0; padding-left: 1.2rem; }
+  footer li { margin-top: 0.2rem; }
+
+  @media (max-width: 520px) {
+    body { font-size: 1rem; }
+    .wrap { padding: 1.1rem 0.85rem 3rem; }
+    .backbar { margin-bottom: 1.7rem; }
+    .route { gap: 0.35rem; }
+    .route .stop { padding: 0.25rem 0.58rem; font-size: 0.75rem; }
+    .route .leg { font-size: 0.7rem; }
+    .fact { flex-basis: 8.5rem; padding: 0.7rem 0.8rem; }
+    .fact .v { font-size: 1.1rem; }
+    section { margin-top: 2.35rem; }
+    .tl li { grid-template-columns: 3.65rem 0.8rem minmax(0, 1fr); gap: 0 0.48rem; padding-bottom: 1.45rem; }
+    .tl .t { font-size: 0.72rem; }
+    .tl .what p { font-size: 0.91rem; }
+    .card { padding: 1rem; }
+    .note { padding: 0.8rem 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="backbar" aria-label="Trip navigation">
+    <a class="brand" href="index.html">Rejseklubben<b>™</b></a>
+    <a href="index.html#saturday">← Back to the program</a>
+  </nav>
+  <header>
+    <p class="eyebrow">Rejseklubben · Stuttgart · Saturday · 15 people</p>
+    <h1>Neckar Saturday</h1>
+    <p class="lede">Mercedes-Benz Museum in the morning, lunch at the museum, a two-hour river cruise on the MS&nbsp;Wilhelma, Dock&nbsp;Snyder on Max-Eyth-See — then taxis to Augustiner Biergarten for 19:00.</p>
+    <div class="route">
+      <span class="stop">Maritim Hotel</span>
+      <span class="leg">S1</span>
+      <span class="stop">Mercedes-Benz Museum</span>
+      <span class="leg">lunch + walk</span>
+      <span class="stop">Wilhelma pier</span>
+      <span class="leg">⛴ cruise</span>
+      <span class="leg">U14</span>
+      <span class="stop">Dock Snyder</span>
+      <span class="leg">taxi</span>
+      <span class="stop final">Augustiner · 19:00</span>
+    </div>
+    <div class="facts">
+      <div class="fact"><div class="k">Fixed cost</div><div class="v">€47 <small>/ person</small></div></div>
+      <div class="fact"><div class="k">Group total</div><div class="v">€699 <small>excl. lunch, drinks &amp; taxis</small></div></div>
+      <div class="fact"><div class="k">On the water</div><div class="v">14:30 <small>2 h cruise</small></div></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>The day, hour by hour</h2>
+    <ul class="tl">
+      <li>
+        <span class="t">09:15</span><span class="dot"></span>
+        <div class="what">
+          <h3>Leave the Maritim</h3>
+          <p>Breakfast opens at 6:30 — eat early and head out around 9:15. Walk ~10 min to Stadtmitte S-Bahn station (via Rotebühlplatz).</p>
+        </div>
+      </li>
+      <li>
+        <span class="t">09:30</span><span class="dot"></span>
+        <div class="what">
+          <h3>S1 towards Kirchheim (Teck)</h3>
+          <p>Trains roughly every 15 min on Saturdays; ~10 min ride to <em>Neckarpark (Mercedes-Benz)</em>, then a signed 10–12 min walk through the Mercedes campus to the museum. Buy 3× VVS GroupDayTickets (each covers 5 people, valid all day, Zone 1 covers everything today).</p>
+          <span class="cost">3 × €13.40 = €40.20</span>
+        </div>
+      </li>
+      <li>
+        <span class="t">10:00</span><span class="dot"></span>
+        <div class="what">
+          <h3>Mercedes-Benz Museum (~2½ h)</h3>
+          <p>Open 9:00–18:00. Nine floors, audio guide included — start at the top and spiral down through 160+ cars. At 10+ people the group rate is €15 each (normally €16); register the group in advance to walk straight in.</p>
+          <span class="cost">15 × €15 = €225</span>
+        </div>
+      </li>
+      <li>
+        <span class="t">12:30</span><span class="dot"></span>
+        <div class="what">
+          <h3>Lunch at Bertha's (in the museum)</h3>
+          <p>A full, unhurried hour, and zero transfer time before the boat. Details below — excluded from the budget as requested.</p>
+        </div>
+      </li>
+      <li>
+        <span class="t">13:30</span><span class="dot"></span>
+        <div class="what">
+          <h3>To the Wilhelma boat pier</h3>
+          <p>Flat ~35 min walk along the Neckar (cross at Rosensteinbrücke; pier is on Neckartalstraße at the Wilhelma zoo entrance). Anyone not keen to walk: 3–4 taxis, ~10 min, roughly €12–15 per car. Boarding from ~14:15 — you'll arrive with a comfortable buffer.</p>
+        </div>
+      </li>
+      <li>
+        <span class="t">14:30</span><span class="dot"></span>
+        <div class="what">
+          <h3>MS Wilhelma — Lazy Saturday Afternoon Tour</h3>
+          <p>Every Saturday 14:30–16:30 (season runs March–October): Stuttgart → past Max-Eyth-See, through the Hofen lock, below the steep vineyards to Aldingen and back. Drinks and cake sold on board (Kaffee &amp; Kuchen package €8.90 if you want it).</p>
+          <span class="cost">15 × €27.90 + ticket fee ≈ €433.50</span>
+        </div>
+      </li>
+      <li>
+        <span class="t">16:35</span><span class="dot"></span>
+        <div class="what">
+          <h3>U14 to Max-Eyth-See</h3>
+          <p>The <em>Wilhelma</em> tram stop is right by the pier. U14 direction Mühlhausen, ~10 min to <em>Max-Eyth-See</em>, then ~10 min on foot around the lake to the peninsula. Covered by the morning's day tickets.</p>
+        </div>
+      </li>
+      <li>
+        <span class="t">17:00</span><span class="dot"></span>
+        <div class="what">
+          <h3>Dock Snyder</h3>
+          <p>Beach-bar beer garden on the Max-Eyth-See peninsula: sand, loungers, hammocks, beer on tap, food trucks, vineyard views — and rowing/pedal boat rental on the lake if anyone wants a second round on the water. Open from around midday, March–October, weather permitting.</p>
+        </div>
+      </li>
+      <li>
+        <span class="t">18:35</span><span class="dot"></span>
+        <div class="what">
+          <h3>Taxis to Bad Cannstatt</h3>
+          <p>Pre-book enough taxis or minivans for the group. The road journey to the Kursaal is about 4.8 km and normally takes 10–15 minutes, leaving a sensible buffer for the 19:00 table.</p>
+        </div>
+      </li>
+      <li>
+        <span class="t">19:00</span><span class="dot"></span>
+        <div class="what">
+          <h3>Augustiner Biergarten</h3>
+          <p>Dinner and Augustiner from the tap beside the historic Kursaal. The Saturday beer garden normally runs until 23:00 in good weather. <a href="https://www.augustiner-biergarten-stuttgart.de/home/">Official website</a>.</p>
+        </div>
+      </li>
+      <li>
+        <span class="t">late</span><span class="dot"></span>
+        <div class="what">
+          <h3>Home</h3>
+          <p>U2 from Kursaal runs back through the city centre; get off at Rotebühlplatz for the short walk to the Maritim. The day tickets remain valid until 7:00 the next morning.</p>
+        </div>
+      </li>
+    </ul>
+    <div class="note">
+      <strong>Worth asking when you book the boat:</strong> the cruise sails right past Dock Snyder, and there is a landing stage at Max-Eyth-See. Ask NeckarFlair whether your group of 15 may disembark there on the return leg (~16:05) — if yes, you step off almost at the beer garden door, skip the U14 hop and gain extra time before the taxis.
+    </div>
+  </section>
+
+  <section>
+    <div class="card sand">
+      <h2>Lunch suggestion (not in the budget)</h2>
+      <p><strong>Bertha's Bar &amp; Restaurant</strong>, on the ground floor of the museum itself — Swabian dishes (Maultaschen, lentils &amp; Spätzle) plus burgers, pinsa and pasta. Restaurant open Tue–Sun 11:30–16:00, with a faster bistro/deli alongside. Reserve a table for 15 at 12:30 and ideally pre-order: <a href="mailto:reservierung@gastro-mbm.de">reservierung@gastro-mbm.de</a> / +49&nbsp;711&nbsp;66419-613. Reckon on roughly €15–25 a head plus drinks.</p>
+      <p>Prefer somewhere with more old-town character? <strong>Weinstube Klösterle</strong> or another Swabian Wirtshaus in Bad Cannstatt's Altstadt works too — with the 10:00 museum start there's time for it if you leave the museum by ~12:00, but it adds a tram-and-walk leg, so book ahead and keep an eye on the clock for the 14:30 boat.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Budget — 15 people</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Item</th><th>Detail</th><th class="num">Per person</th><th class="num">Group</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Public transport, all day</td>
+            <td>3 × VVS GroupDayTicket, Zone 1 (app price; €14.30 at machines)</td>
+            <td class="num">€2.68</td>
+            <td class="num">€40.20</td>
+          </tr>
+          <tr>
+            <td>Mercedes-Benz Museum</td>
+            <td>Group rate from 10 paying visitors</td>
+            <td class="num">€15.00</td>
+            <td class="num">€225.00</td>
+          </tr>
+          <tr>
+            <td>Neckar cruise</td>
+            <td>Lazy Saturday Afternoon Tour, incl. ~€1 pp ticketing fee</td>
+            <td class="num">€28.90</td>
+            <td class="num">€433.50</td>
+          </tr>
+          <tr class="total">
+            <td>Fixed total</td>
+            <td>excl. lunch, drinks &amp; taxis</td>
+            <td class="num">€46.58</td>
+            <td class="num">€698.70</td>
+          </tr>
+          <tr class="est">
+            <td>Dock Snyder kitty (estimate)</td>
+            <td>1–2 drinks and perhaps a snack before the taxis</td>
+            <td class="num">~€15</td>
+            <td class="num">~€225</td>
+          </tr>
+          <tr class="est">
+            <td>Augustiner evening (estimate)</td>
+            <td>Dinner and drinks</td>
+            <td class="num">~€30</td>
+            <td class="num">~€450</td>
+          </tr>
+          <tr class="est">
+            <td>Optional extras</td>
+            <td>Coffee &amp; cake on board €8.90 pp · taxis to pier · lake boat rental · taxis from Dock Snyder to Augustiner</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tablefoot">Everything happens inside VVS Zone 1, so the three group day tickets cover every tram, S-Bahn and the ride home. No boat group discount applies at 15 (starts at 25 people). Lunch excluded as requested.</p>
+  </section>
+
+  <section>
+    <h2>Book before you go</h2>
+    <div class="card">
+      <ul class="check">
+        <li><strong>Museum group ticket</strong> — register 15 people in advance for the 10:00 arrival (group rate €15 pp from 10 visitors): <a href="https://museum-ticket.mercedes-benz.com/en/">museum-ticket.mercedes-benz.com</a></li>
+        <li><strong>Bertha's</strong> — table for 15 at 12:30, mention the 14:30 boat so mains land quickly: <a href="mailto:reservierung@gastro-mbm.de">reservierung@gastro-mbm.de</a></li>
+        <li><strong>MS Wilhelma cruise</strong> — book 15 seats for the Lazy Saturday Afternoon Tour at <a href="https://neckarflair.de/events/lazy-saturday-afternoon-neckar-tour/">neckarflair.de</a>; for a group this size email <a href="mailto:info.wilhelma@neckarflair.de">info.wilhelma@neckarflair.de</a> and ask about (a) hopping off at Max-Eyth-See and (b) their minimum-booking policy — Neckar-Käpt'n reserves the right to cancel under-booked sailings and issue vouchers, so reconfirm the week before.</li>
+        <li><strong>Dock Snyder</strong> — ask whether they can hold a table cluster for 15 around 17:00: <a href="https://docksnyder.de/kontakt">docksnyder.de/contact</a>. It's open-air and weather-dependent.</li>
+        <li><strong>Taxis</strong> — pre-book enough cars or minivans to collect the group at Dock Snyder around 18:35.</li>
+        <li><strong>Augustiner Biergarten</strong> — reserve for 15 people at 19:00: <a href="https://www.augustiner-biergarten-stuttgart.de/home/">official website</a> / +49&nbsp;711&nbsp;99777242.</li>
+        <li><strong>Morning of</strong> — buy the 3 GroupDayTickets in the VVS app before boarding.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Plan B — rain or a cancelled sailing</h2>
+    <p>If the cruise is cancelled (weather or under-booking), take the day at an easier pace: three full hours in the museum, a long lunch at Bertha's, then U-Bahn/taxis to Max-Eyth-See and rent rowing and pedal boats at Dock Snyder's own jetty — you still get on the water, just on the lake, for a few euros per boat instead of €28 a head. In steady rain, skip Dock Snyder and go to the Kursaal area early; Augustiner is also weather-dependent, but the adjacent Kursaal Restaurant provides an indoor fallback.</p>
+  </section>
+
+  <footer>
+    Prices verified August 2026 against official sites; boat prices from the NeckarFlair 2026 summer brochure. Key sources:
+    <ul>
+      <li>Cruise timetable &amp; prices: <a href="https://neckarflair.de/">neckarflair.de</a> · <a href="https://neckar-kaeptn.de/downloads/">Neckar-Käpt'n 2026 timetable (PDF)</a></li>
+      <li>Museum hours &amp; group rate: <a href="https://www.mercedes-benz.com/en/art-and-culture/museum/visitor-information/">mercedes-benz.com museum visitor info</a></li>
+      <li>VVS GroupDayTicket: <a href="https://www.vvs.de/en/tickets-and-subscriptions/groupdayticket">vvs.de</a></li>
+      <li>Dock Snyder: <a href="https://docksnyder.de/">docksnyder.de</a> · Augustiner: <a href="https://www.augustiner-biergarten-stuttgart.de/home/">augustiner-biergarten-stuttgart.de</a> · Bertha's: <a href="https://www.berthasrestaurant.de/en">berthasrestaurant.de</a></li>
+      <li>Hotel breakfast hours: <a href="https://www.maritim.com/en/hotels/germany/hotel-stuttgart/restaurants-bars">maritim.com</a></li>
+    </ul>
+  </footer>
+</div>
+
+</body>
+</html>
