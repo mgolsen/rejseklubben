@@ -19,6 +19,7 @@ const elements = {
   appShell: document.querySelector("#app-shell"),
   sessionActions: document.querySelector("#session-actions"),
   userName: document.querySelector("#user-name"),
+  logoutButton: document.querySelector("#logout-button"),
   leaderboard: document.querySelector("#leaderboard-list"),
   stregForm: document.querySelector("#streg-form"),
   proposalType: document.querySelector("#proposal-type"),
@@ -645,8 +646,35 @@ async function claimIdentity(event) {
     return;
   }
 
-  showToast(`Telefonen er nu bundet til ${data.player.display_name}.`);
+  showToast(`${data.player.display_name} er nu logget ind på denne telefon.`);
   activateIdentity(data.player.id);
+}
+
+async function logoutIdentity() {
+  const profile = state.profileById.get(state.currentUserId);
+  if (!profile) return;
+
+  const confirmed = window.confirm(
+    `Vil du logge ${profile.display_name} ud? Du skal bruge den tocifrede kode for at logge ind igen.`,
+  );
+  if (!confirmed) return;
+
+  setButtonBusy(elements.logoutButton, true, "Logger ud…");
+  const { data, error } = await db.rpc("release_player");
+  setButtonBusy(elements.logoutButton, false);
+
+  if (error) {
+    showToast(readableError(error), "error");
+    return;
+  }
+  if (!data?.ok) {
+    showToast(data?.message || "Det lykkedes ikke at logge ud.", "error");
+    return;
+  }
+
+  state.currentUserId = null;
+  showIdentityPicker();
+  showToast(`${profile.display_name} er logget ud. Vælg en deltager for at fortsætte.`);
 }
 
 async function ensureAnonymousSession() {
@@ -690,6 +718,7 @@ elements.description.addEventListener("input", () => {
 elements.historyFilter.addEventListener("change", renderHistory);
 elements.claimForm.addEventListener("submit", claimIdentity);
 elements.claimBack.addEventListener("click", showIdentityPicker);
+elements.logoutButton.addEventListener("click", logoutIdentity);
 elements.claimCode.addEventListener("input", () => {
   elements.claimCode.value = elements.claimCode.value.replace(/\D/g, "").slice(0, 2);
 });
