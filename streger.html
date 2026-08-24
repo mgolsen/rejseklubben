@@ -75,6 +75,19 @@
     .brand b { color: var(--gold); }
     .top-actions { display: flex; align-items: center; gap: 10px; }
     .signed-in-as { color: rgba(246, 241, 231, 0.72); font-size: 0.82rem; }
+    .logout-button {
+      min-height: 40px;
+      padding: 7px 13px;
+      border: 1px solid rgba(246, 241, 231, .34);
+      border-radius: 9px;
+      color: var(--cream);
+      background: rgba(246, 241, 231, .08);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .logout-button:hover { border-color: var(--gold); background: rgba(201, 162, 75, .14); }
+    .logout-button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .logout-button:disabled { cursor: wait; opacity: .7; }
 
     .shell {
       width: min(1120px, calc(100% - 32px));
@@ -516,6 +529,7 @@
     <a class="brand" href="index.html">Rejseklubben<b>™</b></a>
     <div class="top-actions" id="session-actions" hidden>
       <span class="signed-in-as">Denne telefon: <strong id="user-name">…</strong></span>
+      <button class="logout-button" id="logout-button" type="button">Log ud</button>
     </div>
   </header>
 
@@ -535,14 +549,14 @@
         <form id="claim-form" hidden>
           <button class="text-button claim-back" id="claim-back" type="button">← Vælg et andet navn</button>
           <h1>Hej, <span id="claim-player-name">…</span></h1>
-          <p>Indtast din tocifrede kode. Det skal kun gøres én gang på denne telefon.</p>
+          <p>Indtast din tocifrede kode. Telefonen husker dig, indtil du logger ud.</p>
           <div class="field">
             <label for="claim-code">Personlig kode</label>
             <input class="claim-code" id="claim-code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{2}" maxlength="2" required autofocus>
           </div>
           <div class="form-error" id="claim-error" role="alert" aria-live="polite"></div>
-          <button class="button full" id="claim-submit" type="submit">Bind denne telefon</button>
-          <p class="claim-note">Ny telefon eller slettet browserdata? Kontakt en arrangør.</p>
+          <button class="button full" id="claim-submit" type="submit">Log ind på denne telefon</button>
+          <p class="claim-note">Du kan altid logge ud igen og vælge en anden deltager.</p>
         </form>
       </div>
     </section>

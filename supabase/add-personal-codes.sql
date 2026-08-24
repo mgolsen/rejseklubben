@@ -1,4 +1,4 @@
--- Rejseklubben: bind each participant to one browser using a personal code.
+-- Rejseklubben: log each participant into one browser at a time using a personal code.
 -- Prerequisite: supabase/no-login-setup.sql has already been run.
 --
 -- Run this in Supabase Dashboard -> SQL Editor -> New query.
@@ -50,7 +50,7 @@ revoke select on table public.players from anon, authenticated;
 grant select (id, display_name, is_active, created_at)
   on table public.players to anon, authenticated;
 
--- Resolve the participant bound to the current browser session.
+-- Resolve the participant currently logged into this browser session.
 create or replace function public.get_claimed_player()
 returns table (id uuid, display_name text)
 language sql
@@ -65,7 +65,7 @@ as $$
   limit 1;
 $$;
 
--- Claim a participant once. Invalid codes are limited to five attempts per
+-- Log a participant into the current browser. Invalid codes are limited to five attempts per
 -- 15-minute window for each anonymous browser session.
 create or replace function public.claim_player(
   p_player_id uuid,
@@ -111,7 +111,7 @@ begin
     return jsonb_build_object(
       'ok', false,
       'error', 'device_already_bound',
-      'message', 'Denne telefon er allerede bundet til ' || existing_player_name || '.'
+      'message', 'Denne telefon er allerede logget ind som ' || existing_player_name || '. Log først ud.'
     );
   end if;
 
@@ -134,7 +134,7 @@ begin
     return jsonb_build_object(
       'ok', false,
       'error', 'player_already_claimed',
-      'message', target_name || ' er allerede knyttet til en anden telefon. Kontakt en arrangør ved telefonskift.'
+      'message', target_name || ' er allerede logget ind på en anden telefon. Log ud dér først.'
     );
   end if;
 
@@ -233,6 +233,47 @@ begin
       'id', p_player_id,
       'display_name', target_name
     )
+  );
+end;
+$$;
+
+-- Release the participant from this browser. The anonymous Supabase session
+-- remains in place so the same device can immediately claim another player.
+create or replace function public.release_player()
+returns jsonb
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  caller_id uuid := (select auth.uid());
+  released_player_id uuid;
+  released_player_name text;
+begin
+  if caller_id is null then
+    raise exception 'Telefonen har ingen gyldig session. Genindlæs siden.';
+  end if;
+
+  update public.players as p
+  set
+    claimed_user_id = null,
+    claimed_at = null
+  where p.claimed_user_id = caller_id
+  returning p.id, p.display_name
+  into released_player_id, released_player_name;
+
+  delete from public.player_claim_attempts
+  where device_user_id = caller_id;
+
+  return jsonb_build_object(
+    'ok', true,
+    'player', case
+      when released_player_id is null then null
+      else jsonb_build_object(
+        'id', released_player_id,
+        'display_name', released_player_name
+      )
+    end
   );
 end;
 $$;
@@ -394,6 +435,8 @@ revoke execute on function public.get_claimed_player()
   from public, anon;
 revoke execute on function public.claim_player(uuid, text)
   from public, anon;
+revoke execute on function public.release_player()
+  from public, anon;
 revoke execute on function public.device_submit_streg(uuid, text)
   from public, anon;
 revoke execute on function public.device_submit_streg(uuid, text, smallint)
@@ -405,6 +448,7 @@ revoke execute on function public.device_retract_streg(bigint)
 
 grant execute on function public.get_claimed_player() to authenticated;
 grant execute on function public.claim_player(uuid, text) to authenticated;
+grant execute on function public.release_player() to authenticated;
 grant execute on function public.device_submit_streg(uuid, text) to authenticated;
 grant execute on function public.device_submit_streg(uuid, text, smallint) to authenticated;
 grant execute on function public.device_second_streg(bigint) to authenticated;
