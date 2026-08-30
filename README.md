@@ -4,7 +4,7 @@ En lille statisk hjemmeside til turen med et fælles stregregnskab og personlige
 
 - `index.html` er turens forside.
 - `streger.html` og `streger.js` er spillets brugerflade.
-- `biergarten.html` og `biergarten.js` er den GPS-baserede guide til ti håndplukkede biergartens.
+- `biergarten.html` og `biergarten.js` er den GPS-baserede guide til 14 håndplukkede biergartens og brauhauses.
 - `oelgloser.html` er en søgbar og lettere bedugget parlør med tyske ølgloser.
 - `her-bor-vi.html` viser hoteladressen på tysk, hvis nogen farer vild.
 - `supabase/no-login-setup.sql` opretter den enkle database.

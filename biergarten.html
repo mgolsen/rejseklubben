@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#183c2a">
   <meta name="robots" content="noindex, nofollow">
   <title>Biergarten-Radaren · Rejseklubben</title>
-  <meta name="description" content="Find den nærmeste af ti håndplukkede biergartens i Stuttgart.">
+  <meta name="description" content="Find den nærmeste af 14 håndplukkede biergartens og brauhauses i Stuttgart.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -309,6 +309,16 @@
     .garden-card h3 { margin: 6px 0 0; font-family: var(--display); font-size: clamp(1.65rem, 3.5vw, 2.2rem); line-height: 1.05; }
     .area { margin: 6px 0 0; color: var(--forest-light); font-size: .78rem; font-weight: 800; }
     .card-description { margin: 17px 0 0; color: var(--ink-soft); font-size: .91rem; }
+    .card-notice {
+      margin: 15px 0 0;
+      padding: 10px 12px;
+      border: 1px solid rgba(168, 66, 32, .28);
+      border-radius: 9px;
+      color: #7d2f1a;
+      background: #fff0e8;
+      font-size: .76rem;
+      font-weight: 800;
+    }
     .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 17px 0 0; }
     .chip { padding: 5px 8px; border: 1px solid var(--line); border-radius: 7px; background: rgba(255,255,255,.7); font-size: .67rem; font-weight: 700; }
     .card-address { margin: auto 0 0; padding-top: 20px; color: var(--ink-soft); font-size: .72rem; }
@@ -384,7 +394,7 @@
       <span class="bubble" style="--size:18px;--left:58%;--duration:8s;--delay:-2s"></span>
 
       <div class="hero-inner">
-        <div class="eyebrow">🍺 10 håndplukkede steder · Stuttgart 2026</div>
+        <div class="eyebrow">🍺 14 håndplukkede steder · Stuttgart 2026</div>
         <h1>Biergarten-<span>Radaren</span></h1>
         <p class="hero-copy">Fra kongeligt jagtslot og søbred til grisemuseum og retro kaninforening. Lad telefonen finde den nærmeste ordentlige biergarten. Positionen bruges kun til beregningen i browseren.</p>
         <button class="find-button" id="find-nearest" type="button">
@@ -435,8 +445,8 @@
         <div class="wrap">
           <div class="section-head">
             <div>
-              <h2>De udvalgte ti</h2>
-              <p>Ikke en rangliste, men ti forskellige argumenter for at bestille en stor øl. Når GPS er aktiveret, sorteres de automatisk efter afstand.</p>
+              <h2>De udvalgte 14</h2>
+              <p>Ikke en rangliste, men 14 forskellige argumenter for at bestille en stor øl. Når GPS er aktiveret, sorteres de automatisk efter afstand.</p>
             </div>
             <span class="sort-state" id="sort-state">Kurateret rækkefølge</span>
           </div>
@@ -444,7 +454,7 @@
           <div class="garden-grid" id="garden-grid"></div>
 
           <aside class="method-note">
-            <strong>Godt at vide:</strong> Afstanden er fugleflugtslinje fra telefonens position. Google Maps beregner den faktiske gårute. Biergartens er ofte vejr- og sæsonafhængige, så kontrollér altid den officielle side før afgang. Steder og oplysninger er verificeret 30. august 2026.
+            <strong>Godt at vide:</strong> Afstanden er fugleflugtslinje fra telefonens position. Google Maps beregner den faktiske gårute. Biergartens er ofte vejr- og sæsonafhængige, så kontrollér altid den officielle side før afgang. Tauberquelle er med på listen, men er ferielukket under turen og bliver derfor ikke foreslået som den nærmeste. Steder og oplysninger er verificeret 30. august 2026.
           </aside>
         </div>
       </section>
@@ -453,6 +463,6 @@
 
   <footer>Rejseklubben™ · GPS uden sporing · Data fra venue-sider, Stuttgart Tourismus og OpenStreetMap</footer>
 
-  <script src="biergarten.js?v=20260830-teehaus" defer></script>
+  <script src="biergarten.js?v=20260830-fourteen" defer></script>
 </body>
 </html>

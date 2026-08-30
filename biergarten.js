@@ -139,6 +139,64 @@ const beerGardens = [
     facts: ["Ved Rosensteinpark", "Vegetarvenlig", "Dagligt skiftende menu"],
     sourceUrl: "https://www.floraundfauna-stuttgart.de/",
   },
+  {
+    id: "carls",
+    name: "Carls Brauhaus",
+    area: "Schlossplatz · Stuttgart-Mitte",
+    address: "Stauffenbergstraße 1, 70173 Stuttgart",
+    lat: 48.7793589,
+    lon: 9.1802132,
+    icon: "🏰",
+    accent: "#8f4e3a",
+    aspect: "Bedste Schlossplatz-udsigt",
+    description: "Et stort schwabisk brauhaus direkte ved Schlossplatz med Dinkelacker-Schwaben Bräu på hanerne. Carl Dinkelacker grundlagde et bryggeri på stedet i 1888; det nuværende Carls åbnede i 2014.",
+    facts: ["Direkte ved Schlossplatz", "Dinkelacker-Schwaben Bräu", "Grupper bør reservere"],
+    sourceUrl: "https://www.carls-brauhaus.de/",
+  },
+  {
+    id: "nesenbach",
+    name: "Nesenbach Wirtshaus",
+    area: "Dorotheen Quartier · Stuttgart-Mitte",
+    address: "Dorotheenstraße 6, 70173 Stuttgart",
+    lat: 48.7760823,
+    lon: 9.1801838,
+    icon: "🥨",
+    accent: "#b7762d",
+    aspect: "Mest centralt til en fest",
+    description: "Moderne schwabisk-bayersk wirtshaus med biergarten ved Altes Schloss og Karlsplatz. Her er nyfortolkede klassikere, Augustiner på fad og plads til en stor flok.",
+    facts: ["Ved Altes Schloss", "Augustiner på fad", "Op til 90 i biergarten"],
+    sourceUrl: "https://www.nesenbach-stuttgart.de/home/",
+  },
+  {
+    id: "sophies",
+    name: "Sophie's Brauhaus",
+    area: "Marienstraße · Stuttgart-Mitte",
+    address: "Marienstraße 28, 70178 Stuttgart",
+    lat: 48.7728829,
+    lon: 9.172417,
+    icon: "⚗️",
+    accent: "#b85f28",
+    aspect: "Bedste husbryggede øl",
+    description: "Et livligt mikrobryggeri, hvor øllet brygges på stedet, og kobberkedlerne står synligt bag baren. Udvalget omfatter blandt andet lyst hvedeøl, sort øl og sæsonbryg.",
+    facts: ["Brygges på stedet", "Kobberkedler ved baren", "Grupper fra 10: forespørg"],
+    sourceUrl: "https://sophies-brauhaus.de/",
+  },
+  {
+    id: "tauberquelle",
+    name: "Restaurant Tauberquelle",
+    area: "Stuttgart-Mitte",
+    address: "Torstraße 19, 70173 Stuttgart",
+    lat: 48.7724898,
+    lon: 9.1770593,
+    icon: "🥟",
+    accent: "#9e3e2d",
+    aspect: "Mest schwabisk",
+    description: "En traditionsrig restaurant med rødder tilbage til 1879, hjemmelavede Maultaschen og en rustik biergarten med 80 pladser midt i byen.",
+    facts: ["Rødder fra 1879", "80 pladser", "Original schwabisk mad"],
+    notice: "Ferielukket 24. august–6. september 2026 — altså under hele turen.",
+    availableDuringTrip: false,
+    sourceUrl: "https://tauberquelle-stuttgart.de/",
+  },
 ];
 
 const elements = {
@@ -234,6 +292,15 @@ function makeGardenCard(garden, index) {
   description.className = "card-description";
   description.textContent = garden.description;
 
+  const content = [top, aspect, name, area, description];
+
+  if (garden.notice) {
+    const notice = document.createElement("p");
+    notice.className = "card-notice";
+    notice.textContent = garden.notice;
+    content.push(notice);
+  }
+
   const chips = document.createElement("div");
   chips.className = "chips";
   garden.facts.forEach((fact) => {
@@ -254,7 +321,8 @@ function makeGardenCard(garden, index) {
     makeButton("Officiel side ↗", garden.sourceUrl, true),
   );
 
-  card.append(top, aspect, name, area, description, chips, address, actions);
+  content.push(chips, address, actions);
+  card.append(...content);
   return card;
 }
 
@@ -265,7 +333,8 @@ function renderGardenGrid(gardens = beerGardens) {
 }
 
 function renderNearest(rankedGardens, accuracy) {
-  const [nearest, ...alternatives] = rankedGardens;
+  const availableGardens = rankedGardens.filter((garden) => garden.availableDuringTrip !== false);
+  const [nearest, ...alternatives] = availableGardens;
   elements.nearestIcon.textContent = nearest.icon;
   elements.nearestName.textContent = nearest.name;
   elements.nearestAspect.textContent = nearest.aspect;
@@ -304,7 +373,7 @@ function renderNearest(rankedGardens, accuracy) {
 
 function locationErrorMessage(error) {
   if (error?.code === 1) {
-    return "Placering blev ikke tilladt. Du kan stadig se alle ti steder nedenfor og åbne deres ruter manuelt.";
+    return `Placering blev ikke tilladt. Du kan stadig se alle ${beerGardens.length} steder nedenfor og åbne deres ruter manuelt.`;
   }
   if (error?.code === 2) {
     return "Telefonen kunne ikke bestemme placeringen. Prøv igen udenfor eller slå GPS til i telefonens indstillinger.";
@@ -312,7 +381,7 @@ function locationErrorMessage(error) {
   if (error?.code === 3) {
     return "GPS-søgningen tog for lang tid. Prøv igen—gerne tættere på et vindue eller udenfor.";
   }
-  return "Placeringen kunne ikke hentes. Alle ti biergartens kan stadig bruges nedenfor.";
+  return `Placeringen kunne ikke hentes. Alle ${beerGardens.length} steder kan stadig ses nedenfor.`;
 }
 
 function findNearest() {
