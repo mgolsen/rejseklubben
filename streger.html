@@ -313,6 +313,30 @@
       line-height: 1;
     }
 
+    .admin-panel { border-color: rgba(201, 162, 75, .55); }
+    .admin-panel .panel-head { background: #fff9eb; }
+    .admin-badge {
+      flex: 0 0 auto;
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: var(--wine);
+      background: rgba(110, 34, 48, .1);
+      font-size: .66rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .admin-form-grid {
+      display: grid;
+      grid-template-columns: minmax(180px, 1.1fr) minmax(150px, .75fr) minmax(220px, 1.35fr);
+      gap: 14px;
+      align-items: end;
+    }
+    .admin-form-grid .field { margin-bottom: 0; }
+    .admin-score-note { margin: 13px 0 12px; color: var(--ink-soft); font-size: .8rem; }
+    .admin-score-note strong { color: var(--ink); }
+    .admin-submit { width: 100%; }
+
     .work-grid {
       display: grid;
       grid-template-columns: minmax(280px, .8fr) minmax(340px, 1.2fr);
@@ -349,6 +373,7 @@
     }
     .status.approved { color: var(--green); background: rgba(47, 105, 77, .12); }
     .status.failed { color: var(--wine); background: rgba(110, 34, 48, .12); }
+    .status.admin { color: var(--wine); background: rgba(110, 34, 48, .12); }
     .streg-description { margin: 9px 0 11px; white-space: pre-wrap; overflow-wrap: anywhere; }
     .streg-meta { color: var(--ink-soft); font-size: .75rem; }
     .streg-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 14px; }
@@ -430,6 +455,7 @@
       .work-grid { grid-template-columns: 1fr; grid-template-areas: "pending" "proposal"; }
       .dashboard-head { display: block; }
       .live-badge { margin-top: 18px; }
+      .admin-form-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 600px) {
@@ -466,8 +492,10 @@
         white-space: nowrap;
       }
       .mobile-nav a:nth-child(2) { color: #fff; background: var(--green); }
+      .mobile-nav.has-admin { grid-template-columns: repeat(4, 1fr); }
+      .mobile-nav.has-admin a { font-size: .66rem; }
       .panel { border-radius: 15px; }
-      #leaderboard-panel, #pending-panel, #proposal-panel { scroll-margin-top: 124px; }
+      #leaderboard-panel, #admin-panel, #pending-panel, #proposal-panel { scroll-margin-top: 124px; }
       .panel + .panel { margin-top: 14px; }
       .panel-head { align-items: start; padding: 13px 14px 10px; }
       .panel-head h2 { font-size: 1.3rem; }
@@ -571,10 +599,11 @@
         <div class="live-badge">Live regnskab</div>
       </div>
 
-      <nav class="mobile-nav" aria-label="Hurtige handlinger">
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Hurtige handlinger">
         <a href="#leaderboard-panel">▥ Stilling</a>
         <a href="#pending-panel">✓ Stem (<span id="quick-pending-count">0</span>)</a>
         <a href="#proposal-panel">＋ Ny streg</a>
+        <a href="#admin-panel" id="admin-nav-link" hidden>⚙ Ret</a>
       </nav>
 
       <section class="panel" id="leaderboard-panel" aria-labelledby="leaderboard-heading">
@@ -588,6 +617,46 @@
           <div class="leaderboard" id="leaderboard-list">
             <div class="loading-line">Henter den højtidelige stilling…</div>
           </div>
+        </div>
+      </section>
+
+      <section class="panel admin-panel" id="admin-panel" aria-labelledby="admin-heading" hidden>
+        <div class="panel-head">
+          <div>
+            <h2 id="admin-heading">Ret regnskabet</h2>
+            <p>Tilføj eller fjern streger direkte. Alle rettelser bliver skrevet i protokollen.</p>
+          </div>
+          <span class="admin-badge">Administrator</span>
+        </div>
+        <div class="panel-body">
+          <form id="admin-form">
+            <div class="admin-form-grid">
+              <div class="field">
+                <label for="admin-target">Deltager</label>
+                <select id="admin-target" required>
+                  <option value="">Vælg deltager…</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="admin-delta">Rettelse</label>
+                <select id="admin-delta" required>
+                  <option value="1">Tilføj 1 streg</option>
+                  <option value="2">Tilføj 2 streger</option>
+                  <option value="3">Tilføj 3 streger</option>
+                  <option value="-1">Fjern 1 streg</option>
+                  <option value="-2">Fjern 2 streger</option>
+                  <option value="-3">Fjern 3 streger</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="admin-reason">Begrundelse</label>
+                <input id="admin-reason" type="text" minlength="3" maxlength="500" required placeholder="Fx rettelse af fejlafstemning">
+              </div>
+            </div>
+            <p class="admin-score-note" id="admin-score-note">Vælg en deltager for at se den aktuelle stilling.</p>
+            <div class="form-error" id="admin-error" role="alert" aria-live="polite"></div>
+            <button class="button gold admin-submit" id="admin-submit" type="submit">Gennemfør rettelsen</button>
+          </form>
         </div>
       </section>
 
@@ -675,6 +744,6 @@
 
   <footer>Rejseklubben™ · Ingen appel. Næsten.</footer>
 
-  <script type="module" src="streger.js?v=20260824-logout"></script>
+  <script type="module" src="streger.js?v=20260830-admin"></script>
 </body>
 </html>
