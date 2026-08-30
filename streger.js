@@ -35,6 +35,16 @@ const elements = {
   pendingList: document.querySelector("#pending-list"),
   pendingCount: document.querySelector("#pending-count"),
   quickPendingCount: document.querySelector("#quick-pending-count"),
+  mobileNav: document.querySelector("#mobile-nav"),
+  adminNavLink: document.querySelector("#admin-nav-link"),
+  adminPanel: document.querySelector("#admin-panel"),
+  adminForm: document.querySelector("#admin-form"),
+  adminTarget: document.querySelector("#admin-target"),
+  adminDelta: document.querySelector("#admin-delta"),
+  adminReason: document.querySelector("#admin-reason"),
+  adminScoreNote: document.querySelector("#admin-score-note"),
+  adminError: document.querySelector("#admin-error"),
+  adminSubmit: document.querySelector("#admin-submit"),
   historyList: document.querySelector("#history-list"),
   historyFilter: document.querySelector("#history-filter"),
   toast: document.querySelector("#toast"),
@@ -47,6 +57,7 @@ const state = {
   profileById: new Map(),
   leaderboard: [],
   streger: [],
+  adminAdjustments: [],
   votersByStreg: new Map(),
   expiryReloads: new Set(),
   realtimeChannel: null,
@@ -117,6 +128,10 @@ function proposalAffectedPlayer(streg) {
 
 function requiredVotesForAmount(amount) {
   return { 1: 2, 2: 4, 3: 8 }[amount] || 2;
+}
+
+function playerTotal(id) {
+  return state.leaderboard.find((entry) => entry.id === id)?.total ?? 0;
 }
 
 function countdownText(deadline) {
@@ -222,6 +237,49 @@ function renderParticipantSelectors() {
   if (previousFilter === "all" || state.profileById.has(previousFilter)) {
     elements.historyFilter.value = previousFilter;
   }
+}
+
+function updateAdminScoreNote() {
+  const playerId = elements.adminTarget.value;
+  if (!playerId || !state.profileById.has(playerId)) {
+    elements.adminScoreNote.textContent = "Vælg en deltager for at se den aktuelle stilling.";
+    return;
+  }
+
+  elements.adminScoreNote.replaceChildren();
+  const name = document.createElement("strong");
+  name.textContent = profileName(playerId);
+  elements.adminScoreNote.append(name, ` har lige nu ${pluralStreg(playerTotal(playerId))}.`);
+}
+
+function renderAdminControls() {
+  const ownProfile = state.profileById.get(state.currentUserId);
+  const isAdmin = Boolean(ownProfile?.is_admin);
+  elements.adminPanel.hidden = !isAdmin;
+  elements.adminNavLink.hidden = !isAdmin;
+  elements.mobileNav.classList.toggle("has-admin", isAdmin);
+
+  if (!isAdmin) return;
+
+  const previousTarget = elements.adminTarget.value;
+  const fragment = document.createDocumentFragment();
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Vælg deltager…";
+  fragment.append(placeholder);
+
+  state.profiles.forEach((profile) => {
+    const option = document.createElement("option");
+    option.value = profile.id;
+    option.textContent = `${profile.display_name} · ${pluralStreg(playerTotal(profile.id))}`;
+    fragment.append(option);
+  });
+
+  elements.adminTarget.replaceChildren(fragment);
+  if (state.profileById.has(previousTarget)) {
+    elements.adminTarget.value = previousTarget;
+  }
+  updateAdminScoreNote();
 }
 
 function updateProposalForm() {
@@ -355,6 +413,37 @@ function makeStregCard(streg, isHistory = false) {
   return card;
 }
 
+function makeAdminAdjustmentCard(adjustment) {
+  const card = document.createElement("article");
+  card.className = "streg-card";
+
+  const top = document.createElement("div");
+  top.className = "streg-top";
+
+  const target = document.createElement("div");
+  target.className = "streg-target";
+  const amount = Math.abs(Number(adjustment.delta));
+  target.textContent = adjustment.delta > 0
+    ? `${pluralStreg(amount)} til ${profileName(adjustment.target_id)}`
+    : `${pluralStreg(amount)} fjernet fra ${profileName(adjustment.target_id)}`;
+
+  const status = document.createElement("span");
+  status.className = "status admin";
+  status.textContent = "Admin-rettelse";
+  top.append(target, status);
+
+  const description = document.createElement("p");
+  description.className = "streg-description";
+  description.textContent = adjustment.reason;
+
+  const meta = document.createElement("div");
+  meta.className = "streg-meta";
+  meta.textContent = `${profileName(adjustment.admin_id)} rettede regnskabet · ${formatDate(adjustment.created_at)}`;
+
+  card.append(top, description, meta);
+  return card;
+}
+
 function renderPending() {
   const pending = state.streger.filter((streg) => streg.status === "open");
   elements.pendingCount.textContent = pending.length;
@@ -371,10 +460,27 @@ function renderPending() {
 
 function renderHistory() {
   const selectedProfile = elements.historyFilter.value;
-  const history = state.streger.filter(
-    (streg) => ["approved", "failed"].includes(streg.status)
-      && (selectedProfile === "all" || proposalAffectedPlayer(streg) === selectedProfile),
-  );
+  const history = [
+    ...state.streger
+      .filter(
+        (streg) => ["approved", "failed"].includes(streg.status)
+          && (selectedProfile === "all" || proposalAffectedPlayer(streg) === selectedProfile),
+      )
+      .map((streg) => ({
+        type: "proposal",
+        value: streg,
+        eventAt: streg.status === "approved" ? streg.approved_at : streg.deadline,
+      })),
+    ...state.adminAdjustments
+      .filter(
+        (adjustment) => selectedProfile === "all" || adjustment.target_id === selectedProfile,
+      )
+      .map((adjustment) => ({
+        type: "admin",
+        value: adjustment,
+        eventAt: adjustment.created_at,
+      })),
+  ].sort((a, b) => new Date(b.eventAt).getTime() - new Date(a.eventAt).getTime());
 
   elements.historyList.replaceChildren();
   if (!history.length) {
@@ -385,7 +491,13 @@ function renderHistory() {
     return;
   }
 
-  history.forEach((streg) => elements.historyList.append(makeStregCard(streg, true)));
+  history.forEach((entry) => {
+    elements.historyList.append(
+      entry.type === "admin"
+        ? makeAdminAdjustmentCard(entry.value)
+        : makeStregCard(entry.value, true),
+    );
+  });
 }
 
 function renderAll() {
@@ -393,6 +505,7 @@ function renderAll() {
   elements.userName.textContent = ownProfile?.display_name || "…";
   renderParticipantSelectors();
   renderLeaderboard();
+  renderAdminControls();
   renderPending();
   renderHistory();
   updateCountdowns();
@@ -406,9 +519,9 @@ async function loadData() {
 
   state.loading = true;
   try {
-    const [profilesResult, leaderboardResult, stregerResult, votesResult] = await Promise.all([
+    const [profilesResult, leaderboardResult, stregerResult, votesResult, adjustmentsResult] = await Promise.all([
       db.from("players")
-        .select("id, display_name")
+        .select("id, display_name, is_admin")
         .eq("is_active", true)
         .order("display_name", { ascending: true }),
       db.from("game_leaderboard")
@@ -420,9 +533,14 @@ async function loadData() {
         .limit(250),
       db.from("game_streg_votes")
         .select("streg_id, voter_id"),
+      db.from("game_admin_adjustments")
+        .select("id, target_id, admin_id, delta, reason, created_at")
+        .order("created_at", { ascending: false })
+        .limit(250),
     ]);
 
-    const error = profilesResult.error || leaderboardResult.error || stregerResult.error || votesResult.error;
+    const error = profilesResult.error || leaderboardResult.error || stregerResult.error
+      || votesResult.error || adjustmentsResult.error;
     if (error) throw error;
 
     state.profiles = profilesResult.data || [];
@@ -432,6 +550,7 @@ async function loadData() {
       total: Number(entry.total) || 0,
     }));
     state.streger = stregerResult.data || [];
+    state.adminAdjustments = adjustmentsResult.data || [];
     state.votersByStreg = new Map();
     (votesResult.data || []).forEach((vote) => {
       if (!state.votersByStreg.has(vote.streg_id)) {
@@ -475,6 +594,60 @@ function updateCountdowns() {
       window.setTimeout(loadData, 450);
     }
   });
+}
+
+async function submitAdminAdjustment(event) {
+  event.preventDefault();
+  elements.adminError.textContent = "";
+
+  const ownProfile = state.profileById.get(state.currentUserId);
+  const targetId = elements.adminTarget.value;
+  const targetProfile = state.profileById.get(targetId);
+  const delta = Number(elements.adminDelta.value);
+  const reason = elements.adminReason.value.trim();
+
+  if (!ownProfile?.is_admin) {
+    elements.adminError.textContent = "Kun administratorer kan rette regnskabet.";
+    return;
+  }
+  if (!targetProfile) {
+    elements.adminError.textContent = "Vælg først en deltager.";
+    return;
+  }
+  if (![-3, -2, -1, 1, 2, 3].includes(delta)) {
+    elements.adminError.textContent = "Vælg en gyldig rettelse.";
+    return;
+  }
+  if (reason.length < 3) {
+    elements.adminError.textContent = "Skriv en kort begrundelse på mindst tre tegn.";
+    return;
+  }
+
+  const action = delta > 0
+    ? `tilføje ${pluralStreg(delta)} til`
+    : `fjerne ${pluralStreg(Math.abs(delta))} fra`;
+  const confirmed = window.confirm(
+    `Vil du ${action} ${targetProfile.display_name}? Rettelsen bliver synlig i protokollen.`,
+  );
+  if (!confirmed) return;
+
+  setButtonBusy(elements.adminSubmit, true, "Retter regnskabet…");
+  const { error } = await db.rpc("admin_adjust_streger", {
+    p_target_id: targetId,
+    p_delta: delta,
+    p_reason: reason,
+  });
+  setButtonBusy(elements.adminSubmit, false);
+
+  if (error) {
+    elements.adminError.textContent = readableError(error);
+    return;
+  }
+
+  elements.adminReason.value = "";
+  elements.adminDelta.value = "1";
+  showToast(`Regnskabet for ${targetProfile.display_name} er rettet.`);
+  await loadData();
 }
 
 async function proposeStreg(event) {
@@ -707,10 +880,17 @@ function subscribeToChanges() {
       { event: "*", schema: "public", table: "game_streg_votes" },
       scheduleReload,
     )
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "game_admin_adjustments" },
+      scheduleReload,
+    )
     .subscribe();
 }
 
 elements.stregForm.addEventListener("submit", proposeStreg);
+elements.adminForm.addEventListener("submit", submitAdminAdjustment);
+elements.adminTarget.addEventListener("change", updateAdminScoreNote);
 elements.proposalType.addEventListener("change", updateProposalForm);
 elements.description.addEventListener("input", () => {
   elements.descriptionCount.textContent = elements.description.value.length;
