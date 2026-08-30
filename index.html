@@ -227,7 +227,7 @@
   /* Squad */
   .squad-grid {
     display: grid; gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   }
   .card {
     background: var(--paper);
@@ -245,10 +245,18 @@
     color: var(--paper); background: var(--ink);
     margin-bottom: 16px;
   }
-  .card h3 { font-size: 1.45rem; }
-  .card .role { color: var(--gold-deep); font-weight: 700; font-size: 0.9rem; margin-top: 4px; }
+  .card h3 { font-size: 1.3rem; line-height: 1.18; }
+  .card .role { min-height: 1.35em; color: var(--gold-deep); font-weight: 700; font-size: 0.9rem; margin-top: 4px; }
   .card.ghost { border-style: dashed; box-shadow: none; background: transparent; display: flex; flex-direction: column; justify-content: center; }
   .card.ghost .avatar { background: transparent; border: 2px dashed var(--gold); color: var(--gold-deep); }
+
+  @media (max-width: 600px) {
+    .squad-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .card { min-width: 0; padding: 16px 13px; }
+    .avatar { width: 46px; height: 46px; margin-bottom: 11px; font-size: 1.18rem; }
+    .card h3 { overflow-wrap: anywhere; font-size: 1rem; }
+    .card .role { min-height: .7rem; font-size: .72rem; }
+  }
 
   /* Program */
   .program { background: rgba(20, 17, 14, 0.9); color: var(--cream); }
@@ -401,10 +409,54 @@
   .gal-grid figure:hover img { transform: scale(1.05); }
 
   /* Practical */
-  .facts { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); max-width: 760px; margin: 0 auto; }
+  .facts { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); max-width: 980px; margin: 0 auto; }
   .fact { border: 1px solid var(--line); border-radius: 14px; padding: 22px; text-align: center; background: var(--paper); }
   .fact .k { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gold-deep); font-weight: 700; }
   .fact .v { font-family: var(--display); font-size: 1.35rem; font-weight: 800; margin-top: 6px; }
+  .hotel-panel {
+    display: grid;
+    grid-template-columns: minmax(230px, .75fr) minmax(0, 1.45fr);
+    max-width: 980px;
+    margin: 18px auto 0;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--paper);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .hotel-heading { padding: 28px; color: var(--cream); background: var(--ink); }
+  .hotel-heading .k { color: var(--gold); font-size: .7rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+  .hotel-heading h3 { margin-top: 7px; font-size: 1.65rem; line-height: 1.05; }
+  .hotel-heading address { margin-top: 17px; color: rgba(246,241,231,.76); font-size: .88rem; font-style: normal; line-height: 1.55; }
+  .hotel-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
+  .hotel-actions a {
+    display: inline-flex;
+    min-height: 37px;
+    align-items: center;
+    padding: 0 11px;
+    border: 1px solid rgba(201,162,75,.5);
+    border-radius: 8px;
+    color: var(--cream);
+    background: rgba(201,162,75,.1);
+    font-size: .7rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  .hotel-actions a:hover { color: var(--ink); background: var(--gold); }
+  .hotel-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 20px; gap: 1px; background: var(--line); }
+  .hotel-detail { min-width: 0; padding: 17px; background: var(--paper); }
+  .hotel-detail dt { color: var(--gold-deep); font-size: .65rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+  .hotel-detail dd { margin: 5px 0 0; font-size: .84rem; font-weight: 700; line-height: 1.45; }
+  .hotel-detail small { display: block; margin-top: 4px; color: var(--ink-soft); font-size: .68rem; font-weight: 500; }
+  .hotel-detail.hotel-warning { grid-column: 1 / -1; background: #fff0e8; }
+  .hotel-detail.hotel-warning dt { color: var(--wine); }
+  @media (max-width: 700px) {
+    .hotel-panel { grid-template-columns: 1fr; }
+    .hotel-heading { padding: 23px 20px; }
+  }
+  @media (max-width: 440px) {
+    .hotel-details { grid-template-columns: 1fr; padding: 12px; }
+  }
 
   /* Footer */
   footer { background: rgba(20, 17, 14, 0.85); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); color: rgba(246,241,231,0.78); text-align: center; padding: 48px 24px; }
@@ -482,29 +534,84 @@
   <section id="holdet">
     <div class="wrap">
       <div class="section-head">
-        <div class="kicker">Deltagere</div>
+        <div class="kicker">15 deltagere</div>
         <h2>Holdet</h2>
       </div>
       <div class="squad-grid">
         <div class="card">
+          <div class="avatar">A</div>
+          <h3>Adam B</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">A</div>
+          <h3>Anders Kjær Dybdahl</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">A</div>
+          <h3>Anders Petersen Høiby</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">A</div>
+          <h3>Andreas Borchsenius Westh</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">C</div>
+          <h3>Casper Thomsen</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">C</div>
+          <h3>Christian Bartels</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">D</div>
+          <h3>David Skjoldborg Pedersen</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
           <div class="avatar">E</div>
           <h3>Emil</h3>
-          <div class="role">Rejseleder (selvudnævnt)</div>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">M</div>
+          <h3>Mark Rif Torbensen</h3>
+          <div class="role"></div>
         </div>
         <div class="card">
           <div class="avatar">M</div>
           <h3>Martin</h3>
-          <div class="role">Kasserer og lyseslukker</div>
+          <div class="role"></div>
         </div>
         <div class="card">
           <div class="avatar">M</div>
           <h3>Morten</h3>
-          <div class="role">Stemningschef</div>
+          <div class="role"></div>
         </div>
-        <div class="card ghost">
-          <div class="avatar">+</div>
-          <h3>Flere på vej</h3>
-          <div class="role">Pladser tilbage: nogle få</div>
+        <div class="card">
+          <div class="avatar">R</div>
+          <h3>René Juhl</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">S</div>
+          <h3>Søren Dahl</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">S</div>
+          <h3>Steven Kjeld Christensen</h3>
+          <div class="role"></div>
+        </div>
+        <div class="card">
+          <div class="avatar">T</div>
+          <h3>Thomas Greniman</h3>
+          <div class="role"></div>
         </div>
       </div>
     </div>
@@ -772,9 +879,50 @@
       <div class="facts">
         <div class="fact"><div class="k">Hvornår</div><div class="v">3.–6. sep. 2026</div></div>
         <div class="fact"><div class="k">Hvor</div><div class="v">Stuttgart 🇩🇪</div></div>
-        <div class="fact"><div class="k">Hvem</div><div class="v">Emil, Martin, Morten +</div></div>
-        <div class="fact"><div class="k">Resten</div><div class="v">Følger snart</div></div>
+        <div class="fact"><div class="k">Hvem</div><div class="v">15 deltagere</div></div>
       </div>
+      <article class="hotel-panel">
+        <div class="hotel-heading">
+          <div class="k">Her bor vi</div>
+          <h3>Maritim Hotel Stuttgart</h3>
+          <address>Seidenstraße 34<br>70174 Stuttgart</address>
+          <div class="hotel-actions">
+            <a href="her-bor-vi.html">Vis taxakort</a>
+            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Maritim%20Hotel%20Stuttgart%2C%20Seidenstra%C3%9Fe%2034%2C%2070174%20Stuttgart" target="_blank" rel="noopener noreferrer">Rute ↗</a>
+            <a href="https://www.maritim.de/de/hotels/deutschland/hotel-stuttgart/unser-hotel" target="_blank" rel="noopener noreferrer">Hotelinfo ↗</a>
+          </div>
+        </div>
+        <dl class="hotel-details">
+          <div class="hotel-detail">
+            <dt>Morgenmad</dt>
+            <dd>Dagligt 06:30–10:30<small>Buffet i Rôtisserie · 25 € hvis den ikke er inkluderet</small></dd>
+          </div>
+          <div class="hotel-detail">
+            <dt>Ind og ud</dt>
+            <dd>Check-in fra 15:00<small>Check-out senest 12:00</small></dd>
+          </div>
+          <div class="hotel-detail">
+            <dt>På værelset</dt>
+            <dd>Gratis wi-fi<small>Minikøleskab, værdiboks og elkedel</small></dd>
+          </div>
+          <div class="hotel-detail">
+            <dt>Wellness</dt>
+            <dd>Indendørs pool<small>Sauna og fitness: hver 5 € pr. dag</small></dd>
+          </div>
+          <div class="hotel-detail">
+            <dt>Transport</dt>
+            <dd>Berliner Platz (Liederhalle)<small>Hovedbanegården ligger 1,5 km væk</small></dd>
+          </div>
+          <div class="hotel-detail">
+            <dt>Hoteltelefon</dt>
+            <dd><a href="tel:+497119420">+49 711 942-0</a><small>info.stu@maritim.de</small></dd>
+          </div>
+          <div class="hotel-detail hotel-warning">
+            <dt>Aften på hotellet</dt>
+            <dd>Pianobaren og Bistro Reuchlin er lukket under hele turen.<small>Café Espresso: 10:00–20:00, søndag til 23:00 · Roomservice: 06:30–23:00</small></dd>
+          </div>
+        </dl>
+      </article>
     </div>
   </section>
 
