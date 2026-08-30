@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#a51f2b">
+  <title>Hier wohnen wir · Rejseklubben</title>
+  <meta name="description" content="Adresse des Maritim Hotel Stuttgart für einen verlorenen dänischen Reisenden.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&amp;family=Inter:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #a51f2b;
+      --red-dark: #72131c;
+      --cream: #fff8e8;
+      --paper: #fffdf8;
+      --ink: #251915;
+      --gold: #e7b742;
+      --line: rgba(37,25,21,.14);
+      --display: "Playfair Display", Georgia, serif;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: var(--red-dark); }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 14%, rgba(255,255,255,.13), transparent 22%),
+        radial-gradient(circle at 88% 80%, rgba(231,183,66,.2), transparent 26%),
+        linear-gradient(145deg, var(--red), var(--red-dark));
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a, button { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+    .card {
+      position: relative;
+      width: min(720px, 100%);
+      padding: clamp(28px, 7vw, 62px);
+      border: 1px solid rgba(255,255,255,.34);
+      border-radius: 28px;
+      background: var(--paper);
+      box-shadow: 0 28px 80px rgba(42,5,10,.38);
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 8px;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
+    }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      margin-bottom: 28px;
+      color: var(--red-dark);
+      font-size: .72rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .eyebrow {
+      color: var(--red);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 12px 0 0;
+      font-family: var(--display);
+      font-size: clamp(2rem, 7vw, 4.1rem);
+      line-height: 1.07;
+      letter-spacing: -.025em;
+      text-wrap: balance;
+    }
+    .address {
+      margin-top: clamp(28px, 6vw, 46px);
+      padding: clamp(20px, 5vw, 32px);
+      border: 2px solid var(--red);
+      border-radius: 18px;
+      background: #fff5f2;
+      text-align: center;
+    }
+    .address strong {
+      display: block;
+      color: var(--red-dark);
+      font-family: var(--display);
+      font-size: clamp(1.65rem, 6vw, 2.8rem);
+      line-height: 1.08;
+      overflow-wrap: anywhere;
+      text-wrap: balance;
+    }
+    .address span {
+      display: block;
+      margin-top: 12px;
+      font-size: clamp(1.05rem, 4vw, 1.5rem);
+      font-weight: 800;
+      line-height: 1.45;
+    }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .button {
+      display: flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 13px;
+      color: #fff;
+      background: var(--red);
+      font-size: .76rem;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .button.secondary { color: var(--ink); background: #f0dfb5; }
+    .hint { margin: 18px 0 0; color: #74635c; font-size: .68rem; text-align: center; }
+    @media (max-width: 520px) {
+      body { padding: 9px; }
+      .card { padding: 25px 18px 22px; border-radius: 20px; }
+      .back { margin-bottom: 22px; }
+      .actions { grid-template-columns: 1fr; }
+      .address { border-radius: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <a class="back" href="index.html" lang="da">← Tilbage til forsiden</a>
+    <div class="eyebrow">Entschuldigung—bitte helfen Sie mir</div>
+    <h1>Hallo, ich bin ein leicht angetrunkener dänischer Mann und habe mich verlaufen. Könnten Sie mich bitte hierhin bringen?</h1>
+
+    <div class="address" id="hotel-address">
+      <strong>Maritim Hotel Stuttgart</strong>
+      <span>Seidenstraße 34<br>70174 Stuttgart</span>
+    </div>
+
+    <div class="actions">
+      <a class="button" href="https://www.google.com/maps/dir/?api=1&amp;destination=Maritim%20Hotel%20Stuttgart%2C%20Seidenstra%C3%9Fe%2034%2C%2070174%20Stuttgart" target="_blank" rel="noopener noreferrer">Route in Google Maps öffnen ↗</a>
+      <button class="button secondary" id="copy-address" type="button">Adresse kopieren</button>
+    </div>
+    <p class="hint">Einfach diesen Bildschirm zeigen. Das Hotel liegt an der Liederhalle.</p>
+  </main>
+
+  <script>
+    (function () {
+      var button = document.getElementById("copy-address");
+      var address = "Maritim Hotel Stuttgart\nSeidenstraße 34\n70174 Stuttgart";
+      button.addEventListener("click", function () {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText(address).then(function () {
+          button.textContent = "Adresse kopiert ✓";
+          window.setTimeout(function () { button.textContent = "Adresse kopieren"; }, 2500);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -161,6 +161,13 @@
   .game-cta:hover { transform: translateY(-2px); background: #d6b45f; }
   .garden-cta { color: var(--cream); background: rgba(20, 17, 14, .58); }
   .garden-cta:hover { color: var(--ink); background: var(--gold); }
+  .hotel-cta {
+    color: #fff;
+    background: #a51f2b;
+    border-color: rgba(255,255,255,.42);
+    box-shadow: 0 10px 34px rgba(86, 8, 18, .38);
+  }
+  .hotel-cta:hover { color: #fff; background: #c02a37; }
 
   /* ---------- Sections ---------- */
   section {
@@ -179,6 +186,43 @@
 
   .intro { background: rgba(246, 241, 231, 0.85); }
   .intro .lead { font-size: 1.3rem; }
+
+  /* Beer glossary teaser */
+  .glossary-teaser { padding-block: 52px; background: rgba(239, 223, 185, .9); }
+  .glossary-teaser-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 28px;
+    padding: 30px;
+    border: 1px solid rgba(163,126,44,.25);
+    border-radius: 20px;
+    color: var(--cream);
+    background: linear-gradient(135deg, #2b261f, #493725);
+    box-shadow: var(--shadow);
+  }
+  .glossary-teaser-card h2 { margin-top: 8px; font-size: clamp(1.8rem, 4vw, 2.6rem); }
+  .glossary-teaser-card p { max-width: 610px; margin: 11px 0 0; color: rgba(246,241,231,.72); font-size: .88rem; }
+  .glossary-teaser-card .game-cta { margin: 18px 0 0; }
+  .glossary-mini { display: grid; grid-template-columns: repeat(3, 86px); gap: 7px; }
+  .glossary-mini span {
+    padding: 11px 7px;
+    border: 1px solid rgba(201,162,75,.25);
+    border-radius: 12px;
+    color: var(--gold);
+    background: rgba(255,255,255,.045);
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 800;
+    text-align: center;
+  }
+  .glossary-mini small { display: block; margin-top: 2px; color: rgba(246,241,231,.58); font-family: var(--sans); font-size: .52rem; }
+  @media (max-width: 700px) {
+    .glossary-teaser { padding: 36px 12px; }
+    .glossary-teaser-card { grid-template-columns: 1fr; gap: 20px; padding: 23px 18px; }
+    .glossary-mini { grid-template-columns: repeat(3, 1fr); }
+    .glossary-teaser-card .game-cta { width: 100%; }
+  }
 
   /* Squad */
   .squad-grid {
@@ -380,6 +424,7 @@
       <a href="#galleri">Galleri</a>
       <a href="#praktisk">Praktisk</a>
       <a href="biergarten.html">Biergartens</a>
+      <a href="oelgloser.html">Ølgloser</a>
       <a href="streger.html">Streger</a>
     </nav>
   </header>
@@ -399,6 +444,7 @@
       <div class="countdown" id="countdown" aria-label="Nedtælling til afgang"></div>
       <a class="game-cta" href="streger.html">Åbn stregregnskabet <span aria-hidden="true">→</span></a>
       <a class="game-cta garden-cta" href="biergarten.html">Find nærmeste Biergarten <span aria-hidden="true">⌖</span></a>
+      <a class="game-cta hotel-cta" href="her-bor-vi.html">Her bor vi <span aria-hidden="true">⌂</span></a>
     </div>
   </div>
 
@@ -410,6 +456,25 @@
         vinmarkernes hovedstad og hjemsted for mere beton, end nogen burde være stolte af.
         Vi kommer for kulturen. Vi bliver for resten.
       </p>
+    </div>
+  </section>
+
+  <!-- ØLGLOSER -->
+  <section class="glossary-teaser">
+    <div class="wrap">
+      <div class="glossary-teaser-card">
+        <div>
+          <div class="kicker">Sprogligt beredskab</div>
+          <h2>Taler du flydende fadøl?</h2>
+          <p>29 tyske ølgloser, fra det livsnødvendige Maß til det mistænkeligt specifikke Pittermännchen.</p>
+          <a class="game-cta" href="oelgloser.html">Åbn ølordbogen <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="glossary-mini" aria-hidden="true">
+          <span>Maß<small>1 liter</small></span>
+          <span>Seidla<small>½ liter</small></span>
+          <span>Schnitt<small>halvt glas</small></span>
+        </div>
+      </div>
     </div>
   </section>
 

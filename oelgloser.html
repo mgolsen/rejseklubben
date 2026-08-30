@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#241c16">
+  <title>Tyske ølgloser · Rejseklubben</title>
+  <meta name="description" content="Rejseklubbens muntre parlør til tyske ølglas, bierkellere og andre vigtige gloser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #241c16;
+      --ink-soft: #67594d;
+      --cream: #fff8e8;
+      --paper: #fffdf6;
+      --foam: #fff4ce;
+      --beer: #efb62d;
+      --beer-deep: #b87608;
+      --forest: #284c35;
+      --wine: #7b2f36;
+      --line: rgba(36, 28, 22, .13);
+      --shadow: 0 20px 55px rgba(50, 34, 20, .14);
+      --display: "Playfair Display", Georgia, "Times New Roman", serif;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: #211a15; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background: var(--cream);
+      font-family: var(--sans);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, a { -webkit-tap-highlight-color: transparent; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--beer); outline-offset: 3px; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 64px;
+      gap: 18px;
+      padding: 10px clamp(14px, 4vw, 34px);
+      color: var(--cream);
+      background: rgba(31, 24, 18, .92);
+      border-bottom: 1px solid rgba(239, 182, 45, .28);
+      backdrop-filter: blur(14px);
+    }
+    .brand {
+      flex: 0 0 auto;
+      font-family: var(--display);
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .brand b { color: var(--beer); }
+    .top-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: clamp(10px, 3vw, 20px);
+      min-width: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .top-links::-webkit-scrollbar { display: none; }
+    .top-links a {
+      flex: 0 0 auto;
+      color: inherit;
+      font-size: .78rem;
+      font-weight: 700;
+      text-decoration: none;
+      opacity: .78;
+    }
+    .top-links a:hover { color: #ffd86f; opacity: 1; }
+
+    .hero {
+      position: relative;
+      min-height: 650px;
+      color: var(--cream);
+      background:
+        radial-gradient(circle at 16% 22%, rgba(239, 182, 45, .26), transparent 24%),
+        radial-gradient(circle at 90% 75%, rgba(123, 47, 54, .31), transparent 28%),
+        linear-gradient(135deg, #211a15 0%, #3c2c20 54%, #221a15 100%);
+      overflow: hidden;
+    }
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255, 244, 206, .16);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero::before { width: 110px; height: 110px; left: 5%; top: 14%; }
+    .hero::after { width: 46px; height: 46px; right: 7%; top: 18%; }
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, .72fr);
+      align-items: center;
+      width: min(1140px, calc(100% - 36px));
+      min-height: 650px;
+      margin: 0 auto;
+    }
+    .hero-copy { padding: clamp(64px, 9vw, 110px) 0; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255, 216, 111, .4);
+      border-radius: 999px;
+      color: #ffd86f;
+      background: rgba(255, 255, 255, .035);
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { margin: 0; font-family: var(--display); line-height: 1.05; }
+    h1 {
+      max-width: 720px;
+      margin-top: 18px;
+      font-size: clamp(3.4rem, 9.2vw, 7rem);
+      letter-spacing: -.045em;
+      text-wrap: balance;
+    }
+    h1 span { color: var(--beer); font-style: italic; }
+    .lede {
+      max-width: 620px;
+      margin: 24px 0 0;
+      color: rgba(255, 248, 232, .79);
+      font-size: clamp(1rem, 2vw, 1.16rem);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 17px;
+      border: 1px solid rgba(255, 216, 111, .4);
+      border-radius: 999px;
+      color: var(--ink);
+      background: linear-gradient(135deg, #ffd86f, var(--beer));
+      font-size: .78rem;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 12px 30px rgba(0,0,0,.24);
+      transition: transform .18s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button.secondary { color: var(--cream); background: rgba(255,255,255,.045); box-shadow: none; }
+    .hero-art {
+      position: relative;
+      align-self: end;
+      display: flex;
+      justify-content: center;
+      height: 620px;
+    }
+    .hero-art::after {
+      content: "";
+      position: absolute;
+      right: 4%;
+      bottom: 20px;
+      left: 5%;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.32);
+      filter: blur(16px);
+    }
+    .hero-art img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      filter: drop-shadow(0 18px 26px rgba(0,0,0,.22));
+    }
+
+    .survival {
+      position: relative;
+      z-index: 4;
+      width: min(980px, calc(100% - 28px));
+      margin: -34px auto 0;
+      padding: 16px;
+      border: 1px solid rgba(184, 118, 8, .18);
+      border-radius: 22px;
+      background: rgba(255, 253, 246, .96);
+      box-shadow: var(--shadow);
+    }
+    .survival-label {
+      margin: 0 0 10px;
+      color: var(--beer-deep);
+      font-size: .64rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .survival-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+    .survival-word {
+      min-width: 0;
+      padding: 13px 10px;
+      border-radius: 14px;
+      text-align: center;
+      background: var(--foam);
+    }
+    .survival-word strong { display: block; font-family: var(--display); font-size: clamp(1.15rem, 3vw, 1.55rem); }
+    .survival-word span { color: var(--ink-soft); font-size: .68rem; font-weight: 700; }
+
+    .glossary-section { padding: 70px 18px 86px; }
+    .wrap { width: min(1080px, 100%); margin: 0 auto; }
+    .section-head { max-width: 680px; margin: 0 auto 30px; text-align: center; }
+    .section-head .kicker { color: var(--beer-deep); font-size: .68rem; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+    .section-head h2 { margin-top: 9px; font-size: clamp(2.1rem, 5vw, 3.5rem); }
+    .section-head p { margin: 12px auto 0; color: var(--ink-soft); font-size: .96rem; }
+
+    .tools {
+      position: sticky;
+      top: 74px;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 9px;
+      max-width: 790px;
+      margin: 0 auto 24px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 253, 246, .92);
+      box-shadow: 0 10px 35px rgba(50,34,20,.12);
+      backdrop-filter: blur(12px);
+    }
+    .search-wrap { position: relative; min-width: 0; }
+    .search-wrap::before {
+      content: "⌕";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      color: var(--beer-deep);
+      font-size: 1.2rem;
+      transform: translateY(-53%);
+      pointer-events: none;
+    }
+    .search {
+      width: 100%;
+      min-height: 46px;
+      padding: 0 14px 0 40px;
+      border: 0;
+      border-radius: 12px;
+      color: var(--ink);
+      background: #f7f0df;
+      font-size: .86rem;
+    }
+    .search::placeholder { color: #857466; }
+    .random-button {
+      min-height: 46px;
+      padding: 0 15px;
+      border: 0;
+      border-radius: 12px;
+      color: var(--cream);
+      background: var(--forest);
+      font-size: .75rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .result-count { min-height: 20px; margin: -10px 0 16px; color: var(--ink-soft); font-size: .72rem; text-align: center; }
+
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 13px;
+    }
+    .term-card {
+      position: relative;
+      min-width: 0;
+      padding: 20px 19px 19px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--paper);
+      box-shadow: 0 8px 25px rgba(45,31,20,.06);
+      overflow: hidden;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .term-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 4px;
+      background: var(--term-color, var(--beer));
+    }
+    .term-card:hover { transform: translateY(-3px); border-color: rgba(184,118,8,.34); box-shadow: 0 14px 30px rgba(45,31,20,.1); }
+    .term-card h3 {
+      padding-right: 26px;
+      font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+      overflow-wrap: anywhere;
+    }
+    .term-card h3 span { color: var(--beer-deep); font-family: var(--sans); font-size: .62rem; font-style: normal; font-weight: 800; }
+    .term-card p { margin: 9px 0 0; color: var(--ink-soft); font-size: .81rem; line-height: 1.52; }
+    .term-card .tiny-icon { position: absolute; top: 18px; right: 15px; font-size: 1rem; }
+    .term-card.long { grid-column: span 2; }
+    .term-card.highlight {
+      border-color: var(--beer-deep);
+      box-shadow: 0 0 0 4px rgba(239,182,45,.24), 0 18px 38px rgba(45,31,20,.15);
+      animation: wobble .55s ease;
+    }
+    .term-card[hidden] { display: none; }
+    @keyframes wobble {
+      0%, 100% { transform: rotate(0); }
+      30% { transform: rotate(-1.1deg) scale(1.01); }
+      65% { transform: rotate(1.1deg) scale(1.01); }
+    }
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 34px 20px;
+      border: 1px dashed rgba(36,28,22,.22);
+      border-radius: 18px;
+      color: var(--ink-soft);
+      text-align: center;
+      background: rgba(255,255,255,.44);
+    }
+
+    .source-note {
+      max-width: 750px;
+      margin: 28px auto 0;
+      padding: 15px 17px;
+      border-left: 4px solid var(--beer);
+      border-radius: 0 13px 13px 0;
+      color: var(--ink-soft);
+      background: #f5ead0;
+      font-size: .74rem;
+    }
+    .source-note strong { color: var(--ink); }
+
+    footer {
+      padding: 36px 20px;
+      color: rgba(255,248,232,.64);
+      background: #211a15;
+      font-size: .75rem;
+      text-align: center;
+    }
+    footer strong { color: var(--cream); font-family: var(--display); font-size: 1rem; }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0);
+      white-space: nowrap; border: 0;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(250px, .64fr); }
+      .hero-art { height: 540px; }
+      .glossary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 620px) {
+      .topbar { gap: 10px; }
+      .top-links { gap: 11px; }
+      .top-links a { font-size: .67rem; }
+      .top-links a:first-child { display: none; }
+      .hero { min-height: 0; }
+      .hero-grid { display: flex; width: min(calc(100% - 24px), 520px); min-height: 0; flex-direction: column; }
+      .hero-copy { padding: 56px 4px 0; text-align: center; }
+      h1 span { display: block; }
+      .lede { margin-inline: auto; }
+      .hero-actions { display: grid; grid-template-columns: 1fr; justify-content: center; width: min(100%, 310px); margin-inline: auto; }
+      .hero-actions .button { width: 100%; }
+      .hero-art { width: min(100%, 390px); height: 430px; margin-top: 8px; }
+      .survival { margin-top: -22px; padding: 11px; border-radius: 18px; }
+      .survival-grid { gap: 6px; }
+      .survival-word { padding: 10px 5px; }
+      .survival-word span { font-size: .61rem; }
+      .glossary-section { padding: 55px 10px 66px; }
+      .section-head { padding-inline: 10px; margin-bottom: 23px; }
+      .tools { top: 70px; grid-template-columns: minmax(0, 1fr) auto; margin-bottom: 21px; padding: 6px; border-radius: 14px; }
+      .random-button { width: 46px; padding: 0; font-size: 0; }
+      .random-button::before { content: "🎲"; font-size: 1rem; }
+      .glossary-grid { grid-template-columns: 1fr; gap: 9px; }
+      .term-card, .term-card.long { grid-column: auto; padding: 17px 16px 16px; border-radius: 14px; }
+      .term-card h3 { font-size: 1.28rem; }
+      .term-card p { font-size: .79rem; }
+    }
+
+    @media (max-width: 390px) {
+      h1 { font-size: 3rem; }
+      .hero-art { height: 380px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">Rejseklubben<b>™</b></a>
+    <nav class="top-links" aria-label="Hovednavigation">
+      <a href="index.html">Forsiden</a>
+      <a href="biergarten.html">Biergartens</a>
+      <a href="streger.html">Streger</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">🍺 Rejseklubbens sproglige beredskab</div>
+          <h1>Tyske <span>ølgloser</span></h1>
+          <p class="lede">Så du kan bestille med autoritet, nikke klogt til brygmesteren og misforstå resten med imponerende selvtillid.</p>
+          <div class="hero-actions">
+            <a class="button" href="#ordbogen">Åbn ølordbogen ↓</a>
+            <a class="button secondary" href="biergarten.html">Find et øvelseslokale ⌖</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <img src="images/beer-glossary-character.png" alt="Munter illustration af en lettere bedugget tysk ølentusiast med et stort stentøjskrus">
+        </div>
+      </div>
+    </section>
+
+    <aside class="survival" aria-label="De tre vigtigste gloser">
+      <p class="survival-label">Overlevelsessættet</p>
+      <div class="survival-grid">
+        <div class="survival-word"><strong>Maß</strong><span>1 liter øl</span></div>
+        <div class="survival-word"><strong>Seidla</strong><span>½ liter øl</span></div>
+        <div class="survival-word"><strong>Schnitt</strong><span>Et halvfyldt glas</span></div>
+      </div>
+    </aside>
+
+    <section class="glossary-section" id="ordbogen">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Fra Bierbecher til Zwickelbier</div>
+          <h2>Den højtidelige ølordbog</h2>
+          <p>Søg efter det, du står med i hånden—eller tryk på terningen og lad skæbnen vælge aftenens glosse.</p>
+        </div>
+
+        <div class="tools" role="search">
+          <div class="search-wrap">
+            <label class="visually-hidden" for="glossary-search">Søg i ølgloserne</label>
+            <input class="search" id="glossary-search" type="search" placeholder="Søg fx krus, stamgæst eller Zwickel…" autocomplete="off">
+          </div>
+          <button class="random-button" id="random-word" type="button">🎲 Skænk mig et ord</button>
+        </div>
+        <p class="result-count" id="result-count" aria-live="polite">29 gloser klar til brug</p>
+
+        <div class="glossary-grid" id="glossary-grid">
+          <article class="term-card" style="--term-color:#efb62d"><span class="tiny-icon">🍺</span><h3>Bierbecher</h3><p>Et lille ølglas.</p></article>
+          <article class="term-card" style="--term-color:#7b2f36"><span class="tiny-icon">🪑</span><h3>Bierbruder</h3><p>En stamgæst.</p></article>
+          <article class="term-card" style="--term-color:#284c35"><span class="tiny-icon">◉</span><h3>Bierfilz</h3><p>Ølbrik.</p></article>
+          <article class="term-card" style="--term-color:#b87608"><span class="tiny-icon">🥨</span><h3>Bierhappen</h3><p>En bid brød til øl.</p></article>
+          <article class="term-card long" style="--term-color:#284c35"><span class="tiny-icon">🌳</span><h3>Bierkeller</h3><p>I Sydtyskland bruges begrebet om en Biergarten, hvor man sidder ved langborde under grønne træers skygge. En ølhave kan ligge der, hvor man tidligere havde gær- eller lagerkælder, for eksempel en Felsenkeller.</p></article>
+          <article class="term-card" style="--term-color:#efb62d"><span class="tiny-icon">🍺</span><h3>Bierkrug</h3><p>Ølkrus.</p></article>
+          <article class="term-card" style="--term-color:#7b2f36"><span class="tiny-icon">😈</span><h3>Biermörder</h3><p>Ølsluger.</p></article>
+          <article class="term-card" style="--term-color:#284c35"><span class="tiny-icon">😌</span><h3>Bierruhe</h3><p>Urokkelig ro.</p></article>
+          <article class="term-card" style="--term-color:#b87608"><span class="tiny-icon">🍻</span><h3>Bierschwemme</h3><p>En ølstue med tappehaner.</p></article>
+          <article class="term-card" style="--term-color:#efb62d"><span class="tiny-icon">🍺</span><h3>Bierseidel</h3><p>Lille ølkrus.</p></article>
+          <article class="term-card" style="--term-color:#7b2f36"><span class="tiny-icon">🏠</span><h3>Bräustüberl</h3><p>Bryggerstuen—skænkestue.</p></article>
+          <article class="term-card" style="--term-color:#284c35"><span class="tiny-icon">🥖</span><h3>Brotzeit</h3><p>Måltid til øl.</p></article>
+          <article class="term-card" style="--term-color:#b87608"><span class="tiny-icon">🏺</span><h3>Keferloher</h3><p>Stentøjskrus.</p></article>
+          <article class="term-card" style="--term-color:#efb62d"><span class="tiny-icon">↗</span><h3>Kellerbier</h3><p>Se Zwickelbier.</p></article>
+          <article class="term-card" style="--term-color:#7b2f36"><span class="tiny-icon">🧑‍🍳</span><h3>Köbes</h3><p>Øl-tjenere i Köln og Düsseldorf.</p></article>
+          <article class="term-card" style="--term-color:#284c35"><span class="tiny-icon">1ℓ</span><h3>Mass <span>· Maß</span></h3><p>Et glas eller krus, der rummer en hel liter øl.</p></article>
+          <article class="term-card long" style="--term-color:#b87608"><span class="tiny-icon">🛢️</span><h3>Pittermännchen</h3><p>Egentlig “Peters små mænd”. Navnet på store fadølsankre i Köln.</p></article>
+          <article class="term-card" style="--term-color:#efb62d"><span class="tiny-icon">😋</span><h3>Schmankerln</h3><p>Lækkerbiskener.</p></article>
+          <article class="term-card" style="--term-color:#7b2f36"><span class="tiny-icon">🎪</span><h3>Schmankerln-Gasse</h3><p>En række boder med øl og mad.</p></article>
+          <article class="term-card" style="--term-color:#284c35"><span class="tiny-icon">½</span><h3>Schnitt</h3><p>Et halvfyldt glas eller krus.</p></article>
+          <article class="term-card" style="--term-color:#b87608"><span class="tiny-icon">½ℓ</span><h3>Seidla</h3><p>Et glas eller krus, der rummer en halv liter øl.</p></article>
+          <article class="term-card" style="--term-color:#efb62d"><span class="tiny-icon">🍻</span><h3>Schwemme</h3><p>Ølstue.</p></article>
+          <article class="term-card long" style="--term-color:#7b2f36"><span class="tiny-icon">🔒</span><h3>Stammkrügla</h3><p>Stamkrus, som værtshuset deponerer til stamgæsterne.</p></article>
+          <article class="term-card long" style="--term-color:#284c35"><span class="tiny-icon">🤫</span><h3>Sticke</h3><p>Hemmelighed—et udtryk, der bruges i Düsseldorf. Ordet henviser til, at brygmesteren tilsætter mere malt end normalt, og at dette er en hemmelighed.</p></article>
+          <article class="term-card" style="--term-color:#b87608"><span class="tiny-icon">🏠</span><h3>Stüberl</h3><p>Skænkestue.</p></article>
+          <article class="term-card" style="--term-color:#efb62d"><span class="tiny-icon">♨️</span><h3>Sudhaus</h3><p>Bryghus eller bryggekedel.</p></article>
+          <article class="term-card long" style="--term-color:#7b2f36"><span class="tiny-icon">🌫️</span><h3>Ungespundet-hefe-trüb</h3><p>Ufiltreret og upasteuriseret øl med svæv.</p></article>
+          <article class="term-card long" style="--term-color:#284c35"><span class="tiny-icon">🔧</span><h3>Zwicklbier <span>· Zwickelbier</span></h3><p>Ufiltreret og upasteuriseret øl. En Zwickel er en hane, som man stikker ind i lagerfadene for at smage, om øllet er modnet nok. Begrebet kendes også som Kellerbier.</p></article>
+          <article class="term-card long" style="--term-color:#b87608"><span class="tiny-icon">💪</span><h3>Vollbier</h3><p>En øl med fuld krop. Den skal indeholde 11–15 % Plato, hvilket typisk giver en alkoholprocent på 3–5 %.</p></article>
+          <div class="empty-state" id="empty-state" hidden>Ingen ølgloser matcher. Prøv med “krus”—det plejer at løse det meste.</div>
+        </div>
+
+        <aside class="source-note"><strong>Fra rejseklubbens arkiv:</strong> Gloserne er bearbejdet fra den fotograferede Bamberg-ordliste på side 261. Illustrationen er original og lavet særligt til denne side.</aside>
+      </div>
+    </section>
+  </main>
+
+  <footer><strong>Rejseklubben™</strong><br>Ordforrådet er nu større. Dømmekraften er uændret.</footer>
+
+  <script>
+    (function () {
+      var search = document.getElementById("glossary-search");
+      var cards = Array.prototype.slice.call(document.querySelectorAll(".term-card"));
+      var count = document.getElementById("result-count");
+      var empty = document.getElementById("empty-state");
+      var randomButton = document.getElementById("random-word");
+
+      function normalize(value) {
+        return value.toLocaleLowerCase("da-DK").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      }
+
+      function filterCards() {
+        var query = normalize(search.value.trim());
+        var visible = 0;
+        cards.forEach(function (card) {
+          var matches = !query || normalize(card.textContent).indexOf(query) !== -1;
+          card.hidden = !matches;
+          card.classList.remove("highlight");
+          if (matches) visible += 1;
+        });
+        empty.hidden = visible !== 0;
+        count.textContent = query ? visible + (visible === 1 ? " glosse fundet" : " gloser fundet") : "29 gloser klar til brug";
+      }
+
+      function chooseRandomWord() {
+        search.value = "";
+        filterCards();
+        var chosen = cards[Math.floor(Math.random() * cards.length)];
+        cards.forEach(function (card) { card.classList.remove("highlight"); });
+        chosen.classList.add("highlight");
+        chosen.scrollIntoView({ behavior: "smooth", block: "center" });
+        count.textContent = "Skæbnen valgte “" + chosen.querySelector("h3").childNodes[0].textContent.trim() + "”";
+        window.setTimeout(function () { chosen.classList.remove("highlight"); }, 4000);
+      }
+
+      search.addEventListener("input", filterCards);
+      randomButton.addEventListener("click", chooseRandomWord);
+    })();
+  </script>
+</body>
+</html>
