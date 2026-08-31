@@ -1,4 +1,4 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.2/+esm";
+const { createClient } = window.supabase;
 
 const SUPABASE_URL = "https://vlcxuwyjavdmxdreuzct.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_HraJNUX2Nw6YGjr42wxNew_mp9n0Br0";
@@ -860,6 +860,28 @@ async function ensureAnonymousSession() {
   return data.session;
 }
 
+async function loadPublicProfiles() {
+  const query = new URLSearchParams({
+    select: "id,display_name,is_admin",
+    is_active: "eq.true",
+    order: "display_name.asc",
+  });
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/players?${query}`, {
+    headers: {
+      apikey: SUPABASE_PUBLISHABLE_KEY,
+      Accept: "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Deltagerlisten kunne ikke hentes (${response.status}).`);
+  }
+
+  state.profiles = await response.json();
+  state.profileById = new Map(state.profiles.map((profile) => [profile.id, profile]));
+  renderIdentityChoices();
+}
+
 async function getClaimedPlayer() {
   const { data, error } = await db.rpc("get_claimed_player");
   if (error) throw error;
@@ -905,6 +927,13 @@ elements.claimCode.addEventListener("input", () => {
 
 async function start() {
   localStorage.removeItem("rejseklubben-player-id");
+
+  try {
+    await loadPublicProfiles();
+  } catch (error) {
+    elements.identityError.textContent = readableError(error);
+  }
+
   try {
     await ensureAnonymousSession();
     await loadData();
