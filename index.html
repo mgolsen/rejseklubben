@@ -168,6 +168,13 @@
     box-shadow: 0 10px 34px rgba(86, 8, 18, .38);
   }
   .hotel-cta:hover { color: #fff; background: #c02a37; }
+  .transit-cta {
+    color: #fff;
+    background: #0875bb;
+    border-color: rgba(255,255,255,.42);
+    box-shadow: 0 10px 34px rgba(0,65,112,.38);
+  }
+  .transit-cta:hover { color: #fff; background: #1092dc; }
 
   /* ---------- Sections ---------- */
   section {
@@ -420,6 +427,56 @@
   .fact { border: 1px solid var(--line); border-radius: 14px; padding: 22px; text-align: center; background: var(--paper); }
   .fact .k { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gold-deep); font-weight: 700; }
   .fact .v { font-family: var(--display); font-size: 1.35rem; font-weight: 800; margin-top: 6px; }
+  .transit-app {
+    display: grid;
+    grid-template-columns: 74px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 20px;
+    max-width: 980px;
+    margin: 18px auto 0;
+    padding: 22px;
+    border: 1px solid rgba(8,117,187,.25);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #eef8fe, #fff);
+    box-shadow: var(--shadow);
+    scroll-margin-top: 82px;
+  }
+  .transit-badge {
+    display: grid;
+    width: 74px;
+    height: 74px;
+    place-items: center;
+    border: 3px solid #fff;
+    border-radius: 20px;
+    color: #fff;
+    background: #0875bb;
+    font-family: var(--sans);
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: -.04em;
+    box-shadow: 0 8px 22px rgba(0,65,112,.22);
+  }
+  .transit-copy .k { color: #0875bb; font-size: .66rem; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
+  .transit-copy h3 { margin-top: 4px; font-size: 1.5rem; }
+  .transit-copy p { margin: 6px 0 0; color: var(--ink-soft); font-size: .8rem; line-height: 1.45; }
+  .store-links { display: grid; grid-template-columns: repeat(2, minmax(138px, 1fr)); gap: 8px; }
+  .store-link {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 13px;
+    border-radius: 10px;
+    color: #fff;
+    background: var(--ink);
+    font-size: .72rem;
+    font-weight: 800;
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+  }
+  .store-link:hover { color: var(--ink); background: var(--gold); }
+  .store-fallback { grid-column: 1 / -1; color: #075f98; font-size: .66rem; font-weight: 700; text-align: center; }
   .hotel-panel {
     display: grid;
     grid-template-columns: minmax(230px, .75fr) minmax(0, 1.45fr);
@@ -458,10 +515,16 @@
   .hotel-detail.hotel-warning { grid-column: 1 / -1; background: #fff0e8; }
   .hotel-detail.hotel-warning dt { color: var(--wine); }
   @media (max-width: 700px) {
+    .transit-app { grid-template-columns: 58px minmax(0, 1fr); gap: 14px; padding: 18px; }
+    .transit-badge { width: 58px; height: 58px; border-radius: 16px; font-size: 1rem; }
+    .store-links { grid-column: 1 / -1; }
     .hotel-panel { grid-template-columns: 1fr; }
     .hotel-heading { padding: 23px 20px; }
   }
   @media (max-width: 440px) {
+    .transit-app { margin-inline: -4px; padding: 16px; }
+    .store-links { grid-template-columns: 1fr; }
+    .store-fallback { grid-column: auto; }
     .hotel-details { grid-template-columns: 1fr; padding: 12px; }
   }
 
@@ -504,6 +567,7 @@
       <a class="game-cta" href="streger.html">Åbn stregregnskabet <span aria-hidden="true">→</span></a>
       <a class="game-cta garden-cta" href="biergarten.html">Find nærmeste Biergarten <span aria-hidden="true">⌖</span></a>
       <a class="game-cta hotel-cta" href="her-bor-vi.html">Her bor vi <span aria-hidden="true">⌂</span></a>
+      <a class="game-cta transit-cta" href="#vvs-app">VVS trafik-app <span aria-hidden="true">U</span></a>
     </div>
   </div>
 
@@ -573,12 +637,12 @@
         <div class="card">
           <div class="avatar photo"><img src="pictures/Christian.jpg" alt="Christian Bartels" loading="lazy"></div>
           <h3>Christian Bartels</h3>
-          <div class="role">Ikke flere øl, jeg skal hjem og lave kolonihave</div>
+          <div class="role">&quot;Ikke flere øl, jeg skal hjem og lave kolonihave&quot;</div>
         </div>
         <div class="card">
-          <div class="avatar">D</div>
+          <div class="avatar photo"><img src="pictures/david.jpg" alt="David Skjoldborg Pedersen" loading="lazy"></div>
           <h3>David Skjoldborg Pedersen</h3>
-          <div class="role"></div>
+          <div class="role">&quot;Hvis I tager et shot tager jeg to&quot;</div>
         </div>
         <div class="card">
           <div class="avatar photo"><img src="pictures/emil.jpg" alt="Emil" loading="lazy"></div>
@@ -586,9 +650,9 @@
           <div class="role">Dansesmølf (+ arrangør)</div>
         </div>
         <div class="card">
-          <div class="avatar">M</div>
+          <div class="avatar photo"><img src="pictures/mark.jpg" alt="Mark Rif Torbensen" loading="lazy"></div>
           <h3>Mark Rif Torbensen</h3>
-          <div class="role"></div>
+          <div class="role">&quot;Er her vildsvin, jeg har taget armbrøsten med&quot;</div>
         </div>
         <div class="card">
           <div class="avatar photo"><img src="pictures/Martin.jpg" alt="Martin" loading="lazy"></div>
@@ -596,29 +660,29 @@
           <div class="role">Lyseslukker (+ arrangør)</div>
         </div>
         <div class="card">
-          <div class="avatar">M</div>
+          <div class="avatar photo"><img src="pictures/morten.jpg" alt="Morten" loading="lazy"></div>
           <h3>Morten</h3>
-          <div class="role"></div>
+          <div class="role">&quot;Jeg går lige ud og kaster op&quot; (+ arrangør)</div>
         </div>
         <div class="card">
-          <div class="avatar">R</div>
+          <div class="avatar photo"><img src="pictures/rene.jpg" alt="René Juhl" loading="lazy"></div>
           <h3>René Juhl</h3>
-          <div class="role"></div>
+          <div class="role">Snuggle Monster</div>
         </div>
         <div class="card">
-          <div class="avatar">S</div>
+          <div class="avatar photo"><img src="pictures/søren.jpg" alt="Søren Dahl" loading="lazy"></div>
           <h3>Søren Dahl</h3>
-          <div class="role"></div>
+          <div class="role">The Twinmaker</div>
         </div>
         <div class="card">
-          <div class="avatar">S</div>
+          <div class="avatar photo"><img src="pictures/steven.jpg" alt="Steven Kjeld Christensen" loading="lazy"></div>
           <h3>Steven Kjeld Christensen</h3>
-          <div class="role"></div>
+          <div class="role">Charme, selvtillid og lækkert skæg</div>
         </div>
         <div class="card">
           <div class="avatar photo"><img src="pictures/thomas.jpg" alt="Thomas Greniman" loading="lazy"></div>
           <h3>Thomas Greniman</h3>
-          <div class="role">I snakker for meget og drikker for lidt</div>
+          <div class="role">&quot;I snakker for meget og drikker for lidt. Jeg bliver så træt af det&quot;</div>
         </div>
       </div>
     </div>
@@ -888,6 +952,19 @@
         <div class="fact"><div class="k">Hvor</div><div class="v">Stuttgart 🇩🇪</div></div>
         <div class="fact"><div class="k">Hvem</div><div class="v">15 deltagere</div></div>
       </div>
+      <article class="transit-app" id="vvs-app">
+        <div class="transit-badge" aria-hidden="true">VVS</div>
+        <div class="transit-copy">
+          <div class="k">Bus · U-Bahn · S-Bahn</div>
+          <h3>VVS Mobil</h3>
+          <p>Live afgange, ruteplan og billetter i Stuttgart. Vælg den rigtige version til din telefon.</p>
+        </div>
+        <div class="store-links">
+          <a class="store-link" href="https://apps.apple.com/de/app/vvs-mobil-fahrplan-tickets/id6464310701" target="_blank" rel="noopener noreferrer">iPhone · App Store ↗</a>
+          <a class="store-link" href="https://play.google.com/store/apps/details?id=com.mentz.vvsmobile&amp;hl=de" target="_blank" rel="noopener noreferrer">Android · Google Play ↗</a>
+          <a class="store-fallback" href="https://www3.vvs.de" target="_blank" rel="noopener noreferrer">Ældre telefon? Åbn VVS' web-rejseplan ↗</a>
+        </div>
+      </article>
       <article class="hotel-panel">
         <div class="hotel-heading">
           <div class="k">Her bor vi</div>
