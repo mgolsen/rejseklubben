@@ -181,22 +181,6 @@ const beerGardens = [
     facts: ["Brygges på stedet", "Kobberkedler ved baren", "Grupper fra 10: forespørg"],
     sourceUrl: "https://sophies-brauhaus.de/",
   },
-  {
-    id: "tauberquelle",
-    name: "Restaurant Tauberquelle",
-    area: "Stuttgart-Mitte",
-    address: "Torstraße 19, 70173 Stuttgart",
-    lat: 48.7724898,
-    lon: 9.1770593,
-    icon: "🥟",
-    accent: "#9e3e2d",
-    aspect: "Mest schwabisk",
-    description: "En traditionsrig restaurant med rødder tilbage til 1879, hjemmelavede Maultaschen og en rustik biergarten med 80 pladser midt i byen.",
-    facts: ["Rødder fra 1879", "80 pladser", "Original schwabisk mad"],
-    notice: "Ferielukket 24. august–6. september 2026 — altså under hele turen.",
-    availableDuringTrip: false,
-    sourceUrl: "https://tauberquelle-stuttgart.de/",
-  },
 ];
 
 const elements = {

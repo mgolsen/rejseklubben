@@ -103,7 +103,7 @@
     background: linear-gradient(180deg, rgba(20,17,14,0.45) 0%, rgba(20,17,14,0.30) 40%, rgba(20,17,14,0.80) 100%);
     pointer-events: none;
   }
-  .hero-inner { position: relative; z-index: 2; max-width: 820px; }
+  .hero-inner { position: relative; z-index: 2; width: min(820px, 100%); min-width: 0; }
   .hero .kicker { color: var(--gold); }
   .hero h1 {
     font-size: clamp(3.2rem, 12vw, 8rem);
@@ -146,6 +146,7 @@
     justify-content: center;
     gap: 10px;
     width: fit-content;
+    max-width: 100%;
     margin: 24px auto 0;
     padding: 12px 19px;
     border: 1px solid rgba(201, 162, 75, 0.65);
@@ -154,6 +155,8 @@
     background: var(--gold);
     font-size: 0.86rem;
     font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
     text-decoration: none;
     box-shadow: 0 10px 30px rgba(0,0,0,0.22);
     transition: transform .2s ease, background .2s ease;
@@ -427,6 +430,8 @@
   .fact { border: 1px solid var(--line); border-radius: 14px; padding: 22px; text-align: center; background: var(--paper); }
   .fact .k { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gold-deep); font-weight: 700; }
   .fact .v { font-family: var(--display); font-size: 1.35rem; font-weight: 800; margin-top: 6px; }
+  .fact-link { color: inherit; text-decoration: none; transition: transform .2s ease, border-color .2s ease; }
+  .fact-link:hover, .fact-link:focus-visible { border-color: var(--gold); transform: translateY(-2px); }
   .transit-app {
     display: grid;
     grid-template-columns: 74px minmax(0, 1fr) auto;
@@ -512,8 +517,6 @@
   .hotel-detail dt { color: var(--gold-deep); font-size: .65rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
   .hotel-detail dd { margin: 5px 0 0; font-size: .84rem; font-weight: 700; line-height: 1.45; }
   .hotel-detail small { display: block; margin-top: 4px; color: var(--ink-soft); font-size: .68rem; font-weight: 500; }
-  .hotel-detail.hotel-warning { grid-column: 1 / -1; background: #fff0e8; }
-  .hotel-detail.hotel-warning dt { color: var(--wine); }
   @media (max-width: 700px) {
     .transit-app { grid-template-columns: 58px minmax(0, 1fr); gap: 14px; padding: 18px; }
     .transit-badge { width: 58px; height: 58px; border-radius: 16px; font-size: 1rem; }
@@ -566,7 +569,7 @@
       <div class="countdown" id="countdown" aria-label="Nedtælling til afgang"></div>
       <a class="game-cta" href="streger.html">Åbn stregregnskabet <span aria-hidden="true">→</span></a>
       <a class="game-cta garden-cta" href="biergarten.html">Find nærmeste Biergarten <span aria-hidden="true">⌖</span></a>
-      <a class="game-cta hotel-cta" href="her-bor-vi.html">Her bor vi <span aria-hidden="true">⌂</span></a>
+      <a class="game-cta hotel-cta" href="her-bor-vi.html">Her bor vi (tryk her i tilfælde af fuldskab) <span aria-hidden="true">⌂</span></a>
       <a class="game-cta transit-cta" href="#vvs-app">VVS trafik-app <span aria-hidden="true">U</span></a>
     </div>
   </div>
@@ -577,7 +580,6 @@
       <p class="lead">
         Rejseklubben rykker sydpå. Fire dage i Stuttgart — bilernes fødeby,
         vinmarkernes hovedstad og hjemsted for mere beton, end nogen burde være stolte af.
-        Vi kommer for kulturen. Vi bliver for resten.
       </p>
     </div>
   </section>
@@ -637,7 +639,7 @@
         <div class="card">
           <div class="avatar photo"><img src="pictures/Christian.jpg" alt="Christian Bartels" loading="lazy"></div>
           <h3>Christian Bartels</h3>
-          <div class="role">&quot;Ikke flere øl, jeg skal hjem og lave kolonihave&quot;</div>
+          <div class="role">&quot;Ikke flere øl, tak. Jeg skal hjem og lave kolonihave&quot;</div>
         </div>
         <div class="card">
           <div class="avatar photo"><img src="pictures/david.jpg" alt="David Skjoldborg Pedersen" loading="lazy"></div>
@@ -652,7 +654,7 @@
         <div class="card">
           <div class="avatar photo"><img src="pictures/mark.jpg" alt="Mark Rif Torbensen" loading="lazy"></div>
           <h3>Mark Rif Torbensen</h3>
-          <div class="role">&quot;Er her vildsvin, jeg har taget armbrøsten med&quot;</div>
+          <div class="role">&quot;Er her vildsvin? Jeg har taget armbrøsten med&quot;</div>
         </div>
         <div class="card">
           <div class="avatar photo"><img src="pictures/Martin.jpg" alt="Martin" loading="lazy"></div>
@@ -950,7 +952,7 @@
       <div class="facts">
         <div class="fact"><div class="k">Hvornår</div><div class="v">3.–6. sep. 2026</div></div>
         <div class="fact"><div class="k">Hvor</div><div class="v">Stuttgart 🇩🇪</div></div>
-        <div class="fact"><div class="k">Hvem</div><div class="v">15 deltagere</div></div>
+        <a class="fact fact-link" href="#holdet" aria-label="Se de 15 deltagere"><div class="k">Hvem</div><div class="v">15 deltagere</div></a>
       </div>
       <article class="transit-app" id="vvs-app">
         <div class="transit-badge" aria-hidden="true">VVS</div>
@@ -979,7 +981,7 @@
         <dl class="hotel-details">
           <div class="hotel-detail">
             <dt>Morgenmad</dt>
-            <dd>Dagligt 06:30–10:30<small>Buffet i Rôtisserie · 25 € hvis den ikke er inkluderet</small></dd>
+            <dd>Dagligt 06:30–10:30<small>Buffet i Rôtisserie · inkluderet i opholdet</small></dd>
           </div>
           <div class="hotel-detail">
             <dt>Ind og ud</dt>
@@ -1000,10 +1002,6 @@
           <div class="hotel-detail">
             <dt>Hoteltelefon</dt>
             <dd><a href="tel:+497119420">+49 711 942-0</a><small>info.stu@maritim.de</small></dd>
-          </div>
-          <div class="hotel-detail hotel-warning">
-            <dt>Aften på hotellet</dt>
-            <dd>Pianobaren og Bistro Reuchlin er lukket under hele turen.<small>Café Espresso: 10:00–20:00, søndag til 23:00 · Roomservice: 06:30–23:00</small></dd>
           </div>
         </dl>
       </article>
