@@ -698,5 +698,215 @@ window.STUTTGART_FACTS = [
     text: "Tre store keramiske kvindefigurer ved Albplatz udsprang af en konkurrence, hvis udskrivere ønskede Degerlochs legendariske ‘Fleckensau’ illustreret.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/organigramm/adresse/wolfgang-thiel-drei-maedchen-eine-ansteckende-legende-verbreitend"
+  },
+  {
+    id: 101,
+    category: "Dyr med attitude",
+    text: "En gås på spor 6 ved Stuttgart Hauptbahnhof nægtede i 2019 at efterkomme politiets ‘pladsforvisning’. Spor 6–9 blev lukket, før gåsen kom i en hundeboks og senere blev løsladt ved Bärensee.",
+    sourceLabel: "Bundespolizei",
+    sourceUrl: "https://www.presseportal.de/blaulicht/pm/116091/4209075"
+  },
+  {
+    id: 102,
+    category: "Firbenet pendler",
+    text: "En sort hund steg i 2015 alene på S3 i Sommerrain og kørte helt til Hauptbahnhof. Medpassagererne afleverede pendlerhunden til personalet, og ejeren hentede den et par timer senere.",
+    sourceLabel: "Bundespolizei",
+    sourceUrl: "https://www.presseportal.de/blaulicht/pm/116091/3057009"
+  },
+  {
+    id: 103,
+    category: "Dårlig flugtplan",
+    text: "Ifølge forbundspolitiet forsøgte en mand i 2023 at stjæle en bakke med 24 dåseøl og flygte over sporet til naboperronen — hvor en politipatrulje standsede ham.",
+    sourceLabel: "Bundespolizei",
+    sourceUrl: "https://www.presseportal.de/blaulicht/pm/116091/5497175"
+  },
+  {
+    id: 104,
+    category: "Indkøb uden liste",
+    text: "En beruset mand skal i 2024 have drukket en stjålet øl i en butik på Bad Cannstatt station og fortsat med spiritus, to lommelygter og leggings. I næste butik kastede han et yoghurtbæger på gulvet.",
+    sourceLabel: "Bundespolizei",
+    sourceUrl: "https://www.presseportal.de/blaulicht/pm/116091/5743141"
+  },
+  {
+    id: 105,
+    category: "Dårlig togrejse",
+    text: "Da en passager i 2024 opdagede, at han var steget på det forkerte tog fra Stuttgart, trak han i nødbremsen. Politiet ventede på ham ved togets helt normale næste stop.",
+    sourceLabel: "Bundespolizei",
+    sourceUrl: "https://www.presseportal.de/blaulicht/pm/116091/5801530"
+  },
+  {
+    id: 106,
+    category: "Sov på jobbet",
+    text: "En formodet indbrudstyv forsøgte i 2017 at bryde fem lejlighedsdøre op i Stuttgart-Süd, men faldt i søvn i opgangen. En nabo fandt ham, og politiet vækkede og anholdt ham.",
+    sourceLabel: "Stuttgarter Nachrichten",
+    sourceUrl: "https://www.stuttgarter-nachrichten.de/inhalt.stuttgart-sued-einbrecher-schlaeft-am-tatort-ein.3b79bde7-cded-4ea4-aa3d-5dc5b1cb43c9.html"
+  },
+  {
+    id: 107,
+    category: "Håndbagage med bid",
+    text: "Tolden i Stuttgart fandt i 2023 hele 138 beskyttede blodigler i en passagers bagage. De rejste i en flamingokasse mellem fugtige klude og endte bagefter i Wilhelma.",
+    sourceLabel: "Hauptzollamt Stuttgart",
+    sourceUrl: "https://www.presseportal.de/blaulicht/pm/121263/5658627"
+  },
+  {
+    id: 108,
+    category: "Frugt til vennerne",
+    text: "Et par blev stoppet ved Stuttgart Lufthavn med 69 kilo avocadoer, mangoer og passionsfrugter. De forklarede, at frugten var til dem selv og vennerne — fordi den var så frisk og lækker.",
+    sourceLabel: "Hauptzollamt Stuttgart",
+    sourceUrl: "https://www.presseportal.de/blaulicht/pm/121263/5954590"
+  },
+  {
+    id: 109,
+    category: "Pakkeliste fra helvede",
+    text: "En fjernbus ved Stuttgart Lufthavn afslørede sig i 2026 på lugten. Tolden fandt 252,8 kilo kødvarer, 700 cigaretter, fire vinduer med rulleskodder, et køkken, et klimaanlæg og en Maltipoo-hvalp.",
+    sourceLabel: "Hauptzollamt Stuttgart",
+    sourceUrl: "https://www.presseportal.de/blaulicht/pm/121263/6268254"
+  },
+  {
+    id: 110,
+    category: "Kubisk bæ",
+    text: "Wilhelmas wombatter Wendy og Windemere producerer en zoologisk særhed: terningformet afføring. Forskere har undersøgt kubernes funktion; måske sikrer formen, at territoriemarkeringerne ikke ruller væk.",
+    sourceLabel: "Wilhelma",
+    sourceUrl: "https://www.wilhelma.de/aktuelles/aktuelles/news-presse/archiv/meldung/tierische-sensation-fuer-die-wilhelma"
+  },
+  {
+    id: 111,
+    category: "Lokal legende",
+    text: "Ifølge Cannstatts lokale overlevering rykkede brandvæsenet i 1887 ud, fordi den røde fuldmåne blev forvekslet med en brand. Cannstatterne kaldes derfor stadig ‘Mondlöscher’ — måneslukkere.",
+    sourceLabel: "Kübelesmarkt Bad Cannstatt",
+    sourceUrl: "https://www.kuebelesmarkt.de/figuren/"
+  },
+  {
+    id: 112,
+    category: "Lokal legende",
+    text: "Under Pfalzkrigen så Cannstatts vagtfolk ifølge en legende nogle stynede piletræer gennem tågen og troede, at de var enorme franske soldater. Fastelavnsfiguren ‘Felbe’ minder stadig om fadæsen.",
+    sourceLabel: "Kübelesmarkt Bad Cannstatt",
+    sourceUrl: "https://www.kuebelesmarkt.de/figuren/"
+  },
+  {
+    id: 113,
+    category: "Brøndvæsen",
+    text: "Helligtrekongersdag trækker Cannstatts fastelavnsfolk ‘Brunnengeist’ op af Jakobsbrunnen. På fastelavnstirsdag sænkes brøndånden tilbage i mineralvandet efter en vild jagt.",
+    sourceLabel: "Kübelesmarkt Bad Cannstatt",
+    sourceUrl: "https://www.kuebelesmarkt.de/figuren/"
+  },
+  {
+    id: 114,
+    category: "Lokal legende",
+    text: "Botnang skulle ifølge legenden give hertugen en gøgerede. Da gøge ikke bygger reder, forærede beboerne ham i stedet hele Botnang-skoven.",
+    sourceLabel: "Landeshauptstadt Stuttgart",
+    sourceUrl: "https://www.stuttgart.de/medien/ibs/panoramaweg-west.pdf"
+  },
+  {
+    id: 115,
+    category: "Fejepligt",
+    text: "Ifølge Stuttgarts overborgmester indførtes den obligatoriske schwabiske ‘Kehrwoche’ i 1492, og byrådet afskaffede den først i 1988. Frivilligt kan enhver stadig tage en ‘Kehrwoche’, tilføjede han.",
+    sourceLabel: "SWR",
+    sourceUrl: "https://www.swr.de/swraktuell/baden-wuerttemberg/stuttgart/stuttgarter-ob-nopper-unterstuetzt-muellsammelaktion-100.html"
+  },
+  {
+    id: 116,
+    category: "Schwabisk måleenhed",
+    text: "Avislæserne kårede ‘Muggaseggele’ til det smukkeste schwabiske ord. Det betegner en ekstremt lille mængde eller forskel og hentyder bogstaveligt til en hanflues mikroskopiske kønsdel.",
+    sourceLabel: "NUSSBAUM Medien",
+    sourceUrl: "https://www.nussbaum.de/entdecken/themen/wortschatz-muggeseggele-die-kleinste-schwaebische-einheit-4809"
+  },
+  {
+    id: 117,
+    category: "Bønnekonge",
+    text: "På helligtrekongersdag bagte man i Bohnenviertel en kage med en skjult bønne. Finderen blev båret gennem gaderne som ‘Bohnenkönig’ og holdt hof ved et gilde; bagefter sang selskabet ‘Bohnenlied’, som ofte endte i råben.",
+    sourceLabel: "Stuttgart-Marketing",
+    sourceUrl: "https://www.stuttgart-tourist.de/stuttgart-entdecken/lieblingsviertel/mittendrin/bohnenviertel-und-leonhardsviertel/typisch-leonhardsviertel"
+  },
+  {
+    id: 118,
+    category: "Madrekord",
+    text: "Frieder Wallenmaier i Untertürkheim fremstillede 1.232 Maultaschen på præcis 28 minutter og 2 sekunder.",
+    sourceLabel: "Stuttgart-Marketing",
+    sourceUrl: "https://www.stuttgart-tourist.de/a-alte-kelter"
+  },
+  {
+    id: 119,
+    category: "Sækkepibefri zone",
+    text: "I gågaden i centrum må gademusikere kun begynde på hele klokkeslæt, spille 30 minutter, holde 30 minutters pause og derefter skifte sted. Kl. 14.30–16.00 er der musikforbud, og trommer, tromboner og sækkepiber er forbudt hele dagen.",
+    sourceLabel: "Landeshauptstadt Stuttgart",
+    sourceUrl: "https://www.stuttgart.de/organigramm/leistungen/strassenmusikanten"
+  },
+  {
+    id: 120,
+    category: "Teaterlogik",
+    text: "Stuttgart har et dukketeater, der bogstaveligt hedder ‘Theater in der Badewanne’. Teatret forklarer navnet med et skybrud under ombygningen, som fik lokalet til at ligne et badekar.",
+    sourceLabel: "Theater in der Badewanne",
+    sourceUrl: "https://theater-in-der-badewanne.de/theater/"
+  },
+  {
+    id: 121,
+    category: "Sprogligt uheld",
+    text: "Ifølge en lokal fortælling bestilte kong Wilhelm I ‘ein Lot’ amerikanske mammuttræsfrø. Amerikaneren forstod det som ‘a lot’ og sendte et helt pund; resultatet blev omkring 5.000 små træer.",
+    sourceLabel: "Landeshauptstadt Stuttgart",
+    sourceUrl: "https://www.stuttgart.de/wirtschaft/wirtschaftsstandort/standort-stuttgart/fakten-zum-standort"
+  },
+  {
+    id: 122,
+    category: "Bordfodbold",
+    text: "TIPP-KICK begyndte med et patent fra Stuttgart-møbelfabrikanten Carl Mayer. Blikspilleren sparkede ved et tryk på hovedet, og ‘bolden’ var en tofarvet korkterning.",
+    sourceLabel: "TIPP-KICK",
+    sourceUrl: "https://www.tipp-kick.de/FAQ/"
+  },
+  {
+    id: 123,
+    category: "Mercedes",
+    text: "Mercedes er opkaldt efter en lille pige. Emil Jellinek kørte racerløb som ‘Monsieur Mercedes’ efter datteren Mercédès og tog senere selv navnet Jellinek-Mercedes — en far opkaldt efter sit barn.",
+    sourceLabel: "Mercedes-Benz Group",
+    sourceUrl: "https://group.mercedes-benz.com/company/tradition/mercedes-benz/120-years-mercedes-brand-name.html"
+  },
+  {
+    id: 124,
+    category: "Porsche",
+    text: "Porsche 911 hed oprindeligt 901. Plakater og metalbogstaver var allerede fremstillet, da Peugeot gjorde krav på trecifrede modelnavne med nul i midten i Frankrig. Porsche skiftede bare nullet til et ettal.",
+    sourceLabel: "Porsche Newsroom",
+    sourceUrl: "https://newsroom.porsche.com/en/history/porsche-history-901-911-iaa-12274.html"
+  },
+  {
+    id: 125,
+    category: "Pink Pig",
+    text: "Porsches racerbil ‘Pink Pig’ var lyserød og opdelt som et slagterdiagram med mærker som tryne, skinke, svineknæ og hjerne. ‘Trøffelsnuseren fra Zuffenhausen’ måtte udgå under Le Mans.",
+    sourceLabel: "Porsche Newsroom",
+    sourceUrl: "https://newsroom.porsche.com/en/2023/motorsports/porsche-963-24-hours-le-mans-colours-special-design-32622.html"
+  },
+  {
+    id: 126,
+    category: "Bosch",
+    text: "Boschs elværktøjsimperium begyndte ikke med en boremaskine, men med den elektriske frisørtrimmer Forfex i 1928. Den blev forfaderen til firmaets slibere, boremaskiner og skruetrækkere.",
+    sourceLabel: "Bosch",
+    sourceUrl: "https://www.bosch.com/stories/90-years-power-tools/"
+  },
+  {
+    id: 127,
+    category: "Tissepause",
+    text: "VfB-målmand Jens Lehmann så i 2009 ud til at tage en tissepause bag reklamebanden midt i en Champions League-kamp. Et rumænsk kontraangreb sendte ham halsende tilbage i målet.",
+    sourceLabel: "The Guardian",
+    sourceUrl: "https://www.theguardian.com/football/2009/dec/10/jens-lehmann-urinate-relief"
+  },
+  {
+    id: 128,
+    category: "Trafikbureaukrati",
+    text: "Fans kæmpede i seks år for et Stuttgart-fodgængersignal med figurerne Äffle og Pferdle. Færdselsloven krævede menneskefigurer, så dyresignalet måtte sættes op som supplement ved siden af det lovlige.",
+    sourceLabel: "SWARCO",
+    sourceUrl: "https://www.swarco.com/de/stories/mit-aeffle-stehen-mit-pferdle-gehen"
+  },
+  {
+    id: 129,
+    category: "Mærkelig kunst",
+    text: "På Feuerseeplatz står en stenskulptur, hvis helt officielle titel er ‘Frau mit Ziegenbockmaske’ — ‘Kvinde med gedebukkemaske’.",
+    sourceLabel: "Landeshauptstadt Stuttgart",
+    sourceUrl: "https://www.stuttgart.de/organigramm/adresse/herbert-a.boehm-frau-mit-ziegenbockmaske-1980-85"
+  },
+  {
+    id: 130,
+    category: "Mad med navn",
+    text: "På en schwabisk menu kan man møde ‘Nonnenfürzle’: små, friturestegte dejkugler med et navn, der meget nærliggende kan læses som ‘nonneprutter’.",
+    sourceLabel: "Stuttgart-Marketing",
+    sourceUrl: "https://www.stuttgart-tourist.de/en/eat-and-drink/glossary-for-swabian-cuisine"
   }
 ];
