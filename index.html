@@ -162,6 +162,13 @@
     transition: transform .2s ease, background .2s ease;
   }
   .game-cta:hover { transform: translateY(-2px); background: #d6b45f; }
+  .round-cta {
+    color: #fff;
+    background: linear-gradient(135deg, #6f3a91, #3b174f);
+    border-color: rgba(255,221,119,.58);
+    box-shadow: 0 10px 34px rgba(45,13,61,.42);
+  }
+  .round-cta:hover { color: #24152d; background: var(--gold); }
   .garden-cta { color: var(--cream); background: rgba(20, 17, 14, .58); }
   .garden-cta:hover { color: var(--ink); background: var(--gold); }
   .hotel-cta {
@@ -568,6 +575,7 @@
       <p class="subtag">Vinmarker, Spätzle og dårlige idéer — i den rækkefølge.</p>
       <div class="countdown" id="countdown" aria-label="Nedtælling til afgang"></div>
       <a class="game-cta" href="streger.html">Åbn stregregnskabet <span aria-hidden="true">→</span></a>
+      <a class="game-cta round-cta" href="naeste-runde.html">Hvem betaler næste runde? <span aria-hidden="true">🎭</span></a>
       <a class="game-cta garden-cta" href="biergarten.html">Find nærmeste Biergarten <span aria-hidden="true">⌖</span></a>
       <a class="game-cta hotel-cta" href="her-bor-vi.html">Her bor vi (tryk her i tilfælde af fuldskab) <span aria-hidden="true">⌂</span></a>
       <a class="game-cta transit-cta" href="#vvs-app">VVS trafik-app <span aria-hidden="true">U</span></a>
