@@ -65,14 +65,14 @@ window.STUTTGART_FACTS = [
   {
     id: 10,
     category: "Politisk historie",
-    text: "Overborgmester Manfred Rommel lod i 1977 RAF-medlemmerne Baader, Ensslin og Raspe begrave sammen trods voldsomme protester: Fjendskab måtte høre op ved graven, mente han.",
+    text: "I 1977 lod Stuttgarts overborgmester Manfred Rommel tre døde medlemmer af den vesttyske terrorgruppe RAF — Baader, Ensslin og Raspe — begrave sammen trods voldsomme protester. Rommel mente, at fjendskab måtte høre op ved graven.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/en/rathaus/oberbuergermeister/ehemalige-stuttgarter-oberbuergermeister"
   },
   {
     id: 11,
     category: "Politik",
-    text: "Fritz Kuhns valgsejr i 2012 gjorde ham til Tysklands første grønne overborgmester i en delstatshovedstad.",
+    text: "Da Fritz Kuhn fra partiet Bündnis 90/Die Grünen vandt valget i 2012, blev han den første overborgmester fra De Grønne i en tysk delstatshovedstad.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/en/service/aktuelle-meldungen/2025/juni/alt-ob-fritz-kuhn-feiert-seinen-70.geburtstag"
   },
@@ -114,7 +114,7 @@ window.STUTTGART_FACTS = [
   {
     id: 17,
     category: "Krigshistorie",
-    text: "Birkenkopf blev omkring 40 meter højere, da murbrokker fra det krigshærgede Stuttgart blev lagt her mellem 1953 og 1957.",
+    text: "Bakken Birkenkopf i Stuttgart blev omkring 40 meter højere, da murbrokker fra det krigshærgede Stuttgart blev stablet på bakken mellem 1953 og 1957.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/en/tourismus/sehenswuerdigkeiten/birkenkopf"
   },
@@ -142,7 +142,7 @@ window.STUTTGART_FACTS = [
   {
     id: 21,
     category: "UNESCO",
-    text: "To Le Corbusier-huse i Weissenhofsiedlung kom på UNESCOs verdensarvsliste i 2016; dobbelthuset blev tegnet sammen med Pierre Jeanneret.",
+    text: "To bygninger tegnet af Le Corbusier i Stuttgarts Weissenhofsiedlung kom på UNESCOs verdensarvsliste i 2016: Citröhan-huset og et dobbelthus, som han tegnede sammen med Pierre Jeanneret.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/en/tourismus/sehenswuerdigkeiten/weissenhofsiedlung"
   },
@@ -156,14 +156,14 @@ window.STUTTGART_FACTS = [
   {
     id: 23,
     category: "Arkitektur",
-    text: "Det gamle slot har en bred ryttertrappe, så hertugens gæster kunne ride direkte op til riddersalen.",
+    text: "Stuttgarts Altes Schloss har en bred ryttertrappe, så hertugens gæster kunne ride direkte op til riddersalen.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/en/tourismus/sehenswuerdigkeiten/alte-schloss"
   },
   {
     id: 24,
     category: "Kongelig kærlighed",
-    text: "Kong Wilhelm I rev Württemberg-slægtens gamle borg ned for at bygge et mausoleum til sin tidligt afdøde hustru Katharina med ordene ‘Kærligheden hører aldrig op’.",
+    text: "Kong Wilhelm I af Württemberg lod slægtens gamle borg rive ned for at bygge et mausoleum til sin tidligt afdøde hustru Katharina. Over indgangen står ordene ‘Kærligheden hører aldrig op’.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/en/tourismus/sehenswuerdigkeiten/grabkapelle-wuerttemberg"
   },
@@ -219,7 +219,7 @@ window.STUTTGART_FACTS = [
   {
     id: 32,
     category: "Opfindelser",
-    text: "Daimler og Maybach udviklede en hurtigløbende firetaktsmotor i et haveskur i 1883 — så hemmeligt, at en mistænksom gartner anmeldte dem for falskmøntneri.",
+    text: "Gottlieb Daimler og Wilhelm Maybach udviklede en hurtigløbende firetaktsmotor i et haveskur i 1883 — så hemmeligt, at en mistænksom gartner anmeldte dem for falskmøntneri.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/en/tourismus/sehenswuerdigkeiten/gottlieb-daimler-gedaechtnisstaette"
   },
@@ -261,14 +261,14 @@ window.STUTTGART_FACTS = [
   {
     id: 38,
     category: "Mad",
-    text: "Den mættende schwabiske ret ‘Gaisburger Marsch’ — oksekød, kartofler og spätzle — blev opfundet i Stuttgart-bydelen Gaisburg.",
+    text: "Den mættende schwabiske ret ‘Gaisburger Marsch’ — oksekød, kartofler og de lokale ægnudler spätzle — blev opfundet i Stuttgart-bydelen Gaisburg.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/rathaus/stadtbezirke/stuttgart-ost/"
   },
   {
     id: 39,
     category: "Vin",
-    text: "En ‘Besenwirtschaft’ er en midlertidig vinudskænkning hos en vinbonde, som skænker egen vin højst fire måneder om året. Kosten ved døren viser, at der er åbent.",
+    text: "En ‘Besenwirtschaft’ er en midlertidig vinudskænkning, hvor en vinbonde må servere sin egen vin i højst fire måneder om året. En kost ved døren er det traditionelle tegn på, at der er åbent.",
     sourceLabel: "Stuttgart-Marketing",
     sourceUrl: "https://www.stuttgart-tourist.de/geniessen-in-stuttgart/wein-in-stuttgart/besen-wirtschaften"
   },
@@ -310,7 +310,7 @@ window.STUTTGART_FACTS = [
   {
     id: 45,
     category: "Litteratur",
-    text: "Eduard Mörike boede næsten 25 år i Stuttgart, og byens steder og stridigheder fandt vej ind i eventyret ‘Das Stuttgarter Hutzelmännlein’.",
+    text: "Digteren Eduard Mörike boede næsten 25 år i Stuttgart. Hans lokalkendskab og byens sociale og økonomiske konflikter blev en del af eventyret ‘Das Stuttgarter Hutzelmännlein’.",
     sourceLabel: "Stadtarchiv Stuttgart",
     sourceUrl: "https://www.stadtlexikon-stuttgart.de/article/cd8f2d0e-a139-4039-99c9-d44d7533aecf/Eduard_Moerike_%281804-1875%29.html"
   },
@@ -345,7 +345,7 @@ window.STUTTGART_FACTS = [
   {
     id: 50,
     category: "Overlevering",
-    text: "Ifølge en tidlig overlevering sneg den unge billedhugger Dannecker sig til hertugens påskeæggejagt for fattige børn og bad selv om adgang til kunstakademiet, da hans far sagde nej.",
+    text: "Ifølge en tidlig overlevering var Johann Heinrich Danneckers far imod, at sønnen kom på kunstakademiet. Som 13-årig sneg Dannecker sig derfor med til hertugens påskeæggejagt for fattige børn og bad selv om en plads.",
     sourceLabel: "Stadtarchiv Stuttgart",
     sourceUrl: "https://www.stadtlexikon-stuttgart.de/article/33fc7972-321a-4792-8453-b9c1bf2cae8a/Johann_Heinrich_Dannecker.html"
   },
@@ -373,7 +373,7 @@ window.STUTTGART_FACTS = [
   {
     id: 54,
     category: "Madlegende",
-    text: "En populær legende siger, at munke gemte kød, som var forbudt under fasten, i pastadej. Derfor kaldes maultaschen ‘Herrgottsb’scheißerle’ — omtrent ‘dem, der snyder Vorherre’.",
+    text: "En populær legende siger, at munke gemte kød, som var forbudt under fasten, i den schwabiske pastaret Maultaschen. Derfor kaldes retten ‘Herrgottsb’scheißerle’ — omtrent ‘dem, der snyder Vorherre’.",
     sourceLabel: "Stuttgart-Marketing",
     sourceUrl: "https://presse.stuttgart-tourist.de/_Resources/Persistent/2/4/0/e/240ebceb546f79ebd275b24316088583931109f3/01_Culinary%20delights%20of%20Stuttgart.pdf"
   },
@@ -394,14 +394,14 @@ window.STUTTGART_FACTS = [
   {
     id: 57,
     category: "Ballet",
-    text: "John Crankos skole åbnede i Stuttgart i 1971 som Vesttysklands første statslige balletakademi.",
+    text: "Balletskolen John Cranko Schule åbnede i Stuttgart i 1971 som Vesttysklands første statslige balletakademi.",
     sourceLabel: "Stuttgart Ballet",
     sourceUrl: "https://www.stuttgart-ballet.de/blog/on-this-day/founding-john-cranko-school/"
   },
   {
     id: 58,
     category: "Usædvanligt arbejdsliv",
-    text: "Stuttgart-fødte Georgette Tsinguirides arbejdede ved byens teatre i 72 år og nedskrev Crankos koreografier, så de kan opføres originaltro verden over.",
+    text: "Stuttgart-fødte Georgette Tsinguirides arbejdede ved byens teatre i 72 år og nedskrev koreografen John Crankos værker, så de kan opføres originaltro verden over.",
     sourceLabel: "Stuttgart Ballet",
     sourceUrl: "https://www.stuttgart-ballet.de/blog/birth-georgette-tsinguirides/"
   },
@@ -457,7 +457,7 @@ window.STUTTGART_FACTS = [
   {
     id: 66,
     category: "Chokolade",
-    text: "Chokoladefirmaet Ritter begyndte i Bad Cannstatt. Efter flytningen til Waldenbuch foreslog Clara Ritter i 1932 en lige så tung plade, der passede i en sportsjakkelomme — og Ritter Sport blev firkantet.",
+    text: "Ritter begyndte at lave chokolade i Bad Cannstatt. I 1932 foreslog Clara Ritter en firkantet plade med samme vægt som en almindelig chokoladebar, men kort nok til en sportsjakkelomme — og Ritter Sport fik sin kendte form.",
     sourceLabel: "Stuttgart-Marketing",
     sourceUrl: "https://presse.stuttgart-tourist.de/en/automobil-und-technik/tueftler-und-erfindungen-aus-der-region-stuttgart"
   },
@@ -478,7 +478,7 @@ window.STUTTGART_FACTS = [
   {
     id: 69,
     category: "Fodbold",
-    text: "VfB-spilleren Robert Schlienz mistede en stor del af venstre arm ved en bilulykke i 1948, men var tilbage på banen mindre end fire måneder senere.",
+    text: "Fodboldspilleren Robert Schlienz fra VfB Stuttgart mistede en stor del af venstre arm ved en bilulykke i 1948, men var tilbage på banen mindre end fire måneder senere.",
     sourceLabel: "VfB Stuttgart",
     sourceUrl: "https://www.vfb.de/de/vfb/aktuell/neues/club/2024/100-jahre-robert-schlienz/"
   },
@@ -492,14 +492,14 @@ window.STUTTGART_FACTS = [
   {
     id: 71,
     category: "Motorsport",
-    text: "Stuttgart-fødte Hans Herrmann sikrede sammen med Richard Attwood Porsche bilmærkets første samlede Le Mans-sejr i 1970 — og stoppede straks karrieren, som han havde lovet sin kone.",
+    text: "Stuttgart-fødte Hans Herrmann og Richard Attwood vandt i 1970 den første samlede Le Mans-sejr nogensinde for Porsche. Umiddelbart efter stoppede Herrmann karrieren, som han havde lovet sin kone.",
     sourceLabel: "Porsche Newsroom",
     sourceUrl: "https://newsroom.porsche.com/en/motorsports/porsche-motorsports-race-driver-legend-hans-hermann-le-mans-porsche-917-11061.html"
   },
   {
     id: 72,
     category: "Fodbold",
-    text: "VfB iscenesatte maskotten Fritzles fødsel ved først at placere et krokodilleæg på holdfotoet i 1992 og siden lade krokodillen ‘klække’ ved sæsonens første hjemmekamp.",
+    text: "Fodboldklubben VfB Stuttgart iscenesatte maskotten Fritzles fødsel ved først at placere et krokodilleæg på holdfotoet i 1992 og siden lade krokodillen ‘klække’ ved sæsonens første hjemmekamp.",
     sourceLabel: "VfB Stuttgart",
     sourceUrl: "https://www.vfb.de/en/1893/club/fritzle/the-story-so-far/"
   },
@@ -527,28 +527,28 @@ window.STUTTGART_FACTS = [
   {
     id: 76,
     category: "Mærkelig kriminalitet",
-    text: "En kvinde og en togfører fandt den formodede tyv på togtoilettet sammen med kvindens stjålne kuffert ved ankomsten til Stuttgart.",
+    text: "En 47-årig togpassager opdagede før ankomsten til Stuttgart, at hendes kuffert var væk. Sammen med togkonduktøren fandt hun både kufferten og den formodede tyv på togtoilettet.",
     sourceLabel: "Bundespolizei",
     sourceUrl: "https://www.presseportal.de/blaulicht/pm/116091/3227787"
   },
   {
     id: 77,
     category: "Mærkelig kriminalitet",
-    text: "Ifølge politiet udgav to ukendte mænd sig for at skulle kontrollere vandrør hos en 85-årig i Feuerbach; en tandprotese til flere tusinde euro blev stjålet.",
+    text: "Ifølge politiet udgav to ukendte mænd sig for at skulle kontrollere vandrør hos en 85-årig i Stuttgart-Feuerbach. Den ene blev vist ind på badeværelset og stjal i et ubevogtet øjeblik beboerens tandprotese til flere tusinde euro.",
     sourceLabel: "Polizeipräsidium Stuttgart",
     sourceUrl: "https://www.presseportal.de/blaulicht/pm/110977/5774360"
   },
   {
     id: 78,
     category: "Kriminalhistorie",
-    text: "Politimuseet fortæller om Forbundsrepublikkens første bortførelse af et barn i 1958 og afspiller stadig afpresserens originale stemmeoptagelse.",
+    text: "På Stuttgarts politimuseum kan man stadig høre den originale stemmeoptagelse af afpresseren fra Forbundsrepublikken Tysklands første bortførelse af et barn i 1958.",
     sourceLabel: "Polizeimuseum Stuttgart",
     sourceUrl: "https://www.polizeimuseum-stuttgart.de/kriminalf%C3%A4lle/"
   },
   {
     id: 79,
     category: "Forsikringssvindel",
-    text: "En konkursramt vært satte i 1992 ild til sit lokale i et forsøg på forsikringssvindel og udløste den hidtil største brand i Stuttgarts centrum efter krigen; skaden var cirka 50 millioner D-mark.",
+    text: "En konkursramt vært satte i 1992 ild til sit serveringssted i et forsøg på forsikringssvindel. Branden blev dengang den største i Stuttgarts centrum siden Anden Verdenskrig og gav skader for cirka 50 millioner D-mark.",
     sourceLabel: "Polizeimuseum Stuttgart",
     sourceUrl: "https://www.polizeimuseum-stuttgart.de/kriminalf%C3%A4lle/"
   },
@@ -562,28 +562,28 @@ window.STUTTGART_FACTS = [
   {
     id: 81,
     category: "Justitsmord",
-    text: "Joseph Süß Oppenheimer blev offer for et dokumenteret justitsmord i Stuttgart i 1738. Bagefter blev hans lig udstillet i et rødmalet bur på galgebakken.",
+    text: "Hertugens finansrådgiver Joseph Süß Oppenheimer blev offer for et dokumenteret justitsmord i Stuttgart i 1738. Efter henrettelsen blev hans lig udstillet i et rødmalet bur på galgebakken.",
     sourceLabel: "Stadtarchiv Stuttgart",
     sourceUrl: "https://www.stadtlexikon-stuttgart.de/?id=aedd5996-c81e-4a67-bd21-3a51cb9904ef&theme=default"
   },
   {
     id: 82,
     category: "Mørk historie",
-    text: "Nazitidens særdomstol i Stuttgart behandlede blandt andet ‘radioforbrydelser’ og småtyverier. Retsgården var samtidig en central henrettelsesplads, hvor mindst 423 mennesker dømt ved forskellige domstole blev dræbt.",
+    text: "Under nazismen behandlede særdomstolen i Stuttgart blandt andet ‘radioforbrydelser’ og småtyverier. I gården til Stuttgarts retsbygning i Urbanstraße blev mindst 423 mennesker, som forskellige domstole havde dømt, henrettet.",
     sourceLabel: "Oberlandesgericht Stuttgart",
     sourceUrl: "https://oberlandesgericht-stuttgart.justiz-bw.de/pb/%2CLde/Startseite/Gericht/NS-Justiz%2B1933-1945"
   },
   {
     id: 83,
     category: "Akavet møde",
-    text: "Jean-Paul Sartres berømte møde med Andreas Baader i Stammheim i 1974 var sprogligt besværligt: Baader talte ikke fransk, Sartre ikke tysk, så meget af timen gik med tolkning.",
+    text: "Da filosoffen Jean-Paul Sartre besøgte det fængslede medlem af terrorgruppen RAF, Andreas Baader, i Stammheim i 1974, talte Baader ikke fransk og Sartre ikke tysk. En stor del af det timelange møde gik derfor med tolkning.",
     sourceLabel: "Stadtarchiv Stuttgart",
     sourceUrl: "https://www.stadtlexikon-stuttgart.de/article/3a52a0ef-7e06-4198-a410-50c3ca741ef4/1/4._Dezember_1974%3A_Jean-Paul.html"
   },
   {
     id: 84,
     category: "Arkæologisk twist",
-    text: "Da det kongelige hofteater brændte i 1902, dukkede ‘forsvundne’ stenfragmenter fra det tidligere Lusthaus frem. De var blevet muret inde under en hastig ombygning.",
+    text: "Stuttgarts Neues Lusthaus blev revet ned og erstattet af et kongeligt hofteater. Da teatret brændte i 1902, dukkede ‘forsvundne’ stenfragmenter fra Lusthaus frem: De var blevet muret ind i teatret under en hastig ombygning.",
     sourceLabel: "Stadtarchiv Stuttgart",
     sourceUrl: "https://www.stadtlexikon-stuttgart.de/article/c231ddd6-af5b-4d90-9945-6ef2ecd62310/1/Neues_Lusthaus.html"
   },
@@ -604,7 +604,7 @@ window.STUTTGART_FACTS = [
   {
     id: 87,
     category: "Mærkeligt museum",
-    text: "Lapidariet fungerer som en ‘stenbog’ med over 200 skulpturer og bygningsdele fra nedrevne eller krigsskadede bygninger i Stuttgart.",
+    text: "Stuttgarts lapidarium fungerer som en ‘stenbog’ med over 200 skulpturer og bygningsdele fra nedrevne eller krigsskadede bygninger i byen.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/medien/ibs/Flyer-Programm-Lapidarium.pdf"
   },
@@ -639,7 +639,7 @@ window.STUTTGART_FACTS = [
   {
     id: 92,
     category: "TV & teater",
-    text: "Harald Schmidt uddannede sig på skuespillerskolen i Stuttgart og vendte senere tilbage til byen som medlem af Schauspiel Stuttgart.",
+    text: "Den tyske tv-vært og entertainer Harald Schmidt uddannede sig på skuespillerskolen i Stuttgart og vendte senere tilbage til byen som medlem af Schauspiel Stuttgart.",
     sourceLabel: "Staatsoper Stuttgart",
     sourceUrl: "https://www.staatsoper-stuttgart.de/haus/menschen/harald-schmidt/"
   },
@@ -674,7 +674,7 @@ window.STUTTGART_FACTS = [
   {
     id: 97,
     category: "Lokal legende",
-    text: "Ifølge Heslach-legenden tvang hertug Ulrich indbyggerne til at gå med blå strømper i kirken som straf for at have forrådt ham under hans flugt.",
+    text: "Ifølge en lokal Heslach-legende tvang hertug Ulrich bydelens indbyggere til at gå med blå strømper i kirken som straf for at have forrådt ham under hans flugt.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/tourismus/sehenswuerdigkeiten/blaustruempflerweg"
   },
@@ -695,7 +695,7 @@ window.STUTTGART_FACTS = [
   {
     id: 100,
     category: "Mærkelig kunst",
-    text: "Tre store keramiske kvindefigurer ved Albplatz udsprang af en konkurrence, hvis udskrivere ønskede Degerlochs legendariske ‘Fleckensau’ illustreret.",
+    text: "Da en kunstkonkurrence på Albplatz bad om en illustration af Degerlochs legendariske ‘Fleckensau’, gav Wolfgang Thiel i stedet tre store keramiske kvindefigurer pletter og kaldte værket ‘Tre piger spreder en smitsom legende’.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/organigramm/adresse/wolfgang-thiel-drei-maedchen-eine-ansteckende-legende-verbreitend"
   },
@@ -723,7 +723,7 @@ window.STUTTGART_FACTS = [
   {
     id: 104,
     category: "Indkøb uden liste",
-    text: "En beruset mand skal i 2024 have drukket en stjålet øl i en butik på Bad Cannstatt station og fortsat med spiritus, to lommelygter og leggings. I næste butik kastede han et yoghurtbæger på gulvet.",
+    text: "På Bad Cannstatt station drak en beruset mand en øl uden at betale og tog derefter spiritus, to lommelygter og leggings med sig. I næste butik tog han flere varer, kastede et yoghurtbæger på gulvet og forsøgte igen at gå uden at betale.",
     sourceLabel: "Bundespolizei",
     sourceUrl: "https://www.presseportal.de/blaulicht/pm/116091/5743141"
   },
@@ -744,7 +744,7 @@ window.STUTTGART_FACTS = [
   {
     id: 107,
     category: "Håndbagage med bid",
-    text: "Tolden i Stuttgart fandt i 2023 hele 138 beskyttede blodigler i en passagers bagage. De rejste i en flamingokasse mellem fugtige klude og endte bagefter i Wilhelma.",
+    text: "Tolden i Stuttgart fandt i 2023 hele 138 beskyttede blodigler i en passagers bagage. De rejste i en flamingokasse mellem fugtige klude og endte bagefter i byens zoologisk-botaniske have, Wilhelma.",
     sourceLabel: "Hauptzollamt Stuttgart",
     sourceUrl: "https://www.presseportal.de/blaulicht/pm/121263/5658627"
   },
@@ -758,14 +758,14 @@ window.STUTTGART_FACTS = [
   {
     id: 109,
     category: "Pakkeliste fra helvede",
-    text: "En fjernbus ved Stuttgart Lufthavn afslørede sig i 2026 på lugten. Tolden fandt 252,8 kilo kødvarer, 700 cigaretter, fire vinduer med rulleskodder, et køkken, et klimaanlæg og en Maltipoo-hvalp.",
+    text: "Da toldere i 2026 kontrollerede en fjernbus ved Stuttgart Lufthavn, afslørede en kraftig lugt 252,8 kilo kødvarer i bagagerummet. De fandt også 700 cigaretter, fire vinduer med rulleskodder, et køkken, et klimaanlæg og en Maltipoo-hvalp.",
     sourceLabel: "Hauptzollamt Stuttgart",
     sourceUrl: "https://www.presseportal.de/blaulicht/pm/121263/6268254"
   },
   {
     id: 110,
     category: "Kubisk bæ",
-    text: "Wilhelmas wombatter Wendy og Windemere producerer en zoologisk særhed: terningformet afføring. Forskere har undersøgt kubernes funktion; måske sikrer formen, at territoriemarkeringerne ikke ruller væk.",
+    text: "Wombatterne Wendy og Windemere i Stuttgarts zoologisk-botaniske have Wilhelma laver terningformet afføring. Forskere mener, at formen måske forhindrer deres territoriemarkeringer i at rulle væk.",
     sourceLabel: "Wilhelma",
     sourceUrl: "https://www.wilhelma.de/aktuelles/aktuelles/news-presse/archiv/meldung/tierische-sensation-fuer-die-wilhelma"
   },
@@ -779,28 +779,28 @@ window.STUTTGART_FACTS = [
   {
     id: 112,
     category: "Lokal legende",
-    text: "Under Pfalzkrigen så Cannstatts vagtfolk ifølge en legende nogle stynede piletræer gennem tågen og troede, at de var enorme franske soldater. Fastelavnsfiguren ‘Felbe’ minder stadig om fadæsen.",
+    text: "Ifølge en Cannstatt-legende så byens vagtfolk under Pfalzkrigen nogle kraftigt beskårne piletræer gennem tågen og troede, at træerne var enorme franske soldater. Fastelavnsfiguren ‘Felbe’ minder stadig om fadæsen.",
     sourceLabel: "Kübelesmarkt Bad Cannstatt",
     sourceUrl: "https://www.kuebelesmarkt.de/figuren/"
   },
   {
     id: 113,
     category: "Brøndvæsen",
-    text: "Helligtrekongersdag trækker Cannstatts fastelavnsfolk ‘Brunnengeist’ op af Jakobsbrunnen. På fastelavnstirsdag sænkes brøndånden tilbage i mineralvandet efter en vild jagt.",
+    text: "På helligtrekongersdag trækker Cannstatts fastelavnsfolk ‘Brunnengeist’ op af Jakobsbrunnen. På fastelavnstirsdag sænkes brøndånden tilbage i mineralvandet efter en vild jagt.",
     sourceLabel: "Kübelesmarkt Bad Cannstatt",
     sourceUrl: "https://www.kuebelesmarkt.de/figuren/"
   },
   {
     id: 114,
     category: "Lokal legende",
-    text: "Botnang skulle ifølge legenden give hertugen en gøgerede. Da gøge ikke bygger reder, forærede beboerne ham i stedet hele Botnang-skoven.",
+    text: "Ifølge en lokal legende skulle landsbyen Botnang skaffe hertugen af Württemberg en gøgerede. Da gøge ikke bygger reder, forærede beboerne ham i stedet hele Botnang-skoven.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/medien/ibs/panoramaweg-west.pdf"
   },
   {
     id: 115,
     category: "Fejepligt",
-    text: "Ifølge Stuttgarts overborgmester indførtes den obligatoriske schwabiske ‘Kehrwoche’ i 1492, og byrådet afskaffede den først i 1988. Frivilligt kan enhver stadig tage en ‘Kehrwoche’, tilføjede han.",
+    text: "Den schwabiske ‘Kehrwoche’ var en ugentlig pligt til at feje omkring sit hus. Ifølge Stuttgarts overborgmester blev den indført i 1492 og først afskaffet af byrådet i 1988 — men frivilligt må man stadig gribe kosten.",
     sourceLabel: "SWR",
     sourceUrl: "https://www.swr.de/swraktuell/baden-wuerttemberg/stuttgart/stuttgarter-ob-nopper-unterstuetzt-muellsammelaktion-100.html"
   },
@@ -828,7 +828,7 @@ window.STUTTGART_FACTS = [
   {
     id: 119,
     category: "Sækkepibefri zone",
-    text: "I gågaden i centrum må gademusikere kun begynde på hele klokkeslæt, spille 30 minutter, holde 30 minutters pause og derefter skifte sted. Kl. 14.30–16.00 er der musikforbud, og trommer, tromboner og sækkepiber er forbudt hele dagen.",
+    text: "I Stuttgarts centrum må gademusikere kun begynde på hele klokkeslæt, spille 30 minutter, holde 30 minutters pause og så skifte sted. Kl. 14.30–16.00 er der musikforbud, og trommer, tromboner og sækkepiber er forbudt hele dagen.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/organigramm/leistungen/strassenmusikanten"
   },
@@ -842,14 +842,14 @@ window.STUTTGART_FACTS = [
   {
     id: 121,
     category: "Sprogligt uheld",
-    text: "Ifølge en lokal fortælling bestilte kong Wilhelm I ‘ein Lot’ amerikanske mammuttræsfrø. Amerikaneren forstod det som ‘a lot’ og sendte et helt pund; resultatet blev omkring 5.000 små træer.",
+    text: "Ifølge en lokal fortælling bestilte kong Wilhelm I ‘ein Lot’ (et gammelt vægtmål) amerikanske mammuttræsfrø. Frøhandleren læste det som engelsk ‘a lot’ og sendte et helt pund; resultatet blev omkring 5.000 små træer.",
     sourceLabel: "Landeshauptstadt Stuttgart",
     sourceUrl: "https://www.stuttgart.de/wirtschaft/wirtschaftsstandort/standort-stuttgart/fakten-zum-standort"
   },
   {
     id: 122,
     category: "Bordfodbold",
-    text: "TIPP-KICK begyndte med et patent fra Stuttgart-møbelfabrikanten Carl Mayer. Blikspilleren sparkede ved et tryk på hovedet, og ‘bolden’ var en tofarvet korkterning.",
+    text: "Det tyske bordfodboldspil TIPP-KICK begyndte med et patent fra møbelfabrikanten Carl Mayer i Stuttgart. Spillets blikfigur sparkede ved et tryk på hovedet, og ‘bolden’ var en tofarvet korkterning.",
     sourceLabel: "TIPP-KICK",
     sourceUrl: "https://www.tipp-kick.de/FAQ/"
   },
@@ -884,14 +884,14 @@ window.STUTTGART_FACTS = [
   {
     id: 127,
     category: "Tissepause",
-    text: "VfB-målmand Jens Lehmann så i 2009 ud til at tage en tissepause bag reklamebanden midt i en Champions League-kamp. Et rumænsk kontraangreb sendte ham halsende tilbage i målet.",
+    text: "VfB Stuttgart-målmanden Jens Lehmann så i 2009 ud til at tage en tissepause bag reklamebanden midt i en Champions League-kamp. Et rumænsk kontraangreb sendte ham halsende tilbage i målet.",
     sourceLabel: "The Guardian",
     sourceUrl: "https://www.theguardian.com/football/2009/dec/10/jens-lehmann-urinate-relief"
   },
   {
     id: 128,
     category: "Trafikbureaukrati",
-    text: "Fans kæmpede i seks år for et Stuttgart-fodgængersignal med figurerne Äffle og Pferdle. Færdselsloven krævede menneskefigurer, så dyresignalet måtte sættes op som supplement ved siden af det lovlige.",
+    text: "Fans brugte seks år på at få et fodgængerlys i Stuttgart med de schwabiske tegnefilmsfigurer aben Äffle og hesten Pferdle. Loven krævede menneskefigurer, så dyrene måtte stå på et ekstrasignal ved siden af det lovlige fodgængerlys.",
     sourceLabel: "SWARCO",
     sourceUrl: "https://www.swarco.com/de/stories/mit-aeffle-stehen-mit-pferdle-gehen"
   },
