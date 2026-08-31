@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#173c46">
   <meta name="robots" content="noindex, nofollow">
   <title>Værd at vide om Stuttgart · Rejseklubben</title>
-  <meta name="description" content="100 håndplukkede, sære og overraskende fakta om Stuttgart.">
+  <meta name="description" content="130 håndplukkede, sære og overraskende fakta om Stuttgart.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&amp;family=Inter:wght@500;600;700;800;900&amp;display=swap" rel="stylesheet">
@@ -129,6 +129,8 @@
       letter-spacing: -.018em;
       text-wrap: balance;
     }
+    .fact-card.long-fact .fact-text { font-size: clamp(1.45rem, 4.8vw, 2.35rem); }
+    .fact-card.very-long-fact .fact-text { font-size: clamp(1.3rem, 4.2vw, 2rem); }
     .source-row { position: relative; z-index: 2; margin-top: 34px; padding-top: 17px; border-top: 1px solid var(--line); }
     .source-label { color: var(--ink-soft); font-size: .59rem; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
     .source-link { display: block; width: fit-content; margin-top: 5px; color: var(--teal-light); font-size: .7rem; font-weight: 800; overflow-wrap: anywhere; }
@@ -175,6 +177,8 @@
       .fact-card { min-height: 410px; padding: 23px 19px 25px; border-radius: 20px; }
       .fact-card::after { right: -44px; bottom: 28px; }
       .fact-text { margin-top: 34px; font-size: clamp(1.55rem, 7.1vw, 2rem); }
+      .fact-card.long-fact .fact-text { margin-top: 30px; font-size: 1.38rem; line-height: 1.22; }
+      .fact-card.very-long-fact .fact-text { font-size: 1.22rem; }
       .actions { grid-template-columns: 1fr; }
       .button.secondary { min-width: 0; }
     }
@@ -191,9 +195,9 @@
 
   <main>
     <header class="hero">
-      <div class="eyebrow">100 håndplukkede facts</div>
+      <div class="eyebrow">130 håndplukkede facts</div>
       <h1>Værd at vide om Stuttgart</h1>
-      <p class="intro">Fra verdenshistorie og bilnørderi til berømte bysbørn, mærkelige forbrydelser og ting, ingen havde behøvet at vide.</p>
+      <p class="intro">Fra verdenshistorie og bilnørderi til berømte bysbørn, dyr i togtrafikken og folk, der virkelig burde have tænkt sig om.</p>
     </header>
 
     <article class="fact-card" id="fact-card" aria-live="polite">
@@ -215,11 +219,11 @@
     <p class="progress" id="fact-progress"></p>
 
     <aside class="method">
-      <strong>Faktatjek uden festdræberstemning.</strong> Hvert faktum har en kilde, og rækkefølgen blandes på din telefon. Du ser alle 100, før bunken begynder forfra.
+      <strong>Faktatjek uden festdræberstemning.</strong> Hvert faktum har en kilde, og rækkefølgen blandes på din telefon. Du ser alle 130, før bunken begynder forfra.
     </aside>
   </main>
 
-  <script src="stuttgart-facts-data.js?v=20260831-one-hundred"></script>
-  <script src="stuttgart-facts.js?v=20260831-one-hundred"></script>
+  <script src="stuttgart-facts-data.js?v=20260831-one-thirty"></script>
+  <script src="stuttgart-facts.js?v=20260831-one-thirty"></script>
 </body>
 </html>

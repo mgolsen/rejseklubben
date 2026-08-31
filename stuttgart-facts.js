@@ -2,7 +2,8 @@
   "use strict";
 
   var facts = Array.isArray(window.STUTTGART_FACTS) ? window.STUTTGART_FACTS : [];
-  var storageKey = "rejseklubben-stuttgart-fact-deck-v1";
+  var expectedFactCount = 130;
+  var storageKey = "rejseklubben-stuttgart-fact-deck-v2";
   var currentFact = null;
   var deck = loadDeck();
   var changing = false;
@@ -57,6 +58,8 @@
 
   function renderFact(fact) {
     currentFact = fact;
+    card.classList.toggle("long-fact", fact.text.length > 175);
+    card.classList.toggle("very-long-fact", fact.text.length > 245);
     category.textContent = fact.category;
     number.textContent = "#" + String(fact.id).padStart(3, "0");
     text.textContent = fact.text;
@@ -105,11 +108,11 @@
     }
   }
 
-  if (facts.length !== 100) {
+  if (facts.length !== expectedFactCount) {
     category.textContent = "Arkivfejl";
     number.textContent = "#---";
     text.classList.add("error");
-    text.textContent = "Faktaarkivet indeholder " + facts.length + " facts i stedet for 100.";
+    text.textContent = "Faktaarkivet indeholder " + facts.length + " facts i stedet for " + expectedFactCount + ".";
     source.hidden = true;
     nextButton.disabled = true;
     shareButton.disabled = true;
