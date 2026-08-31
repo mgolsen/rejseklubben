@@ -243,8 +243,10 @@
     display: flex; align-items: center; justify-content: center;
     font-family: var(--display); font-weight: 800; font-size: 1.6rem;
     color: var(--paper); background: var(--ink);
-    margin-bottom: 16px;
+    margin-bottom: 16px; overflow: hidden;
   }
+  .avatar.photo { border: 2px solid var(--gold); box-shadow: 0 7px 18px rgba(20,17,14,.2); }
+  .avatar.photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
   .card h3 { font-size: 1.3rem; line-height: 1.18; }
   .card .role { min-height: 1.35em; color: var(--gold-deep); font-weight: 700; font-size: 0.9rem; margin-top: 4px; }
   .card.ghost { border-style: dashed; box-shadow: none; background: transparent; display: flex; flex-direction: column; justify-content: center; }
@@ -539,9 +541,9 @@
       </div>
       <div class="squad-grid">
         <div class="card">
-          <div class="avatar">A</div>
+          <div class="avatar photo"><img src="pictures/Adam.jpg" alt="Adam B" loading="lazy"></div>
           <h3>Adam B</h3>
-          <div class="role"></div>
+          <div class="role">Vodkaklovn extraordinaire</div>
         </div>
         <div class="card">
           <div class="avatar">A</div>
