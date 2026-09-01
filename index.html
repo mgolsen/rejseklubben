@@ -354,6 +354,7 @@
   }
   .event + .event { border-top: 1px solid rgba(246,241,231,.09); }
   .event time { padding-top: 3px; color: var(--day-accent); font-size: .73rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .event time.event-time-flexible { font-size: .62rem; line-height: 1.35; }
   .event-content { min-width: 0; }
   .event-title { display: flex; align-items: start; gap: 9px; }
   .event-icon { flex: 0 0 auto; font-size: 1.22rem; line-height: 1.1; }
@@ -835,31 +836,22 @@
           </header>
           <ol class="timeline">
             <li class="event">
-              <time datetime="2026-09-05T09:15">09:15</time>
+              <time datetime="2026-09-05T09:00">09:00</time>
               <div class="event-content">
-                <div class="event-title"><span class="event-icon" aria-hidden="true">🚶</span><h4>Afgang fra Maritim</h4></div>
-                <p>Mod Stadtmitte og S1 til Neckarpark. Morgenmad først; eventyr bagefter.</p>
+                <div class="event-title"><span class="event-icon" aria-hidden="true">🏎️</span><h4>Mercedes-Benz Museum åbner</h4></div>
+                <p>Museet er åbent 09:00–18:00. Tag selv derud og mød op, når det passer—vi samles på Bertha’s kl. 12:45.</p>
                 <div class="event-links">
                   <a class="event-link" href="neckar-saturday.html">Hele lørdagsplanen →</a>
-                </div>
-              </div>
-            </li>
-            <li class="event">
-              <time datetime="2026-09-05T10:00">10:00</time>
-              <div class="event-content">
-                <div class="event-title"><span class="event-icon" aria-hidden="true">🏎️</span><h4>Mercedes-Benz-tur</h4></div>
-                <p>Ca. 2½ time gennem bilhistorien. Audioguide er inkluderet; gruppen bør registreres på forhånd.</p>
-                <div class="event-links">
-                  <a class="event-link" href="https://www.mercedes-benz.com/en/art-and-culture/museum/visitor-information/" target="_blank" rel="noopener noreferrer">Besøgsinfo ↗</a>
+                  <a class="event-link" href="https://www.mercedes-benz.com/en/art-and-culture/museum/visitor-information/opening-hours/" target="_blank" rel="noopener noreferrer">Åbningstider ↗</a>
                   <a class="event-link" href="https://museum-ticket.mercedes-benz.com/en/find/mainCategory/Museumsbesuch" target="_blank" rel="noopener noreferrer">Billetter ↗</a>
                 </div>
               </div>
             </li>
             <li class="event">
-              <time datetime="2026-09-05T12:30">12:30</time>
+              <time datetime="2026-09-05T12:45">12:45</time>
               <div class="event-content">
                 <div class="event-title"><span class="event-icon" aria-hidden="true">🍽️</span><h4>Frokost på Bertha’s</h4></div>
-                <p>En rolig time på museets restaurant—uden transporttid før turen mod båden.</p>
+                <p>Fast samlingspunkt på museets restaurant—uden transporttid før turen mod båden.</p>
                 <div class="event-links">
                   <a class="event-link" href="https://www.berthasrestaurant.de/en" target="_blank" rel="noopener noreferrer">Restaurant ↗</a>
                 </div>
@@ -887,10 +879,10 @@
               </div>
             </li>
             <li class="event">
-              <time datetime="2026-09-05T18:35">18:35</time>
+              <time class="event-time-flexible">Når der er<br>stemning<br>for det</time>
               <div class="event-content">
                 <div class="event-title"><span class="event-icon" aria-hidden="true">🚕</span><h4>Taxa til Kursaal</h4></div>
-                <p>Ca. 4,8 km og normalt 10–15 minutter. Bestil biler eller minivans til gruppen på forhånd.</p>
+                <p>Ca. 4,8 km og normalt 10–15 minutter. Bestil biler eller minivans, når gruppen er klar.</p>
               </div>
             </li>
             <li class="event">
