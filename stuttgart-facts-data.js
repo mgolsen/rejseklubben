@@ -667,7 +667,7 @@ window.STUTTGART_FACTS = [
   {
     id: 96,
     category: "Bureaukrati",
-    text: "Stuttgarts ordenskontor oplyste i 2023, at den, der stiller en ‘tag gratis’-kasse på et offentligt fortov, normalt behøver en særlig brugstilladelse og ellers kan begå en forseelse.",
+    text: "I Stuttgart må du stille en kasse med gratis ting på din egen grund. På det offentlige fortov — selv lige foran din hoveddør — kræver kassen en særlig tilladelse. Byen afslår normalt, fordi kassen kan stå i vejen og tiltrække mere affald.",
     sourceLabel: "Stuttgarter Zeitung",
     sourceUrl: "https://www.stuttgarter-zeitung.de/lokales/stuttgart/regelwut-in-stuttgart-ist-das-aufstellen-von-zu-verschenken-boxen-erlaubt-79025083.html"
   },
