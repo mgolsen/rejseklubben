@@ -14,6 +14,7 @@ En lille statisk hjemmeside til turen med et fælles stregregnskab og personlige
 - `supabase/add-logout.sql` gør telefonbindingen mulig at frigive fra hjemmesiden.
 - `supabase/add-admin-access.sql` giver Emil, Martin og Morten beskyttet adgang til at rette regnskabet.
 - `supabase/allow-multiple-device-logins.sql` lader samme deltager være logget ind på flere enheder samtidig.
+- `supabase/increase-voting-window-to-30-minutes.sql` udvider afstemningsfristen til 30 minutter.
 - `images/` indeholder sidens billeder.
 
 Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter automatisk en anonym session i baggrunden, og siden kan stadig udgives direkte med GitHub Pages.
@@ -23,7 +24,7 @@ Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter autom
 1. Når siden åbnes første gang, trykker man på sit navn og indtaster sin personlige tocifrede kode.
 2. Browseren husker deltageren, indtil personen bruger **Log ud**. Samme deltager kan være logget ind på flere telefoner eller computere samtidig; hver enhed logges ud separat.
 3. En deltager foreslår 1, 2 eller 3 streger til en anden og beskriver hændelsen.
-4. Klubben har to minutter til at stemme. 1, 2 og 3 streger kræver henholdsvis 2, 4 og 8 stemmer.
+4. Klubben har 30 minutter til at stemme. 1, 2 og 3 streger kræver henholdsvis 2, 4 og 8 stemmer.
 5. Hverken forslagsstilleren eller den anklagede kan stemme. Hver anden deltager kan kun stemme én gang.
 6. Når en straf ikke får stemmer nok inden fristen, får forslagsstilleren selv det foreslåede antal streger.
 7. En deltager kan foreslå en benådning af en anden. Den kræver 8 stemmer og fjerner 1 streg, men stillingen kan ikke blive negativ.
@@ -44,7 +45,7 @@ Ved en helt ny opsætning:
 6. Gå til **Authentication → Sign In / Providers → Anonymous** og slå anonyme logins til.
 7. Kør derefter hele `supabase/add-personal-codes.sql` i en ny SQL Editor-fane.
 8. Resultatet viser én personlig kode pr. deltager. Gem listen privat med det samme; databasen gemmer kun kodernes hashes.
-9. Kør derefter `supabase/add-group-voting-and-pardons.sql`, `supabase/add-logout.sql`, `supabase/add-admin-access.sql` og til sidst `supabase/allow-multiple-device-logins.sql` i hver sin nye SQL Editor-fane. Filen til flere enheder skal køres sidst.
+9. Kør derefter `supabase/add-group-voting-and-pardons.sql`, `supabase/add-logout.sql`, `supabase/add-admin-access.sql`, `supabase/allow-multiple-device-logins.sql` og til sidst `supabase/increase-voting-window-to-30-minutes.sql` i hver sin nye SQL Editor-fane. Filen med afstemningsfristen skal køres sidst.
 
 Scriptet tilføjer tre deltagere: Emil, Martin og Morten. Tabellerne fra den tidligere login-opsætning bliver stående i dit nuværende Supabase-projekt, men de bruges ikke af hjemmesiden og kan ignoreres.
 
@@ -101,7 +102,7 @@ Databasefunktionerne kontrollerer, at:
 - forslagsstiller og modtager er forskellige;
 - en stemme hverken kommer fra forslagsstilleren eller modtageren;
 - hver deltager kun kan stemme én gang på samme forslag;
-- stemmer kun modtages inden for de to minutter;
+- stemmer kun modtages inden for de 30 minutter;
 - tærsklerne 2, 4 og 8 håndhæves i databasen;
 - kun forslagsstilleren kan trække et åbent forslag tilbage, og kun før den første stemme.
 - kun de tre markerede administratorer kan foretage en direkte rettelse;
