@@ -692,7 +692,7 @@ async function proposeStreg(event) {
   elements.descriptionCount.textContent = "0";
   updateProposalForm();
   const votesNeeded = proposalType === "pardon" ? 8 : requiredVotesForAmount(amount);
-  showToast(`Afstemningen er åbnet. Forslaget kræver ${votesNeeded} stemmer på to minutter.`);
+  showToast(`Afstemningen er åbnet. Forslaget kræver ${votesNeeded} stemmer på 30 minutter.`);
   await loadData();
 }
 
