@@ -8,11 +8,12 @@ En lille statisk hjemmeside til turen med et fælles stregregnskab og personlige
 - `oelgloser.html` er en søgbar og lettere bedugget parlør med tyske ølgloser.
 - `her-bor-vi.html` viser hoteladressen på tysk, hvis nogen farer vild.
 - `supabase/no-login-setup.sql` opretter den enkle database.
-- `supabase/add-personal-codes.sql` binder hver deltager til én browsersession.
+- `supabase/add-personal-codes.sql` opretter personlige deltagerkoder og den oprindelige sessionsbinding.
 - `supabase/add-streg-values.sql` gør hver hændelse 1, 2 eller 3 streger værd.
 - `supabase/add-group-voting-and-pardons.sql` tilføjer afstemninger, tidsfrist, tilbageslag og benådninger.
 - `supabase/add-logout.sql` gør telefonbindingen mulig at frigive fra hjemmesiden.
 - `supabase/add-admin-access.sql` giver Emil, Martin og Morten beskyttet adgang til at rette regnskabet.
+- `supabase/allow-multiple-device-logins.sql` lader samme deltager være logget ind på flere enheder samtidig.
 - `images/` indeholder sidens billeder.
 
 Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter automatisk en anonym session i baggrunden, og siden kan stadig udgives direkte med GitHub Pages.
@@ -20,7 +21,7 @@ Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter autom
 ## Sådan virker spillet
 
 1. Når siden åbnes første gang, trykker man på sit navn og indtaster sin personlige tocifrede kode.
-2. Browseren husker deltageren, indtil personen bruger **Log ud**. Derefter kan en anden deltager logge ind med sin egen kode.
+2. Browseren husker deltageren, indtil personen bruger **Log ud**. Samme deltager kan være logget ind på flere telefoner eller computere samtidig; hver enhed logges ud separat.
 3. En deltager foreslår 1, 2 eller 3 streger til en anden og beskriver hændelsen.
 4. Klubben har to minutter til at stemme. 1, 2 og 3 streger kræver henholdsvis 2, 4 og 8 stemmer.
 5. Hverken forslagsstilleren eller den anklagede kan stemme. Hver anden deltager kan kun stemme én gang.
@@ -29,7 +30,7 @@ Der er ingen synlige logins, e-mails eller adgangskoder. Supabase opretter autom
 8. Emil, Martin og Morten kan tilføje eller fjerne 1–3 streger direkte med en begrundelse. Rettelsen bliver synlig i protokollen.
 9. Stillingen beregnes automatisk ud fra vedtagne straffe, tilbageslag, benådninger og administratorrettelser.
 
-Databasefunktionerne bruger den bundne Supabase-session som identitet. Browseren kan derfor ikke udgive sig for at være en anden deltager ved blot at ændre et navn eller et id i frontend-koden.
+Databasefunktionerne bruger den aktuelle enheds bundne Supabase-session som identitet. Browseren kan derfor ikke udgive sig for at være en anden deltager ved blot at ændre et navn eller et id i frontend-koden.
 
 ## Supabase-opsætning
 
@@ -43,7 +44,7 @@ Ved en helt ny opsætning:
 6. Gå til **Authentication → Sign In / Providers → Anonymous** og slå anonyme logins til.
 7. Kør derefter hele `supabase/add-personal-codes.sql` i en ny SQL Editor-fane.
 8. Resultatet viser én personlig kode pr. deltager. Gem listen privat med det samme; databasen gemmer kun kodernes hashes.
-9. Kør derefter `supabase/add-group-voting-and-pardons.sql`, `supabase/add-logout.sql` og `supabase/add-admin-access.sql` i hver sin nye SQL Editor-fane.
+9. Kør derefter `supabase/add-group-voting-and-pardons.sql`, `supabase/add-logout.sql`, `supabase/add-admin-access.sql` og til sidst `supabase/allow-multiple-device-logins.sql` i hver sin nye SQL Editor-fane. Filen til flere enheder skal køres sidst.
 
 Scriptet tilføjer tre deltagere: Emil, Martin og Morten. Tabellerne fra den tidligere login-opsætning bliver stående i dit nuværende Supabase-projekt, men de bruges ikke af hjemmesiden og kan ignoreres.
 
@@ -68,22 +69,30 @@ values (
 
 Udskift naturligvis `Nyt navn` og `42` før kommandoen køres.
 
-### Ny telefon eller glemt kode
+### Flere enheder eller glemt kode
 
-Ved et normalt telefonskift logger deltageren ud på den gamle telefon og ind på den nye med sin eksisterende kode.
+En deltager kan logge ind på flere telefoner og computere med den samme personlige kode. **Log ud** fjerner kun login på den aktuelle enhed.
 
-En arrangør kan nulstille én deltager og samtidig vælge en ny kode. Det afkobler den gamle browser:
+En arrangør kan vælge en ny kode og samtidig logge deltageren ud på alle enheder:
 
 ```sql
+begin;
+
 update public.players
-set
-  claim_code_hash = extensions.crypt('73', extensions.gen_salt('bf', 10)),
-  claimed_user_id = null,
-  claimed_at = null
+set claim_code_hash = extensions.crypt('73', extensions.gen_salt('bf', 10))
 where display_name = 'Deltagerens navn';
+
+delete from public.player_device_sessions
+where player_id = (
+  select id
+  from public.players
+  where display_name = 'Deltagerens navn'
+);
+
+commit;
 ```
 
-Udskift koden og navnet. Deltageren kan derefter binde den nye telefon fra hjemmesiden.
+Udskift koden og navnet. Deltageren kan derefter logge ind igen på hver ønsket enhed.
 
 ## Spilleregler og sikkerhed
 
@@ -98,7 +107,7 @@ Databasefunktionerne kontrollerer, at:
 - kun de tre markerede administratorer kan foretage en direkte rettelse;
 - en administratorrettelse kræver en begrundelse, gemmer administratorens identitet og kan ikke gøre en score negativ.
 
-Tabellerne kan ikke ændres direkte fra browseren. Kun en anonym session, som er bundet med den rigtige personlige kode, kan foreslå, stemme eller trække et forslag tilbage. Fem forkerte kodeforsøg udløser 15 minutters pause. Alle med sidens adresse kan fortsat læse regnskabet og se deltagernavnene. `streger.html` er markeret `noindex`, så søgemaskiner bliver bedt om ikke at indeksere den.
+Tabellerne kan ikke ændres direkte fra browseren. Kun en anonym enhedssession, som er bundet med den rigtige personlige kode, kan foreslå, stemme eller trække et forslag tilbage. Fem forkerte kodeforsøg udløser 15 minutters pause. Alle med sidens adresse kan fortsat læse regnskabet og se deltagernavnene. `streger.html` er markeret `noindex`, så søgemaskiner bliver bedt om ikke at indeksere den.
 
 ## Supabase-forbindelsen
 
