@@ -21,6 +21,11 @@ const elements = {
   userName: document.querySelector("#user-name"),
   logoutButton: document.querySelector("#logout-button"),
   leaderboard: document.querySelector("#leaderboard-list"),
+  scoreBreakdown: document.querySelector("#score-breakdown"),
+  scoreBreakdownTitle: document.querySelector("#score-breakdown-title"),
+  scoreBreakdownSummary: document.querySelector("#score-breakdown-summary"),
+  scoreBreakdownList: document.querySelector("#score-breakdown-list"),
+  scoreBreakdownClose: document.querySelector("#score-breakdown-close"),
   stregForm: document.querySelector("#streg-form"),
   proposalType: document.querySelector("#proposal-type"),
   targetSelect: document.querySelector("#target-select"),
@@ -58,6 +63,7 @@ const state = {
   leaderboard: [],
   streger: [],
   adminAdjustments: [],
+  selectedBreakdownPlayerId: null,
   votersByStreg: new Map(),
   expiryReloads: new Set(),
   realtimeChannel: null,
@@ -148,10 +154,193 @@ function emptyState(message) {
   return node;
 }
 
+function ledgerEventFromProposal(streg) {
+  const amount = Number(streg.amount) || 1;
+  const isPenalty = streg.proposal_type === "penalty";
+
+  if (isPenalty && streg.status === "approved") {
+    return {
+      playerId: streg.target_id,
+      delta: amount,
+      eventAt: streg.approved_at,
+      eventKind: 0,
+      eventId: streg.id,
+      title: "Vedtaget straf",
+      description: streg.description,
+      meta: `${profileName(streg.proposed_by)} foreslog · ${streg.vote_count}/${streg.required_votes} stemmer · ${formatDate(streg.approved_at)}`,
+    };
+  }
+
+  if (isPenalty && streg.status === "failed") {
+    return {
+      playerId: streg.proposed_by,
+      delta: amount,
+      eventAt: streg.deadline,
+      eventKind: 0,
+      eventId: streg.id,
+      title: "Tilbageslag fra mislykket forslag",
+      description: streg.description,
+      meta: `Forslaget mod ${profileName(streg.target_id)} fik ${streg.vote_count}/${streg.required_votes} stemmer · udløb ${formatDate(streg.deadline)}`,
+    };
+  }
+
+  if (!isPenalty && streg.status === "approved") {
+    return {
+      playerId: streg.target_id,
+      delta: -1,
+      eventAt: streg.approved_at,
+      eventKind: 0,
+      eventId: streg.id,
+      title: "Vedtaget benådning",
+      description: streg.description,
+      meta: `${profileName(streg.proposed_by)} foreslog · ${streg.vote_count}/${streg.required_votes} stemmer · ${formatDate(streg.approved_at)}`,
+    };
+  }
+
+  return null;
+}
+
+function scoreEventsForPlayer(playerId) {
+  const proposalEvents = state.streger
+    .map(ledgerEventFromProposal)
+    .filter((event) => event?.playerId === playerId);
+
+  const adminEvents = state.adminAdjustments
+    .filter((adjustment) => adjustment.target_id === playerId)
+    .map((adjustment) => ({
+      playerId,
+      delta: Number(adjustment.delta),
+      eventAt: adjustment.created_at,
+      eventKind: 1,
+      eventId: adjustment.id,
+      title: "Admin-rettelse",
+      description: adjustment.reason,
+      meta: `${profileName(adjustment.admin_id)} rettede regnskabet · ${formatDate(adjustment.created_at)}`,
+    }));
+
+  const sorted = [...proposalEvents, ...adminEvents].sort((a, b) => {
+    const timeDifference = new Date(a.eventAt).getTime() - new Date(b.eventAt).getTime();
+    if (timeDifference) return timeDifference;
+    if (a.eventKind !== b.eventKind) return a.eventKind - b.eventKind;
+    if (a.eventKind === 1) return Number(a.eventId) - Number(b.eventId);
+    return String(a.eventId).localeCompare(String(b.eventId));
+  });
+
+  let balance = 0;
+  return sorted.map((event) => {
+    const previousBalance = balance;
+    balance = Math.max(0, balance + event.delta);
+    return {
+      ...event,
+      effectiveDelta: balance - previousBalance,
+      balance,
+    };
+  });
+}
+
+function signedNumber(value) {
+  if (value > 0) return `+${value}`;
+  if (value < 0) return `−${Math.abs(value)}`;
+  return "0";
+}
+
+function makeBreakdownRow(event) {
+  const row = document.createElement("li");
+  row.className = "score-breakdown-row";
+
+  const delta = document.createElement("div");
+  delta.className = "score-breakdown-delta";
+  if (event.effectiveDelta < 0) delta.classList.add("negative");
+  if (event.effectiveDelta === 0) delta.classList.add("neutral");
+  delta.textContent = signedNumber(event.effectiveDelta);
+  delta.setAttribute("aria-label", `Ændring: ${signedNumber(event.effectiveDelta)}`);
+
+  const body = document.createElement("div");
+  const title = document.createElement("div");
+  title.className = "score-breakdown-title";
+  title.textContent = event.title;
+
+  const description = document.createElement("p");
+  description.className = "score-breakdown-description";
+  description.textContent = event.description;
+
+  const meta = document.createElement("div");
+  meta.className = "score-breakdown-meta";
+  const floorNote = event.effectiveDelta !== event.delta
+    ? " · ændrede ikke saldoen, fordi den allerede var 0"
+    : "";
+  meta.textContent = `${event.meta}${floorNote} · saldo efter: ${pluralStreg(event.balance)}`;
+
+  body.append(title, description, meta);
+  row.append(delta, body);
+  return row;
+}
+
+function renderScoreBreakdown() {
+  const playerId = state.selectedBreakdownPlayerId;
+  const entry = state.leaderboard.find((candidate) => candidate.id === playerId);
+
+  elements.scoreBreakdownList.replaceChildren();
+  if (!entry) {
+    elements.scoreBreakdown.hidden = true;
+    return;
+  }
+
+  const events = scoreEventsForPlayer(playerId);
+  const calculatedTotal = events.at(-1)?.balance ?? 0;
+  elements.scoreBreakdownTitle.textContent = `${entry.display_name}: ${pluralStreg(entry.total)}`;
+  elements.scoreBreakdownSummary.textContent = events.length
+    ? `${events.length} scorehændelse${events.length === 1 ? "" : "r"}, ældste først. Saldoen kan aldrig gå under 0.`
+    : "Der er endnu ingen hændelser, der har ændret saldoen.";
+
+  if (!events.length) {
+    elements.scoreBreakdownList.append(emptyState("Ingen streger, tilbageslag, benådninger eller rettelser endnu."));
+  } else {
+    events.forEach((event) => elements.scoreBreakdownList.append(makeBreakdownRow(event)));
+  }
+
+  if (calculatedTotal !== entry.total) {
+    const warning = document.createElement("li");
+    warning.className = "empty-state";
+    warning.textContent = `Den viste protokol giver ${pluralStreg(calculatedTotal)}, mens den officielle stilling er ${pluralStreg(entry.total)}. Genindlæs siden for at hente de seneste hændelser.`;
+    elements.scoreBreakdownList.append(warning);
+  }
+
+  elements.scoreBreakdown.hidden = false;
+}
+
+function selectScoreBreakdown(playerId) {
+  state.selectedBreakdownPlayerId = playerId;
+  elements.leaderboard.querySelectorAll(".score-card").forEach((card) => {
+    const selected = card.dataset.playerId === playerId;
+    card.classList.toggle("selected", selected);
+    card.setAttribute("aria-expanded", String(selected));
+  });
+  renderScoreBreakdown();
+  window.requestAnimationFrame(() => {
+    elements.scoreBreakdown.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+}
+
+function closeScoreBreakdown() {
+  state.selectedBreakdownPlayerId = null;
+  elements.leaderboard.querySelectorAll(".score-card").forEach((card) => {
+    card.classList.remove("selected");
+    card.setAttribute("aria-expanded", "false");
+  });
+  elements.scoreBreakdown.hidden = true;
+}
+
 function makeScoreCard(entry, rank, leadingTotal) {
-  const card = document.createElement("article");
+  const card = document.createElement("button");
   card.className = "score-card";
+  card.type = "button";
+  card.dataset.playerId = entry.id;
+  card.setAttribute("aria-controls", "score-breakdown");
+  card.setAttribute("aria-expanded", String(state.selectedBreakdownPlayerId === entry.id));
+  card.setAttribute("aria-label", `Se regnestykket for ${entry.display_name}, ${pluralStreg(entry.total)}`);
   if (leadingTotal > 0 && entry.total === leadingTotal) card.classList.add("leader");
+  if (state.selectedBreakdownPlayerId === entry.id) card.classList.add("selected");
 
   const rankNode = document.createElement("div");
   rankNode.className = "score-rank";
@@ -171,6 +360,7 @@ function makeScoreCard(entry, rank, leadingTotal) {
   number.textContent = entry.total;
 
   card.append(rankNode, name, total, number);
+  card.addEventListener("click", () => selectScoreBreakdown(entry.id));
   return card;
 }
 
@@ -181,7 +371,9 @@ function renderLeaderboard() {
   );
 
   if (!sorted.length) {
+    state.selectedBreakdownPlayerId = null;
     elements.leaderboard.append(emptyState("Ingen deltagere er oprettet endnu."));
+    renderScoreBreakdown();
     return;
   }
 
@@ -194,6 +386,7 @@ function renderLeaderboard() {
     previousTotal = entry.total;
     elements.leaderboard.append(makeScoreCard(entry, displayedRank, leadingTotal));
   });
+  renderScoreBreakdown();
 }
 
 function renderParticipantSelectors() {
@@ -530,13 +723,13 @@ async function loadData() {
         .select("id, target_id, proposed_by, description, amount, proposal_type, required_votes, deadline, vote_count, status, approved_by, approved_at, created_at")
         .in("status", ["open", "approved", "failed"])
         .order("created_at", { ascending: false })
-        .limit(250),
+        .limit(1000),
       db.from("game_streg_votes")
         .select("streg_id, voter_id"),
       db.from("game_admin_adjustments")
         .select("id, target_id, admin_id, delta, reason, created_at")
         .order("created_at", { ascending: false })
-        .limit(250),
+        .limit(1000),
     ]);
 
     const error = profilesResult.error || leaderboardResult.error || stregerResult.error
@@ -918,6 +1111,7 @@ elements.description.addEventListener("input", () => {
   elements.descriptionCount.textContent = elements.description.value.length;
 });
 elements.historyFilter.addEventListener("change", renderHistory);
+elements.scoreBreakdownClose.addEventListener("click", closeScoreBreakdown);
 elements.claimForm.addEventListener("submit", claimIdentity);
 elements.claimBack.addEventListener("click", showIdentityPicker);
 elements.logoutButton.addEventListener("click", logoutIdentity);
