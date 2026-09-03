@@ -819,7 +819,7 @@ async function claimIdentity(event) {
     return;
   }
 
-  showToast(`${data.player.display_name} er nu logget ind på denne telefon.`);
+  showToast(`${data.player.display_name} er nu logget ind på denne enhed.`);
   activateIdentity(data.player.id);
 }
 
