@@ -291,14 +291,25 @@
     }
     .score-card {
       position: relative;
+      width: 100%;
       min-height: 154px;
       padding: 20px;
       border: 1px solid var(--line);
       border-radius: 15px;
+      color: var(--ink);
       background: var(--paper);
+      font: inherit;
+      text-align: left;
       overflow: hidden;
+      cursor: pointer;
+      appearance: none;
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
     }
+    .score-card:hover { border-color: rgba(110, 34, 48, .42); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(20, 17, 14, .09); }
+    .score-card:focus-visible { outline: 3px solid rgba(201, 162, 75, .58); outline-offset: 3px; }
+    .score-card.selected { border-color: var(--wine); box-shadow: 0 0 0 2px rgba(110, 34, 48, .12); }
     .score-card.leader { border-color: rgba(201, 162, 75, .7); background: linear-gradient(135deg, #fffdf8, #f7eac9); }
+    .score-card.leader.selected { border-color: var(--wine); }
     .score-rank { color: var(--gold-deep); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
     .score-name { position: relative; z-index: 1; margin: 14px 0 4px; font-family: var(--display); font-size: 1.35rem; font-weight: 800; }
     .score-total { position: relative; z-index: 1; color: var(--ink-soft); font-size: .85rem; }
@@ -312,6 +323,65 @@
       font-weight: 800;
       line-height: 1;
     }
+
+    .score-breakdown {
+      margin-top: 18px;
+      padding: 20px;
+      border: 1px solid rgba(110, 34, 48, .2);
+      border-radius: 15px;
+      background: #fffdf8;
+    }
+    .score-breakdown[hidden] { display: none; }
+    .score-breakdown-head { display: flex; align-items: start; justify-content: space-between; gap: 18px; }
+    .score-breakdown-head h3 { margin: 0; font-size: 1.35rem; }
+    .score-breakdown-head p { margin: 5px 0 0; color: var(--ink-soft); font-size: .8rem; }
+    .score-breakdown-close {
+      flex: 0 0 auto;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--wine);
+      background: var(--paper);
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+    .score-breakdown-close:hover { border-color: var(--wine); }
+    .score-breakdown-list {
+      display: grid;
+      gap: 10px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .score-breakdown-row {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper);
+    }
+    .score-breakdown-delta {
+      display: grid;
+      min-height: 40px;
+      place-items: center;
+      border-radius: 10px;
+      color: var(--green);
+      background: rgba(47, 105, 77, .1);
+      font-family: var(--display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .score-breakdown-delta.negative { color: var(--wine); background: rgba(110, 34, 48, .1); }
+    .score-breakdown-delta.neutral { color: var(--ink-soft); background: rgba(20, 17, 14, .07); }
+    .score-breakdown-title { font-family: var(--display); font-size: 1rem; font-weight: 800; }
+    .score-breakdown-description { margin: 4px 0 5px; font-size: .84rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .score-breakdown-meta { color: var(--ink-soft); font-size: .72rem; }
 
     .admin-panel { border-color: rgba(201, 162, 75, .55); }
     .admin-panel .panel-head { background: #fff9eb; }
@@ -529,6 +599,11 @@
       }
       .score-total { font-size: .68rem; }
       .score-number { right: 5px; bottom: -12px; font-size: 4.25rem; }
+      .score-breakdown { margin-top: 12px; padding: 14px; }
+      .score-breakdown-head h3 { font-size: 1.15rem; }
+      .score-breakdown-row { grid-template-columns: 44px 1fr; gap: 10px; padding: 11px; }
+      .score-breakdown-delta { min-height: 36px; font-size: .95rem; }
+      .score-breakdown-description { font-size: .8rem; }
       .work-grid { gap: 14px; margin-top: 14px; }
       .work-grid + .panel { margin-top: 14px; }
       .streg-card { padding: 13px 14px; }
@@ -610,13 +685,23 @@
         <div class="panel-head">
           <div>
             <h2 id="leaderboard-heading">Stillingen</h2>
-            <p>Vedtagne straffe, tilbageslag og benådninger er regnet med.</p>
+            <p>Tryk på en deltager for at se, hvor stregerne kommer fra.</p>
           </div>
         </div>
         <div class="panel-body">
           <div class="leaderboard" id="leaderboard-list">
             <div class="loading-line">Henter den højtidelige stilling…</div>
           </div>
+          <section class="score-breakdown" id="score-breakdown" aria-labelledby="score-breakdown-title" hidden>
+            <div class="score-breakdown-head">
+              <div>
+                <h3 id="score-breakdown-title">Regnestykket</h3>
+                <p id="score-breakdown-summary"></p>
+              </div>
+              <button class="score-breakdown-close" id="score-breakdown-close" type="button" aria-label="Luk regnestykket">×</button>
+            </div>
+            <ol class="score-breakdown-list" id="score-breakdown-list"></ol>
+          </section>
         </div>
       </section>
 
@@ -745,6 +830,6 @@
   <footer>Rejseklubben™ · Ingen appel. Næsten.</footer>
 
   <script src="vendor/supabase-2.112.2.js?v=20260831-local"></script>
-  <script type="module" src="streger.js?v=20260831-resilient"></script>
+  <script type="module" src="streger.js?v=20260903-breakdown"></script>
 </body>
 </html>
