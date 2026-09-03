@@ -438,6 +438,8 @@
   }
   .gal-grid figure { margin: 0; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(135deg, #3a352e, #6e5a3e); }
   .gal-grid img { width: 100%; height: 230px; object-fit: cover; display: block; transition: transform .4s ease; }
+  .gal-grid img.gallery-photo-group { object-position: center 68%; }
+  .gal-grid img.gallery-photo-airport { object-position: left center; }
   .gal-grid figure:hover img { transform: scale(1.05); }
 
   /* Practical */
@@ -936,10 +938,18 @@
   <section class="gallery" id="galleri">
     <div class="wrap">
       <div class="section-head">
-        <div class="kicker">Forhåndsvisning</div>
-        <h2>Byen vi skal erobre</h2>
+        <div class="kicker">Stuttgart 2026</div>
+        <h2>Turen er i gang</h2>
       </div>
       <div class="gal-grid">
+        <figure>
+          <img class="gallery-photo-group" src="images/afgang-kastrup-gruppe.jpg"
+               alt="Rejseklubben samlet i Københavns Lufthavn før afgang" loading="lazy">
+        </figure>
+        <figure>
+          <img class="gallery-photo-airport" src="images/afgang-kastrup.jpg"
+               alt="Fire deltagere i Københavns Lufthavn på vej mod Stuttgart" loading="lazy">
+        </figure>
         <figure>
           <img src="images/mercedes-benz-welt.jpg"
                alt="Mercedes-Benz Welt" loading="lazy" onerror="this.parentNode.style.minHeight='230px'">
