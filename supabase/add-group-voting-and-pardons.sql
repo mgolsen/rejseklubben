@@ -1,8 +1,8 @@
--- Add group voting, two-minute deadlines, backfire, and pardons.
+-- Add group voting, 30-minute deadlines, backfire, and pardons.
 --
 -- Rules introduced by this migration:
 --   * A proposal for 1, 2, or 3 streger needs 2, 4, or 8 votes.
---   * Voting is open for two minutes.
+--   * Voting is open for 30 minutes.
 --   * A penalty that misses its threshold is charged to the proposer instead.
 --   * A pardon needs 8 votes and removes one streg, never taking a score below 0.
 --   * The proposer and the affected participant cannot vote on the proposal.
@@ -39,7 +39,7 @@ end
 where required_votes is null;
 
 update public.game_streger
-set deadline = created_at + interval '2 minutes'
+set deadline = created_at + interval '30 minutes'
 where deadline is null;
 
 alter table public.game_streger
@@ -105,7 +105,7 @@ create policy game_streg_votes_are_publicly_visible
 grant select on table public.game_streg_votes to anon, authenticated;
 
 -- This view derives "failed" from the deadline. The underlying row remains
--- pending so no background job is required to close it at exactly two minutes.
+-- pending so no background job is required to close it at exactly 30 minutes.
 create view public.game_proposal_status
 with (security_invoker = true)
 as
@@ -279,7 +279,7 @@ begin
     p_amount,
     'penalty',
     votes_needed,
-    now() + interval '2 minutes'
+    now() + interval '30 minutes'
   )
   returning * into created_streg;
 
@@ -353,7 +353,7 @@ begin
     1,
     'pardon',
     8,
-    now() + interval '2 minutes'
+    now() + interval '30 minutes'
   )
   returning * into created_streg;
 
