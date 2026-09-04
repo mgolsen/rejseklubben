@@ -433,14 +433,34 @@
   /* Gallery */
   .gallery { background: rgba(246, 241, 231, 0.85); }
   .gal-grid {
-    display: grid; gap: 14px;
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-auto-flow: dense;
+    grid-auto-rows: 230px;
+    gap: 14px;
   }
-  .gal-grid figure { margin: 0; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(135deg, #3a352e, #6e5a3e); }
-  .gal-grid img { width: 100%; height: 230px; object-fit: cover; display: block; transition: transform .4s ease; }
+  .gal-grid figure {
+    height: 100%;
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background: linear-gradient(135deg, #3a352e, #6e5a3e);
+  }
+  .gal-grid figure.gallery-portrait { grid-row: span 2; }
+  .gal-grid img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
   .gal-grid img.gallery-photo-group { object-position: center 68%; }
   .gal-grid img.gallery-photo-airport { object-position: left center; }
+  .gal-grid img.gallery-photo-love-rock { object-position: center top; }
+  .gal-grid img.gallery-photo-sen-aften { object-position: center 52%; }
   .gal-grid figure:hover img { transform: scale(1.05); }
+
+  @media (max-width: 600px) {
+    .gal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 160px; gap: 10px; }
+  }
+  @media (max-width: 420px) {
+    .gal-grid { grid-template-columns: 1fr; grid-auto-rows: 230px; }
+  }
 
   /* Practical */
   .facts { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); max-width: 980px; margin: 0 auto; }
@@ -942,6 +962,46 @@
         <h2>Turen er i gang</h2>
       </div>
       <div class="gal-grid">
+        <figure>
+          <img src="images/weindorf-aften.jpg"
+               alt="Folkeliv mellem boderne på Stuttgarter Weindorf om aftenen" loading="lazy">
+        </figure>
+        <figure class="gallery-portrait">
+          <img src="images/weindorf-holdet.jpg"
+               alt="Deltagere fra Rejseklubben går gennem Stuttgarter Weindorf" loading="lazy">
+        </figure>
+        <figure>
+          <img src="images/gruppe-selfie.jpg"
+               alt="Tre deltagere tager en selfie under aftenens fest" loading="lazy">
+        </figure>
+        <figure class="gallery-portrait">
+          <img src="images/tre-oel.jpg"
+               alt="En deltager balancerer tre store ølglas" loading="lazy">
+        </figure>
+        <figure>
+          <img src="images/god-stemning.jpg"
+               alt="To deltagere griner sammen på en bar" loading="lazy">
+        </figure>
+        <figure class="gallery-portrait">
+          <img class="gallery-photo-love-rock" src="images/love-rock.jpg"
+               alt="Rejseklubben ved et bord under neonskiltet Love Rock" loading="lazy">
+        </figure>
+        <figure>
+          <img src="images/natmad.jpg"
+               alt="En deltager foran grillen på et natmadsted" loading="lazy">
+        </figure>
+        <figure>
+          <img src="images/nattevandring.jpg"
+               alt="Tre deltagere poserer ved et monument om natten" loading="lazy">
+        </figure>
+        <figure class="gallery-portrait">
+          <img class="gallery-photo-sen-aften" src="images/sen-aften.jpg"
+               alt="To deltagere tager et hvil udendørs sent på aftenen" loading="lazy">
+        </figure>
+        <figure class="gallery-portrait">
+          <img src="images/hotel-morgen.jpg"
+               alt="En deltager sover på hotelværelset efter en lang aften" loading="lazy">
+        </figure>
         <figure>
           <img class="gallery-photo-group" src="images/afgang-kastrup-gruppe.jpg"
                alt="Rejseklubben samlet i Københavns Lufthavn før afgang" loading="lazy">
