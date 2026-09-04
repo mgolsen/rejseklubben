@@ -406,6 +406,22 @@
   }
   .event.missing { margin: 8px 0 0; padding: 14px; border: 1px dashed rgba(246,241,231,.2); border-radius: 11px; background: rgba(246,241,231,.025); }
   .event.missing time { color: rgba(246,241,231,.48); }
+  .event.meetup {
+    margin: 7px 0 0;
+    padding: 14px;
+    border: 1px solid rgba(255, 218, 105, .68);
+    border-radius: 11px;
+    background: rgba(201, 162, 75, .18);
+    animation: lobby-pulse 1.6s ease-in-out infinite;
+  }
+  .event.meetup time, .event.meetup h4 { color: #ffe58f; }
+  @keyframes lobby-pulse {
+    0%, 100% { background: rgba(201, 162, 75, .14); box-shadow: 0 0 0 0 rgba(255, 218, 105, 0); }
+    50% { background: rgba(201, 162, 75, .32); box-shadow: 0 0 0 5px rgba(255, 218, 105, .14); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .event.meetup { animation: none; }
+  }
   .event.urgent { margin: 7px 0 0; padding: 14px; border: 1px solid rgba(225,86,75,.48); border-radius: 11px; background: rgba(151,40,35,.19); }
   .event.urgent time, .event.urgent h4 { color: #ffb3aa; }
 
@@ -782,6 +798,12 @@
             <span class="day-date">4. september</span>
           </header>
           <ol class="timeline">
+            <li class="event meetup">
+              <time datetime="2026-09-04T10:30">10:30</time>
+              <div class="event-content">
+                <div class="event-title"><span class="event-icon" aria-hidden="true">👋</span><h4>Vi mødes i lobbyen</h4></div>
+              </div>
+            </li>
             <li class="event">
               <time datetime="2026-09-04T11:00">11:00</time>
               <div class="event-content">
